@@ -45,7 +45,7 @@ describe('RATE TESTS', function () {
         app.lookup.restore();
         app.close(done);
     });
-    
+
     after(function (done) {
         authHttp.close(done);
     });

@@ -24,7 +24,7 @@ module.exports = (app, cb) => {
                                 username: 'ron',
                                 email: 'ron@weasley.com',
                                 password: '222'
-                            }                       
+                            }
                         ], (err, users) => {
                             console.log("CREATED TEST USERS: ", users.map(user => user.username));
                             if (err) throw err;

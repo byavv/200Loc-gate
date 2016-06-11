@@ -7,14 +7,13 @@ const express = require('express'),
     errors = require("../server/lib/errors"),
     NotAuthorizedError = errors.err401,
     GatewayError = errors.err502
-  //  request = require('supertest')('http://localhost:3001')
     ;
 chai.should();
 
 describe('AUTH TESTS', () => {
     var lookupSpy, User, fakeHttp, accessKey, user_user, user_admin;
-    var app = require('../server/server');   
-    var fakeData = require('./fakeUsers');   
+    var app = require('../server/server');
+    var fakeData = require('./fakeUsers');
     var fakeServer1 = express();
     var request = require('supertest')(app);
     var httpServer;
@@ -33,9 +32,9 @@ describe('AUTH TESTS', () => {
     fakeServer1.get('/api4', (req, res) => {
         res.status(200).json({ name: 'tobi' });
     });
-  
-    before(require('./start-server'));    
-    before(() => {       
+
+    before(require('./start-server'));
+    before(() => {
         User = app.models.user;
         app.lookup = sinon.stub(app, "lookup", (name) => {
             return new Promise((resolve, reject) => {
@@ -59,11 +58,11 @@ describe('AUTH TESTS', () => {
         });
     });
 
-    before((done) => {      
+    before((done) => {
         fakeHttp = fakeServer1.listen(3232, done);
     });
 
-    before((done) => {       
+    before((done) => {
         User.login({
             username: 'potter',
             password: '111'
@@ -72,7 +71,7 @@ describe('AUTH TESTS', () => {
             done();
         });
     });
-    before((done) => {       
+    before((done) => {
         User.login({
             username: 'ron',
             password: '222'
