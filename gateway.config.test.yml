@@ -60,8 +60,7 @@ access:
     - url: /unknown_role  
       grant: ['bite_elbow'] 
 
-rate: 
-# max 5 requests per minute    
+rate:    
     - paths: ['/testauth*']
       methods: ['post']
       interval: 2000

@@ -10,7 +10,7 @@ function rateMiddlewareFactory(options) {
         if (!limiter) {
             limiter = new RateLimiter(limit, interval);
         }
-        limiter.removeTokens(1, (err, remainingRequests) => {            
+        limiter.removeTokens(1, (err, remainingRequests) => {
             if (err) throw err;
             if (remainingRequests < 0) {
                 return res.status(429).json({ error: 'Too many requests' });
@@ -23,7 +23,7 @@ function rateMiddlewareFactory(options) {
     };
 }
 
-module.exports = function(app, options) {
+module.exports = function (app, options) {
     options = options || {};
     var rateTable = app.get("rate");
     (rateTable || []).forEach(rate => {
