@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/byavv/200Loc-gate.svg?style=svg)](https://circleci.com/gh/byavv/200Loc-gate)
 # Simple api gateway as part of this [solution](https://github.com/byavv/funny-market)
 
 Finds service url in etcd using [etcd-registry](https://www.npmjs.com/package/etcd-registry) lib and uses 
