@@ -1,10 +1,10 @@
 /*jslint node: true */
-"use strict";
+'use strict';
 var boot = require('loopback-boot'),
     http = require('http'),
     loopback = require('loopback'),
     path = require('path'),
-    YAML = require("yamljs"),
+    YAML = require('yamljs'),
     debug = require('debug')('proxy')
     ;
 
