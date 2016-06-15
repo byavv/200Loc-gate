@@ -4,8 +4,8 @@
   "main": "server/server.js",
   "license": "MIT",
   "scripts": {
-    "start": "make start",
-    "test": "make test-cov"
+    "start": "node ./server/server.js",
+    "test": "gulp test:coverage"
   },
   "engines": {
     "node": ">= 6"
@@ -38,13 +38,21 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-util": "^3.0.7",
+    "istanbul": "^0.4.3",
     "jshint": "^2.5.6",
+    "minimist": "^1.2.0",
     "mocha": "^2.5.2",
+    "mocha-lcov-reporter": "^1.2.0",
     "nsp": "^2.1.0",
     "sinon": "^1.17.4",
-    "supertest": "^1.2.0",
-    "istanbul": "^0.4.3",
-    "mocha-lcov-reporter": "^1.2.0"
+    "supertest": "^1.2.0"
   },
   "repository": {
     "type": "",

@@ -9,7 +9,6 @@ module.exports = (app, cb) => {
                 { name: 'admin', can: ['read', 'write'] }
             ], (err, roles) => {
                 if (err) throw err;
-
                 console.log("CREATED TEST ROLES:", roles.map(role => role.name));
 
                 User.find({}, (err, users) => {
