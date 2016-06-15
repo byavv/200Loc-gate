@@ -32,6 +32,7 @@ boot(app, __dirname, (err) => {
                 app.removeAllListeners('loaded');
                 httpServer.close(cb);
             };
+            console.log("!!!!!!!!", process.env.NODE_ENV)
             console.log(`Proxy sever started on port ${http_port}`);
         });
     };
@@ -42,7 +43,8 @@ boot(app, __dirname, (err) => {
 });
 
 function configure() {
-    const filename = process.env.NODE_ENV ? `gateway.config.${process.env.NODE_ENV}.yml` : `gateway.config.yml`;
+   
+    const filename = process.env.NODE_ENV ? `gateway.config.${process.env.NODE_ENV}.yml` : `gateway.config.development.yml`;
     try {
         return YAML.load(path.join(__dirname, '../', filename));
     } catch (err) {
