@@ -8,7 +8,8 @@ const gulp = require('gulp'),
     minimist = require('minimist'),
     config = require('./gulpConfig'),
     $ = require('gulp-load-plugins')(),
-    del = require('del')
+    del = require('del'),
+    webpack = require('webpack')    
     ;
 
 var defaults = {
@@ -24,19 +25,27 @@ process.env.NODE_ENV = options.env;
 /**
  * Grouped task definitions
  */
-gulp.task('dev', [], () => {
-    $.nodemon();
+gulp.task('dev', ['clean:build'], () => {
+    var nodemonRef;
+    var config = require("./webpack");
+    webpack(config).watch(500, onWebpackCompleted(() => {
+        nodemonRef
+            ? nodemonRef.restart()
+            : nodemonRef = $.nodemon();
+    }));
 });
 
-gulp.task('run', [], () => {
-
-});
 
 gulp.task("set:test", () => {
     process.env.NODE_ENV = 'test';
 });
 
-gulp.task('build:all', ['build:client', '']);
+gulp.task("build:client", (done) => {
+    var config = require("./webpack");
+    webpack(config).run(onWebpackCompleted(done));
+});
+
+gulp.task('build', ['build:client']);
 
 gulp.task('test', ['test:client', 'test:server']);
 
@@ -99,8 +108,22 @@ gulp.task('clean:coverage', () => {
     return del(config.dirs.coverage);
 });
 gulp.task('clean:build', () => {
-    return del(config.dirs.coverage);
+    return del(config.dirs.build);
 });
 gulp.task('clean', ['clean:coverage', 'clean:build']);
 
 gulp.task('default', ['dev']);
+
+function onWebpackCompleted(done) {
+    return (err, stats) => {
+        if (err) {
+            $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err));
+        } else {
+            var stat = stats.toString({ chunks: false, colors: true });
+            console.log(stat + '\n');
+        }
+        if (done) {
+            done(err);
+        }
+    }
+}

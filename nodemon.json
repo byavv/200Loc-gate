@@ -20,6 +20,7 @@
         "js": "node"
     },
     "watch": [
-        "server/**/*.js"
+        "server/**/*.js",
+        "client/**/*.ts"
     ]
 }
