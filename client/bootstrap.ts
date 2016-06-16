@@ -6,7 +6,7 @@ import { AppComponent } from './app/app.component';
 
 declare var ENV: string;
 
-if ('prod' === ENV) {
+if ('production' === ENV) {
     enableProdMode();
 }
 

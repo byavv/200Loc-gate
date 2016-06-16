@@ -1,9 +1,11 @@
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
 
-const DefinePlugin = require('webpack/lib/DefinePlugin');
-const DedupePlugin = require('webpack/lib/optimize/DedupePlugin');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin'),
+  DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
+  UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin'),
+  CompressionPlugin = require('compression-webpack-plugin')
+  ;
 
 module.exports = webpackMerge(commonConfig, {
   output: {
@@ -12,10 +14,22 @@ module.exports = webpackMerge(commonConfig, {
     publicPath: '/static',
   },
   plugins: [
-    new DefinePlugin({
-      ENV: JSON.stringify('prod')
-    }),
     new DedupePlugin(),
-    new UglifyJsPlugin({ compress: { warnings: false } }),
+    new UglifyJsPlugin({
+      beautify: false,
+      mangle: {
+        screw_ie8: true,
+        keep_fnames: true
+      },
+      compress: {
+        screw_ie8: true,
+        warnings: false
+      },
+      comments: false
+    }),
+    new CompressionPlugin({
+      regExp: /\.css$|\.html$|\.js$|\.map$/,
+      threshold: 2 * 1024
+    }),
   ]
 });

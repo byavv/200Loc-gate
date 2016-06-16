@@ -37,7 +37,7 @@ boot(app, __dirname, (err) => {
             console.log(`Proxy server started on port ${http_port}`);
         });
 
-        appClient.use('/', loopback.static(path.join(__dirname, '../build')));
+        appClient.use('/static', loopback.static(path.join(__dirname, '../build')));
         appClient.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../build/index.html'));
         });

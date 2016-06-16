@@ -9,7 +9,7 @@ const gulp = require('gulp'),
     config = require('./gulpConfig'),
     $ = require('gulp-load-plugins')(),
     del = require('del'),
-    webpack = require('webpack')
+    webpack = require('webpack')    
     ;
 
 var defaults = {
@@ -25,13 +25,16 @@ process.env.NODE_ENV = options.env;
 /**
  * Grouped task definitions
  */
-gulp.task('dev', [], () => {
-    $.nodemon();
+gulp.task('dev', ['clean:build'], () => {
+    var nodemonRef;
+    var config = require("./webpack");
+    webpack(config).watch(500, onWebpackCompleted(() => {
+        nodemonRef
+            ? nodemonRef.restart()
+            : nodemonRef = $.nodemon();
+    }));
 });
 
-gulp.task('run', [], () => {
-
-});
 
 gulp.task("set:test", () => {
     process.env.NODE_ENV = 'test';
@@ -42,7 +45,7 @@ gulp.task("build:client", (done) => {
     webpack(config).run(onWebpackCompleted(done));
 });
 
-gulp.task('build:all', ['build:client', '']);
+gulp.task('build', ['build:client']);
 
 gulp.task('test', ['test:client', 'test:server']);
 

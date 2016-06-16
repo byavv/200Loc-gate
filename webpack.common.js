@@ -1,8 +1,9 @@
-const webpack = require('webpack');
-const autoprefixer = require('autoprefixer');
-const path = require('path')
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack'),
+  autoprefixer = require('autoprefixer'),
+  path = require('path'),
+  DefinePlugin = require('webpack/lib/DefinePlugin'),
+  HtmlWebpackPlugin = require('html-webpack-plugin')
+  ;
 
 module.exports = {
   entry: {
@@ -23,32 +24,32 @@ module.exports = {
     main: './client/bootstrap.ts'
   },
   output: {
-    path: __root('build')    
+    path: __root('build')
   },
   resolve: {
     root: __root('client'),
     extensions: ['', '.ts', '.js']
   },
   module: {
-    loaders: [ 
+    loaders: [
       { test: /\.html$/, loader: 'raw' },
       { test: /\.scss$/, loaders: ['raw', 'postcss', 'sass'] },
       {
-          test: /\.ts$/,
-          loader: 'ts',
-          exclude: [
-              /node_modules/
-          ],
-          query: {
-              ignoreDiagnostics: [
-                  2403, // 2403 -> Subsequent variable declarations
-                  2300, // 2300 -> Duplicate identifier
-                  2374, // 2374 -> Duplicate number index signature
-                  2375, // 2375 -> Duplicate string index signature
-                  2502  // 2502 -> Referenced directly or indirectly
-              ]
-          },
-       }
+        test: /\.ts$/,
+        loader: 'ts',
+        exclude: [
+          /node_modules/
+        ],
+        query: {
+          ignoreDiagnostics: [
+            2403, // 2403 -> Subsequent variable declarations
+            2300, // 2300 -> Duplicate identifier
+            2374, // 2374 -> Duplicate number index signature
+            2375, // 2375 -> Duplicate string index signature
+            2502  // 2502 -> Referenced directly or indirectly
+          ]
+        },
+      }
     ]
   },
   plugins: [
@@ -57,10 +58,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './client/index.html',
       chunksSortMode: 'dependency'
+    }),
+    new DefinePlugin({
+      ENV: JSON.stringify(process.env.NODE_ENV)
     })
   ],
   // thirdparty loader-configs
-  postcss: function () {
+  postcss: () => {
     return [autoprefixer];
   }
 };
