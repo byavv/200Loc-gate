@@ -1,6 +1,7 @@
 const webpackMerge = require('webpack-merge'),
   webpack = require('webpack'),
-  commonConfig = require('./webpack.common.js')
+  commonConfig = require('./webpack.common.js'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
   ;
 
 module.exports = webpackMerge(commonConfig, {
@@ -14,10 +15,10 @@ module.exports = webpackMerge(commonConfig, {
   output: {
     filename: '[name].bundle.js',
     sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js',
-    publicPath: '/static',
+    chunkFilename: '[id].chunk.js'   
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('assets/styles/[name].css'),
   ]
 });

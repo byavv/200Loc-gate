@@ -4,14 +4,14 @@ const commonConfig = require('./webpack.common.js');
 const DefinePlugin = require('webpack/lib/DefinePlugin'),
   DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
   UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin'),
-  CompressionPlugin = require('compression-webpack-plugin')
+  CompressionPlugin = require('compression-webpack-plugin'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
   ;
 
 module.exports = webpackMerge(commonConfig, {
   output: {
     filename: '[name].[chunkhash:7].bundle.js',
-    chunkFilename: '[id].[chunkhash:7].chunk.js',
-    publicPath: '/static',
+    chunkFilename: '[id].[chunkhash:7].chunk.js'
   },
   plugins: [
     new DedupePlugin(),
@@ -31,5 +31,6 @@ module.exports = webpackMerge(commonConfig, {
       regExp: /\.css$|\.html$|\.js$|\.map$/,
       threshold: 2 * 1024
     }),
+    new ExtractTextPlugin('assets/styles/[name].[chunkhash:7].css'),
   ]
 });

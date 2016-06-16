@@ -21,6 +21,7 @@
     },
     "watch": [
         "server/**/*.js",
-        "client/**/*.ts"
+        "client/**/*.ts",
+        "client/**/*css"
     ]
 }
