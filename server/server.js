@@ -11,7 +11,7 @@ var boot = require('loopback-boot'),
 const app = module.exports = loopback();
 const appClient = loopback();
 const http_port = process.env.HTTP_PORT || 3001,
-    client_http_port = process.env.HTTP_PORT || 3011,
+    client_http_port = process.env.HTTP_PORT || 5601,
     etcd_host = process.env.ETCD_HOST || "192.168.99.100",
     mongo_host = process.env.DBSOURCE_HOST || '127.0.0.1',
     config = configure();
@@ -36,20 +36,19 @@ boot(app, __dirname, (err) => {
             };
             console.log(`Proxy server started on port ${http_port}`);
         });
-
-        appClient.use('/static', loopback.static(path.join(__dirname, '../build')));
-        appClient.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, '../build/index.html'));
-        });
-        appClient.listen(client_http_port, () => {
-            console.log(`Client started on port ${client_http_port}`);
-        });
-
     };
     if (require.main === module)
         app.start();
     app.loaded = true;
     app.emit('loaded');
+});
+
+appClient.use('/static', loopback.static(path.join(__dirname, '../build')));
+appClient.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
+appClient.listen(client_http_port, () => {
+    console.log(`Client started on port ${client_http_port}`);
 });
 
 function configure() {
