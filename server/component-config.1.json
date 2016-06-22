@@ -1,0 +1,13 @@
+{
+  "loopback-component-explorer": {
+    "mountPath": "/explorer"
+  },
+  "./components/auth": {   
+    "base": "/",
+    "access_expired": 600000
+  },
+  "./components/rate": {
+    "defaultInterval": 60000,
+    "defaultLimit": 1000
+  }
+}

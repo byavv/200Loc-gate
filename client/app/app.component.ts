@@ -11,16 +11,30 @@ import { LoaderComponent, HeaderComponent } from './shared/components';
        <loader [active]='loading' [async]='appController.init$'></loader>      
        <app-header></app-header>
        <div [hidden]='loading' class='container-fluid'>
-          <nav>
-            <a [routerLink]="['/']">List</a>
-            <a [routerLink]="['/master']">Master</a>
-            <a [routerLink]="['/plugins']">Plugins</a>
-          </nav>
-          <div class='content-area'>
-              <router-outlet>
-              </router-outlet>
-          </div>
-       </div>
+       <div class='row'>
+            <div id="sidebar-wrapper" class="col-md-1">           
+                <ul class="nav list-group">
+                    <li>
+                        <a class="list-group-item" [routerLink]="['/']"><i class="icon-home icon-1x"></i>Sidebar Item 1</a>
+                    </li>
+                    <li>
+                        <a class="list-group-item" [routerLink]="['/master']"><i class="icon-home icon-1x"></i>Sidebar Item 2</a>
+                    </li>
+                    <li>
+                        <a class="list-group-item" [routerLink]="['/plugins']"><i class="icon-home icon-1x"></i>Sidebar Item 3</a>
+                    </li>
+                </ul>          
+            </div>     
+            <div id="main-wrapper" class="col-md-11">
+                <div id="main">
+                    <div class="page-header">
+                      <h3>Admin</h3>
+                    </div>
+                    <router-outlet>
+                    </router-outlet>
+                </div>           
+            </div>      
+        </div>
     </div> 
   `,
   providers: [APP_SERVICES_PROVIDERS]

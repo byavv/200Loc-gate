@@ -1,0 +1,6 @@
+{
+    "takes": {
+        "target": "string",
+        "withPath": "string"
+    }
+}

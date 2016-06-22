@@ -4,7 +4,7 @@ const registry = require('etcd-registry'),
     ;
 
 module.exports = (app) => {
-    const services = registry(`http://${app.get('etcd_host')}:4001`);
+   /* const services = registry(`http://${app.get('etcd_host')}:4001`);
     app.lookup = (name) => new Promise((resolve, reject) => {
         services.lookup(name, (err, service) => {
             if (err || !service) {
@@ -13,5 +13,5 @@ module.exports = (app) => {
                 resolve(service);
             }
         });
-    });
+    });*/
 };

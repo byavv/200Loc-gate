@@ -33,19 +33,7 @@
   "session": {},
   "auth": {},
   "routes": {},
-  "proxies": {
-    "./middleware/proxy": {
-      "params": {
-        "proxyTable": "${proxyTable}",
-        "signedSSLOnly": false,
-        "principalPropogation": true,
-        "xForwardHeaders": true,
-        "secret": "${secret}",
-        "expires": 5000,
-        "etcd_host": "${etcd_host}"
-      }
-    }
-  },
+  "proxies": {},
   "final": {
     "loopback#urlNotFound": {}
   },
