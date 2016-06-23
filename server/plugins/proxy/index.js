@@ -9,12 +9,12 @@ const debug = require('debug')('proxy'),
 
 module.exports = (function () {
     const proxy = httpProxy.createProxyServer({});
-    
+
     var cls = function (params) {
         this.options = Object.assign({/* defaults */ }, params);
     }
-    
-    cls.prototype = {       
+
+    cls.prototype = {
         handler: function (req, res, next) {
             if (req.pipeGlobal && req.pipeGlobal.target) {
                 proxy.web(req, res, {

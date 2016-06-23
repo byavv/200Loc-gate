@@ -5,10 +5,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 @Component({
     selector: 'api-manager',
     directives: [ROUTER_DIRECTIVES],
-    template: `
-    <h3>API MANAGER</h3>
-    <router-outlet></router-outlet>
-  `,
+    template: require('./templates/apiManager.template.html'),
     providers: []
 })
 

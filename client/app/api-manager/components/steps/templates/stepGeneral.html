@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12 col-lg-9 col-sm-12">
+        <div class="my-card">
+            <form [ngFormModel]="form" #configForm="ngForm" class="form-horizontal">
+                <div class="form-group">
+                    <!-- <div class="col-sm-4">
+                        <label for="name">Name</label>
+                        <input id="name" type="text" class="form-control" [(ngModel)]='config.name' placeholder="5000..." ngControl="name">
+                        <show-error *ngIf="submitted" control="name" [errors]="['required']"></show-error>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="description">Description</label>
+                        <textarea  id="description" type="text" class="form-control" [(ngModel)]='config.description' placeholder="2016..."
+                            ngControl="description">
+                        </textarea>
+                        <show-error *ngIf="submitted" control="description" [errors]="['required']"></show-error>
+                    </div> -->
+                    <div class="col-sm-4">
+                        <label for="entry">Entry</label>
+                        <input id="entry" type="text" class="form-control"  [(ngModel)]='config.entry' ngControl="entry"  placeholder="2016..." >
+                        <show-error *ngIf="submitted" control="entry" [errors]="['required']"></show-error>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-3 col-sm-12">
+        <button type="button" (click)="onSubmit(configForm)" class="btn btn-primary next-button">
+           <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                Next add images
+        </button>
+    </div>
+</div>

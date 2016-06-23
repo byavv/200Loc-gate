@@ -1,0 +1,9 @@
+<div class='row'>
+    <div class="col-md-6 col-md-offset-3">
+        <ul class='plugins'>
+            <li *ngFor='let config of configs'>
+                <p><a [routerLink]="['/details', config.id]">{{config.name}}</a></p>                
+            </li>
+        </ul>
+    </div>
+</div>

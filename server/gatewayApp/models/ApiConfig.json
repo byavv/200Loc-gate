@@ -1,0 +1,46 @@
+{
+  "name": "ApiConfig",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "public": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "entry": {
+      "type": "string",
+      "required": true,
+      "default": "/"
+    },
+    "methods": {
+      "type": [
+        "string"
+      ],
+      "required": true,
+      "default": "[\"GET\"]"
+    },
+    "plugins": {
+      "type": [
+        "string"
+      ]
+    },
+    "config": {
+      "type": "object"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

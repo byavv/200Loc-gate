@@ -1,8 +1,8 @@
 /*jslint node: true */
 "use strict";
 const async = require("async"),
-    NotAuthorizedError = require("../../lib/errors").err401,
-    NotFoundError = require("../../lib/errors").err404,
+    NotAuthorizedError = require("../../../lib/errors").err401,
+    NotFoundError = require("../../../lib/errors").err404,
     debug = require("debug")("proxy"),
     HttpProxyRules = require('http-proxy-rules'),
     uuid = require('node-uuid')

@@ -1,5 +1,5 @@
 import { RouterConfig } from '@angular/router';
-import { ApiManagementComponent, ApiListComponent, ApiMasterComponent } from './';
+import { ApiManagementComponent, ApiListComponent, ApiMasterComponent, ApiDetailsComponent } from './';
 
 export const ApiManagerRoutes: RouterConfig = [
   {
@@ -13,6 +13,10 @@ export const ApiManagerRoutes: RouterConfig = [
       {
         path: '',
         component: ApiListComponent,
+      },
+      {
+        path: 'details/:id',
+        component: ApiDetailsComponent,
       }
     ]
   }

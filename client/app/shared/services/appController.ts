@@ -1,46 +1,39 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {ExtHttp} from './extHttp';
+import { Injectable, NgZone } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { ExtHttp } from './extHttp';
 
-import {Api} from "./backEndApi";
-import {ReplaySubject, Observable} from "rxjs";
+import { BackEnd } from "./backEndApi";
+import { ReplaySubject, Observable } from "rxjs";
 
 @Injectable()
 export class AppController {
     init$: ReplaySubject<any> = new ReplaySubject<any>();
     config: any = {
-       
+        /* app defaults */
     };
-  
-    makers: Array<any> = [];
-    engineTypes: Array<any> = [];
-    // todo: car colors     
-    constructor(private _backEnd: Api, private _ngZone: NgZone) { }
+
+    constructor(private _backEnd: BackEnd, private _ngZone: NgZone) { }
     start() {
         this._ngZone.runOutsideAngular(() => {
             this._loadAppDefaults((defaults) => {
-                this._ngZone.run(() => { this.init$.next(defaults); });
+                this._ngZone.run(() => { this.init$.next(Object.assign(this.config, defaults)); });
                 console.log("APPLICATION STARTED");
             })
         });
     }
 
     _loadAppDefaults(doneCallback: (defaults: any) => void) {
-
-         doneCallback({/* get current configuration */});
-       
-       /* Observable.zip(
-            this._backEnd.getMakers(),
-            this._backEnd.getEngineTypes(),
-            (makers, engineTypes) => [makers, engineTypes])
+        Observable.zip(
+            this._backEnd.getPlugins(),
+            this._backEnd.getApiConfigs(),
+            (plugins, configs) => [plugins, configs])
             .subscribe(value => {
-                [this.makers, this.engineTypes] = value;
                 doneCallback({
-                    makers: value[0],
-                    engineTypes: value[1]
+                    plugins: value[0],
+                    configs: value[1]
                 });
             }, err => {
                 console.log(err);
-            })*/
+            })
     }
 }

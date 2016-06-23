@@ -3,19 +3,23 @@ import {Observable} from 'rxjs';
 import {ExtHttp} from './extHttp';
 
 @Injectable()
-export class Api {
+export class BackEnd {
 
   constructor(private _http: ExtHttp) { }
 
-  public getCarsCount(query): Observable<any> {
-    return this._http      
-      .post("/public/cars/count", JSON.stringify(query))
+  public getPlugins(): Observable<any> {
+    return this._http
+      .get("/api/plugins")
       .map(res => res.json());
   }
-
-  public getMakerModels(makerId): Observable<any> {
-    return this._http     
-      .get(`/public/makers/${makerId}/carModels`)
+  public getApiConfigs(): Observable<any> {
+    return this._http
+      .get("/api/configs")
+      .map(res => res.json());
+  }
+  public getConfig(id): Observable<any> {
+    return this._http
+      .get(`/api/config/${id}`)
       .map(res => res.json());
   }
 }

@@ -15,6 +15,6 @@ bootstrap(App, [
     HTTP_PROVIDERS
 ])
     .then(() => {
-        console.log("APP STARTED")
+        console.log("APP STARTED");
     })
     .catch(console.error)

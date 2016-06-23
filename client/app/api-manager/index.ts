@@ -1,8 +1,18 @@
-import {ApiManagementComponent} from './components/apiManagement.component';
+import {ApiManagementComponent} from './components/apiManager.component';
 import {ApiListComponent} from './components/apiList.component';
 import {ApiMasterComponent} from './components/apiMaster.component';
+import {ApiDetailsComponent} from './components/apiDetails.component';
 
-export * from './components/apiManagement.component';
+
+export * from './components/apiManager.component';
 export * from './components/apiList.component';
 export * from './components/apiMaster.component';
+export * from './components/apiDetails.component';
 export * from './routes';
+
+export var API_MANAGER_COMPONENTS = [
+    ApiManagementComponent,
+    ApiListComponent,
+    ApiMasterComponent,
+    ApiDetailsComponent
+]
