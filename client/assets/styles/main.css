@@ -27,52 +27,62 @@ h4 {
     font-size: 1.2em;
 }
 
-a:link { color: blue; }
-a:visited { color: purple; }
-a:hover { color: red; }
-a:active { color: yellow; }
+a:link {
+    color: blue;
+}
+
+a:visited {
+    color: purple;
+}
+
+a:hover {
+    color: red;
+}
+
+a:active {
+    color: yellow;
+}
+
 a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer {
     cursor: pointer;
 }
 
 p {
-    position:relative;
-    z-index:1;
+    position: relative;
+    z-index: 1;
     padding: 10px;
     margin: 10px;
     font-size: 21px;
     line-height: 1.3em;
     color: #fff;
     background: #ff0030;
-    -webkit-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10,10,0,.5);
-    -moz-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10,10,0,.5);
-    box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10,10,0,.5);
+    -webkit-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10, 10, 0, .5);
+    -moz-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10, 10, 0, .5);
+    box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, .5);
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
- 
+
 p:before {
     content: "";
     position: absolute;
     z-index: -1;
     top: 3px;
     bottom: 3px;
-    left :3px;
+    left: 3px;
     right: 3px;
     border: 2px dashed #fff;
 }
- 
+
 p a {
     color: #fff;
-    text-decoration:none;
+    text-decoration: none;
 }
- 
+
 p a:hover, p a:focus, p a:active {
-    text-decoration:underline;
+    text-decoration: underline;
 }
-
-
 
 small {
     font-size: 0.833em;
@@ -88,6 +98,11 @@ small {
     margin-bottom: -65px;
 }
 
+.flexy{
+    display: flex;
+    
+}
+
 .page-wrap:after {
     content: "";
     display: block;
@@ -96,7 +111,6 @@ small {
 .site-footer, .page-wrap:after {
     height: 65px;
 }
-
 
 @media screen and (min-width: 1400px) {
     html {
@@ -143,6 +157,10 @@ body, html {
     border-radius: 2px;
 }
 
+button.next-button {
+    width: 100%;
+}
+
 .truncate {
     white-space: nowrap;
     overflow: hidden;
@@ -165,6 +183,10 @@ body, html {
     .padding-shrink-left {
         padding-left: 15px;
     }
+}
+
+.form-group label {
+    margin-bottom: .2rem!important;
 }
 
 .options-button {

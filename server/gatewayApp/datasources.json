@@ -7,10 +7,8 @@
     "connector": "mongodb"
   },
   "db1": {
-    "host": "${mongo_host}",
-    "port": 27017,
-    "database": "blach",
     "name": "db1",
-    "connector": "mongodb"
+    "connector": "memory",
+    "file": "gateway.json"
   }
 }

@@ -26,6 +26,7 @@ module.exports = function (app) {
 
     router.get('/api/config/:id', (req, res) => {
         ApiConfig.findById(req.params.id, (err, config) => {
+            console.log(config)
             res.send(config);
         })
     });

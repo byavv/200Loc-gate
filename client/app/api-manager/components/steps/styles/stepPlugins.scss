@@ -1,0 +1,136 @@
+.plugins-container {
+   // max-width: 25%;
+    flex: 0 1 25%;
+}
+.plugin-props{
+     flex: 1 0 auto;
+}
+.plugin-item-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.plugin-item {
+    flex:0 1 auto;
+    position: relative;
+    list-style: 0;
+    margin: 2px 2px;
+    padding: 8px;
+    color: #455A64!important;
+    background: #f2f2f2;
+    border: 1px solid #cfd8dc;
+    font-size: 14px;
+    font-weight: 300;
+    transition: all .3s ease-in-out;
+    // overflow: hidden; 
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    > .button-group {
+        flex: 0 1 auto;
+    }
+    > .content {
+        flex: 1 0 auto;
+    }
+   /* &::after {
+        content: '';
+        background: url(/static/assets/images/lines.png) no-repeat 0 0;
+        background-position: -107px 0px;
+        width: 2px;
+        display: inline-block;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        bottom: -30px;
+    }*/
+ /*   &:not(:last-child):not(:first-child) {
+        margin: 10px 0;
+    }
+    &:first-child {
+        margin: 0 0 10px 0;
+    }
+    &:last-child {
+        margin: 10px 0 0 0;
+    }*/
+    &.active{
+        background: #adadad;
+    }
+}
+
+.button-new {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 1.25rem; 
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    color: #d3394c;
+    &:hover {
+        color: #722040;
+        figure: {
+            background-color: #722040;
+        }
+    }
+    > figure {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #d3394c;
+        display: block;
+        padding: 20px;
+        margin: 0 auto 10px;
+    }
+    svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        fill: currentColor;
+        margin-top: -0.25em;
+        /* 4px */
+        margin-right: 0.25em;
+        /* 4px */
+        width: 100%;
+        height: 100%;
+        fill: #f1e5e6;
+    }
+}
+
+.control-container {}
+
+.control-container > div {
+    width: 100%;
+}
+
+.control-container .check-box {
+    margin: 2px 2px;
+    padding: 8px;
+    color: #455A64!important;
+    background: #f2f2f2;
+    border: 1px solid #cfd8dc;
+    font-size: 14px;
+    font-weight: 300;
+    transition: all .3s ease-in-out;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.control-container .check-box.active {
+    background: #ddd;
+}
+
+.control-container .check-box span.content {
+    padding: 0 5px;
+}
+
+.control-container .check-box span.text {
+    // width: calc(100% - 87px);
+    padding: 0 8px;
+}

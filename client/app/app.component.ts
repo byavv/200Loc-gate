@@ -27,10 +27,7 @@ import { SHARED_COMPONENTS } from './shared/components';
                          </ul>          
                      </div>     
                      <div id="main-wrapper" class="col-md-10">
-                         <div id="main">
-                             <div class="page-header">
-                               <h3>Admin</h3>
-                             </div>
+                         <div id="main">                            
                              <router-outlet>
                              </router-outlet>
                          </div>           

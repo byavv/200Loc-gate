@@ -1,0 +1,7 @@
+<div>
+    <form [formGroup]="form" #configForm="ngForm">
+        <div *ngFor="let option of options" class="form-row">          
+            <option-input [option]="option" [form]="form"></option-input>
+        </div>
+    </form>
+</div>

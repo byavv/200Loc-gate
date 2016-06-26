@@ -1,51 +1,47 @@
 import {
-    FORM_DIRECTIVES,
-    ControlGroup,
-    NgControl,
-    Validators,
-    NgFormModel
-} from '@angular/common';
-import {Component, Directive, Host} from '@angular/core';
+    FormGroupDirective,
+    FormGroup,
+    FormControlName,
+    FormControl
+} from '@angular/forms';
 
+import {Component, Directive, Host, Input} from '@angular/core';
 import {RegExpWrapper, print, isPresent} from '@angular/compiler/src/facade/lang';
-
 
 @Component({
     selector: 'show-error',
-    inputs: ['controlPath: control', 'errorTypes: errors'],
     template: `
-    <span *ngIf="errorMessage !== null">{{errorMessage}}</span>
-  `,
-    directives: []
+        <span class='error-span' *ngIf="errorMessage !== null">{{errorMessage}}</span>
+    `,
+    styles: [
+        `
+        .error-span {
+            margin-top: 0rem;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        `
+    ]
 })
 export class ShowError {
-    formDir;
-    controlPath: string;
-    errorTypes: string[];
-
-    constructor( @Host() formDir: NgFormModel) { this.formDir = formDir; }
-
+    formDir: FormGroupDirective;
+    // name of binded form control
+    @Input()
+    control: string;
+    // {'required' : 'field is required', 'customError': 'field value has wrong format'}
+    @Input()
+    errors: { [code: string]: string; } = {};
+    constructor( @Host() formDir: FormGroupDirective) { this.formDir = formDir; }
     get errorMessage(): string {
-        var form: ControlGroup = this.formDir.form;
-        var control = form.find(this.controlPath);
+        var form: FormGroup = this.formDir.form;
+        var control = form.find(this.control);
         if (isPresent(control)) {
-            for (var i = 0; i < this.errorTypes.length; ++i) {
-                if (control.hasError(this.errorTypes[i])) {
-                    return this._errorMessage(this.errorTypes[i]);
+            for (var error in this.errors) {
+                if (control.hasError(error)) {
+                    return this.errors[error]
                 }
             }
         }
         return null;
-    }
-
-    _errorMessage(code: string): string {
-        var config = {
-            'required': 'Field is required',
-            "confirm": "Must be equal",
-            "email": "Wrong email format",
-            "pattern" : "Must contain at least one number character",
-            "minlength" : "Must be at least 6 characters long"            
-        };
-        return config[code];
     }
 }

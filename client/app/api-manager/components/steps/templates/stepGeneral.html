@@ -1,33 +1,30 @@
-<div class="row">
-    <div class="col-md-12 col-lg-9 col-sm-12">
-        <div class="my-card">
-            <form [ngFormModel]="form" #configForm="ngForm" class="form-horizontal">
+<div class="my-card">
+    <div class="row">
+        <div class="col-md-8 col-lg-6 col-sm-12">
+            <form [formGroup]="form" #configForm="ngForm" class="form-horizontal">
                 <div class="form-group">
-                    <!-- <div class="col-sm-4">
-                        <label for="name">Name</label>
-                        <input id="name" type="text" class="form-control" [(ngModel)]='config.name' placeholder="5000..." ngControl="name">
-                        <show-error *ngIf="submitted" control="name" [errors]="['required']"></show-error>
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="description">Description</label>
-                        <textarea  id="description" type="text" class="form-control" [(ngModel)]='config.description' placeholder="2016..."
-                            ngControl="description">
+                    <label for="name">Name*</label>
+                    <input id="name" class="form-control" [(ngModel)]='apiConfig.name' placeholder="Name..." formControlName="name">
+                    <show-error *ngIf="submitted" control="name" [errors]="{'required': 'Name field is required'}"></show-error>
+                </div>
+                <div class="form-group">
+                    <label for="entry">Entry*</label>
+                    <input id="entry" class="form-control" [(ngModel)]="apiConfig.entry" formControlName="entry" placeholder="/...">
+                    <show-error *ngIf="submitted" control="entry" [errors]="{'required': 'Entry field is required'}"></show-error>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="form-control" [(ngModel)]='apiConfig.description' placeholder="Description..." formControlName="description">
                         </textarea>
-                        <show-error *ngIf="submitted" control="description" [errors]="['required']"></show-error>
-                    </div> -->
-                    <div class="col-sm-4">
-                        <label for="entry">Entry</label>
-                        <input id="entry" type="text" class="form-control"  [(ngModel)]='config.entry' ngControl="entry"  placeholder="2016..." >
-                        <show-error *ngIf="submitted" control="entry" [errors]="['required']"></show-error>
-                    </div>
+                </div>
+                <div class="form-group">
+                    <toggleGroup formControlName="methods" [options]="options" [(ngModel)]="apiConfig.methods">
+                    </toggleGroup>
                 </div>
             </form>
+            <button type="button" (click)="onSubmit(configForm)" class="btn btn-primary next-button">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>  Next define request pipe
+            </button>
         </div>
-    </div>
-    <div class="col-md-12 col-lg-3 col-sm-12">
-        <button type="button" (click)="onSubmit(configForm)" class="btn btn-primary next-button">
-           <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                Next add images
-        </button>
     </div>
 </div>

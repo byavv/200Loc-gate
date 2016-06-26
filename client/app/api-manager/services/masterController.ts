@@ -4,54 +4,44 @@ import {Config} from '../../shared/models';
 
 @Injectable()
 export class MasterController {
-    private _currentState: any = {};
     init$: ReplaySubject<any> = new ReplaySubject();
+    validate$: ReplaySubject<any> = new ReplaySubject();
     error$: Subject<any> = new Subject();
-    images: Array<any>;
-    options: Array<any>;
-    validation: any = {
-        info: false, // will be set false by form validation
-        img: false
+
+    config: any = {};
+
+    private validation = {
+        general: true,
+        plugins: true
     };
-    diffLog: any; //<-- todo
-    get info(): any {
-        return this._currentState;
-    }
-    set info(value: any) {
-        if (!!value.maker) {
-            Object.assign(this._currentState, {
-                makerId: value.maker.id,
-                makerName: value.maker.name,
-            });
-        }
-        if (!!value.model) {
-            Object.assign(this._currentState, {
-                carModelId: value.model.id,
-                modelName: value.model.name,
-            });
-        }
 
-        Object.assign(this._currentState, value);
-        delete this._currentState.maker;
-        delete this._currentState.model;
+    getValidity(key) {
+        return this.validation[key];
     }
 
-    get validate$(): Observable<any> {
+    setValidity(key, value) {        
+        this.validation[key] = value;
+        this.validate$.next(this.validation);
+    }
+    validate(): Observable<any> {
         return Observable.create((observer: Observer<any>) => {
             const error = Object.keys(this.validation).find(key => !this.validation[key]);
             if (error) {
                 observer.error(error);
                 this.error$.next(error);
             } else {
-                observer.next(this.diffLog);
                 observer.complete();
             }
         })
     }
 
-    constructor() {
-        this.info = {};
-        this.images = [];
-        this.options = [];
+    isValid(key): Observable<any> {
+        return this.validate$.pluck(key);
+    }
+
+    init(conf) {
+        Object.assign(this.config, conf);
+        this.validate$.next(this.validation);
+        this.init$.next(this.config);
     }
 }

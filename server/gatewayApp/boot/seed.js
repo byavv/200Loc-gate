@@ -1,6 +1,5 @@
 module.exports = (app, done) => {
-    var ApiConfig = app.models.ApiConfig;
-    console.log("!!!!!!!!!!!!")
+    var ApiConfig = app.models.ApiConfig;  
     ApiConfig.find((err, configs) => {
         if(err) return done(err)
         if (configs.length == 0) {
