@@ -1,110 +1,156 @@
 module.exports = (app, done) => {
-    var ApiConfig = app.models.ApiConfig;  
+    var ApiConfig = app.models.ApiConfig;
     ApiConfig.find((err, configs) => {
-        if(err) return done(err)
+        if (err) return done(err)
         if (configs.length == 0) {
             ApiConfig.create([
                 {
                     name: 'route1',
-                    plugins: ['discovery', 'proxy'],
                     entry: '/public/cars',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'cars',
-                        withPath: '/api/cars'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'cars',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/api/cars'
+                        }
                     }
                 },
                 {
                     name: 'route2',
-                    plugins: ['discovery', 'proxy'],
                     entry: '/public/makers',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'cars',
-                        withPath: '/api/makers'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'cars',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/api/makers'
+                        }
                     }
                 },
                 {
                     name: 'route3',
-                    plugins: ['discovery', 'proxy'],
                     entry: '/public/enginetypes',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'cars',
-                        withPath: '/api/enginetypes'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'cars',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/api/enginetypes'
+                        }
                     }
                 },
                 {
                     name: 'route4',
-                    plugins: ['authentication', 'discovery', 'proxy'],
                     entry: '/profiles/cars',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'cars',
-                        withPath: '/api/cars',
-                        grant: ['read']
+                    plugins: {
+                        discovery: {
+                            mapTo: 'cars',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/api/cars',
+                        },
+                        authentication: {
+                            grant: 'read'
+                        }
                     }
                 },
                 {
                     name: 'route5',
-                    plugins: ['discovery', 'proxy'],
                     entry: '/auth',
                     methods: ["POST"],
-                    config: {
-                        mapTo: 'profile',
-                        withPath: '/auth'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'profile',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/auth'
+                        }
                     }
                 },
                 {
-                    name: 'route6',
-                    plugins: ['authentication', 'discovery', 'proxy'],
+                    name: 'route6',                   
                     entry: '/profiles',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'profile',
-                        withPath: '/profiles',
-                        grant: ['read']
+                    plugins: {
+                        discovery: {
+                            mapTo: 'profile',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/profiles'
+                        },
+                        authentication: {
+                            grant: 'read'
+                        }
                     }
                 },
                 {
-                    name: 'route7',
-                    plugins: ['discovery', 'proxy'],
+                    name: 'route7',                   
                     entry: '/tracks',
                     methods: ['GET'],
-                    config: {
-                        mapTo: 'tracker',
-                        withPath: '/tracks'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'tracker',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/tracks'
+                        }
                     }
                 },
                 {
-                    name: 'route8',
-                    plugins: ['authentication', 'discovery', 'proxy'],
+                    name: 'route8',                  
                     entry: '/users',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'profile',
-                        withPath: '/users',
-                        grant: ['read']
+                    plugins: {
+                        discovery: {
+                            mapTo: 'profile',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/users'
+                        },
+                        authentication: {
+                            grant: 'read'
+                        }
                     }
                 },
                 {
-                    name: 'route9',
-                    plugins: ['authentication', 'discovery', 'proxy'],
+                    name: 'route9',                  
                     entry: '/image',
                     methods: ['GET', "POST"],
-                    config: {
-                        mapTo: 'image',
-                        withPath: '/api'
+                    plugins: {
+                        discovery: {
+                            mapTo: 'image',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/api'
+                        }
                     }
                 },
                 {
-                    name: 'route10',
-                    plugins: ['discovery', 'proxy'],
+                    name: 'route10',                
                     entry: '/',
                     methods: ['GET'],
-                    config: {
-                        mapTo: 'web',
-                        withPath: '/',
+                    plugins: {
+                        discovery: {
+                            mapTo: 'web',
+                        },
+                        proxy: {
+                            target: '${target}',
+                            withPath: '/',
+                        }
                     }
                 },
 
@@ -112,7 +158,7 @@ module.exports = (app, done) => {
                 console.log("DEFAULT DATA SET", configs)
                 done(err)
             })
-        }else{
+        } else {
             done()
         }
     })

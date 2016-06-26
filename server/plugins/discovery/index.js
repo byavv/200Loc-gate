@@ -6,39 +6,36 @@ const registry = require('etcd-registry'),
     debug = require('debug')('discovery')
     ;
 
-module.exports = (function () {
+
+var Plugin = function (params, pipeGlobal) {
     let services = registry(`http://${process.env.ETCD_HOST || "192.168.99.100"}:4001`);
-  
-    var cls = function (params) {
-        this.options = Object.assign({/* defaults */ }, params);       
-    }
-    cls.prototype = {       
-        handler: function (req, res, next) {
-            if (this.options.mapTo) {
-                new Promise((resolve, reject) => {
-                    console.log("try to find for", this.options.mapTo)
-                    services.lookup(this.options.mapTo, (err, service) => {
-                        if (err || !service) {
-                            reject(err || new GateWayError(`Service ${this.options.mapTo} is not found or unevailable`));
-                        } else {
-                            resolve(service);
-                        }
-                    });
-                }).then(service => {
-                    req.pipeGlobal = Object.assign(req.pipeGlobal, {
-                        target: service.url
-                    });
-                    debug(`Service ${this.options.mapTo} found on: ${service.url}`);
-                    return next();
-                }).catch((err) => {
-                    return next(err);
+
+    return function (req, res, next) {
+        if (params.mapTo) {
+            new Promise((resolve, reject) => {
+                debug(`Try to discover service: ${params.mapTo}`);
+                services.lookup(this.params.mapTo, (err, service) => {
+                    if (err || !service) {
+                        reject(err || new GateWayError(`Service ${this.params.mapTo} is not found or unevailable`));
+                    } else {
+                        resolve(service);
+                    }
                 });
-            } else {
-                return next(new NotFoundError());
-            }
+                //  resolve({ url: "http://localhost:3044" });
+            }).then(service => {
+                Object.assign(pipeGlobal, {
+                    target: service.url
+                });
+                debug(`Service ${params.mapTo} found on: ${service.url}`);
+                return next();
+            }).catch((err) => {
+                return next(err);
+            });
+        } else {
+            return next(new NotFoundError());
         }
-    };
-    cls.pluginName = "discovery";
-    cls.description = "bla-bla";
-    return cls;
-})();
+    }
+}
+Plugin.pluginName = "discovery";
+Plugin.description = "bla-bla";
+module.exports = Plugin

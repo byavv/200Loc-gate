@@ -1,6 +1,10 @@
 {
-    "takes": {
-        "target": "string",
-        "withPath": "string"
+    "target": {
+        "default": "localhost",
+        "required": true
+    },
+    "withPath": {
+        "default": "/",
+        "required": true
     }
 }
