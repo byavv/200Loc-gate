@@ -22,4 +22,9 @@ export class BackEnd {
       .get(`/api/config/${id}`)
       .map(res => res.json());
   }
+  public getPluginConfig(name): Observable<any> {
+    return this._http
+      .get(`/api/plugins/${name}`)
+      .map(res => res.json());
+  }
 }

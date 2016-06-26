@@ -9,7 +9,7 @@ var boot = require('loopback-boot'),
     fs = require("fs"),
     async = require('async'),
     bodyParser = require('body-parser'),
-    loadPlugins = require('./lib/pluginLoader')
+    loader = require('./lib/pluginLoader')()
     ;
 
 const gatewayApp = loopback();
@@ -25,7 +25,7 @@ gatewayApp.set('x-powered-by', false);
 
 explorerApp.set("mongo_host", mongo_host);
 
-loadPlugins().then((plugins) => {
+loader.loadPlugins().then((plugins) => {
     gatewayApp.plugins = plugins;
     boot(gatewayApp, {
         appRootDir: path.join(__dirname, 'gatewayApp')

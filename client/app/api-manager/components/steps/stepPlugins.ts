@@ -20,12 +20,11 @@ import { Observable } from 'rxjs';
 export class StepPlugins implements OnInit {
     @Output()
     next: EventEmitter<any> = new EventEmitter();
-
+    activePlugin: Plugin;
     appliedPlugins: Array<Plugin> = [];
-    allPlugins: Array<Plugin> = [];
+    plugins: Array<Plugin> = [];
     loading: boolean = false;
     submitted: boolean = false;
-    options: Array<any> = [];
     constructor(
         private master: MasterController,
         fb: FormBuilder,
@@ -36,58 +35,38 @@ export class StepPlugins implements OnInit {
 
     ngOnInit() {
         this.appController.init$.subscribe(defaults => {
-            this.allPlugins = defaults.plugins;
+            this.plugins = defaults.plugins;
+            console.log(this.plugins)
         })
     }
-    addNewPlugin() {
+
+    addNewPlugin(pl) {
         var plugin;
-        if (this.appliedPlugins.length > 0) {
-            var lastPlugin = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
-                return prev.order < current.order ? current : prev;
-            });
-            plugin = new Plugin("DEF" + Math.random() * 10, "dsfs", lastPlugin.order + 1)
-        } else {
-            plugin = new Plugin("default", "dsfs", 1)
-        }
-        this.setActive(plugin);
-        this.appliedPlugins.push(plugin);
+        var lastOrder = 0;
+        this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
+            if (this.appliedPlugins.length > 0) {
+                lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
+                    return prev.order < current.order ? current : prev;
+                }).order;
+            }
+            plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
+            this.selectPlugin(plugin);
+            this.appliedPlugins.push(plugin);
+        },(err)=>{
+            console.error(err)
+        });
     }
 
-    onSelectPlugin(plugin: Plugin) {
+    selectPlugin(plugin: Plugin) {
         this.appliedPlugins.map((p) => {
             p.active = false;
         })
         plugin.active = true;
-
-
-
-        Observable.of([
-            {
-                key: "fff",
-                required: "true",
-                value: "sdfsd",
-
-            },
-            {
-                key: "wwww4",
-                required: "true",
-                value: "tyhtyht"
-            }
-        ]).subscribe((defaults) => {
-            console.log(defaults)
-            this.options = defaults;
-        })
-
-
-
-
-
-
+        this.activePlugin = plugin;
     }
 
     pluginUp(plugin: Plugin) {
-        this.setActive(plugin);
-
+        this.selectPlugin(plugin);
         if (!this.isLast(plugin)) {
             var next = this.appliedPlugins[this.appliedPlugins.indexOf(plugin) + 1];
             console.log(plugin, next)
@@ -100,11 +79,9 @@ export class StepPlugins implements OnInit {
     }
 
     pluginDown(plugin: Plugin) {
-        this.setActive(plugin);
-
+        this.selectPlugin(plugin);
         if (!this.isLast(plugin)) {
             var prev = this.appliedPlugins[this.appliedPlugins.indexOf(plugin) - 1];
-            console.log(plugin, prev)
             plugin.order--;
             prev.order++;
             this.appliedPlugins.sort((a, b) => {
@@ -131,5 +108,9 @@ export class StepPlugins implements OnInit {
             .reduce((prev: Plugin, current: Plugin) => {
                 return prev.order > current.order ? current : prev;
             }));
+    }
+
+    onSubmit() {
+        console.log(this.appliedPlugins)
     }
 }

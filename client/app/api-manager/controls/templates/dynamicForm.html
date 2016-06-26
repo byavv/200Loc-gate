@@ -1,7 +1,8 @@
-<div>
-    <form [formGroup]="form" #configForm="ngForm">
-        <div *ngFor="let option of options" class="form-row">          
-            <option-input [option]="option" [form]="form"></option-input>
-        </div>
-    </form>
-</div>
+<form [formGroup]="form" class="form-horizontal" role="form">
+    <div class="form-group">
+        <legend>{{plugin?.pluginName}}</legend>
+    </div>
+    <div *ngFor="let option of fields">
+        <option-input [option]="option" [form]="form"></option-input>
+    </div>
+</form>

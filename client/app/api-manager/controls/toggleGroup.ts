@@ -1,9 +1,3 @@
-interface ICarOption {
-    name: string;
-    description: string;
-    active?: boolean;
-}
-
 import { Component, Self, EventEmitter, Output, ViewChild, Input, Optional } from '@angular/core';
 import { NgControl, NgModel, ControlValueAccessor } from '@angular/forms';
 
@@ -17,7 +11,7 @@ export class ToggleGroup implements ControlValueAccessor {
     private _selectedOptions = [];
     //  private options = [];
 
-    private _ooptions: Array<ICarOption> = [];
+    private _ooptions: Array<any> = [];
     @Input()
     set options(op) {
         this._ooptions = op;

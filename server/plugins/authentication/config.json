@@ -1,0 +1,6 @@
+{
+    "grant": {
+        "default": "*",
+        "required": true
+    }
+}

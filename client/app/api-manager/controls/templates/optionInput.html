@@ -1,6 +1,6 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="form-group">
     <label [attr.for]="option.key">{{option.key}}</label>
-    <input [formControlName]="option.key" [(ngModel)]='option.value' [id]="option.key">
+    <input [formControlName]="option.key" [(ngModel)]='option.value' [id]="option.key" class="form-control">
 
 
     <!-- 
@@ -11,5 +11,7 @@
            </select>
 </div>
 -->
-   <!-- <div class="errorMessage" *ngIf="!isValid">{{option.key}} is required</div> -->
+    <div class="errorMessage" *ngIf="!isValid">{{option.key}} is required</div>
 </div>
+
+
