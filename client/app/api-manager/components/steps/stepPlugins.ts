@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, Optional } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, Optional, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { } from '@angular/common'
 import { ShowError, Draggable } from '../../directives';
@@ -10,11 +10,13 @@ import { BackEnd, AppController } from '../../../shared/services';
 
 import { MasterController } from '../../services/masterController';
 import { Observable } from 'rxjs';
+import { MODAL_DIRECTVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
     selector: 'step-plugins',
     template: require("./templates/stepPlugins.html"),
-    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm],
+    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES],
+    viewProviders: [BS_VIEW_PROVIDERS],
     styles: [require('./styles/stepPlugins.scss')]
 })
 export class StepPlugins implements OnInit {
@@ -25,12 +27,12 @@ export class StepPlugins implements OnInit {
     plugins: Array<Plugin> = [];
     loading: boolean = false;
     submitted: boolean = false;
+    selectedPlugin;
     constructor(
         private master: MasterController,
         fb: FormBuilder,
         private backEnd: BackEnd,
         private appController: AppController) {
-
     }
 
     ngOnInit() {
@@ -52,7 +54,7 @@ export class StepPlugins implements OnInit {
             plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
             this.selectPlugin(plugin);
             this.appliedPlugins.push(plugin);
-        },(err)=>{
+        }, (err) => {
             console.error(err)
         });
     }
@@ -110,7 +112,23 @@ export class StepPlugins implements OnInit {
             }));
     }
 
+    select(plugin) {
+        this.plugins.forEach(plugin=>{
+            plugin.active =false;
+        })
+        this.selectedPlugin = plugin; 
+        this.selectedPlugin.active = true;
+    }
+
     onSubmit() {
-        console.log(this.appliedPlugins)
+        this.master.setValidity('plugins', this.appliedPlugins.length > 0);
+        var plugins = this.appliedPlugins.map((ap) => {
+            var plugin = {};
+            plugin[ap.pluginName] = ap.config;
+            return plugin;
+        })
+        this.master.config.plugins = plugins;
+        console.log(this.master.config);
+        this.next.next('preview');
     }
 }

@@ -36,7 +36,7 @@ export class StepPreview implements OnInit {
 
     }
 
-    onSubmit(form: FormGroup) {
-
+    onSubmit() {
+        this.next.next("Done")
     }
 }

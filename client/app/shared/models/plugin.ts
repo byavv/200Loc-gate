@@ -3,7 +3,7 @@ export class Plugin {
     pluginName: string;
     description: string;
     order: number;
-    active: boolean = false;
+    active: boolean = false;   
     options: any = {};
     config: any = {};
     constructor(name?: string, description?: string, order?: number, options?: any) {

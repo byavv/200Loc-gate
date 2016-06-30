@@ -14,9 +14,9 @@ var Plugin = function (params, pipeGlobal) {
         if (params.mapTo) {
             new Promise((resolve, reject) => {
                 debug(`Try to discover service: ${params.mapTo}`);
-                services.lookup(this.params.mapTo, (err, service) => {
+                services.lookup(params.mapTo, (err, service) => {
                     if (err || !service) {
-                        reject(err || new GateWayError(`Service ${this.params.mapTo} is not found or unevailable`));
+                        reject(err || new GateWayError(`Service ${params.mapTo} is not found or unevailable`));
                     } else {
                         resolve(service);
                     }

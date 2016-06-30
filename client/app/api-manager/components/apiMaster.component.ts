@@ -42,7 +42,12 @@ import {Observable} from "rxjs";
   ],
   styles: [/*require('./steps/styles/master.css'),*/
     `
-    :host >>> .loader-container {
+   
+    `],
+  viewProviders: [MasterController]
+})
+/*
+ :host >>> .loader-container {
         position: absolute;      
         left: 15px;
         right: 15px;
@@ -62,10 +67,7 @@ import {Observable} from "rxjs";
 	    display:flex;
       flex-direction: column;
 	  }
-    `],
-  viewProviders: [MasterController]
-})
-
+ */
 export class ApiMasterComponent {
   @ViewChild(UiTabs) tab: UiTabs;
   id: string;
@@ -91,29 +93,21 @@ export class ApiMasterComponent {
       })
   }
 
-  ngAfterViewInit() {
-    console.log("MASTER VIEW INIT")
-    // this.tab.goTo("general");
-  }
-  ngAfterContentInit() {
-    console.log("MASTER CONTENT INIT")
-  }
   onDone() {
     this.master
       .validate()
-      .do(() => { this.loading = true; })
-      // .flatMap(() => this.userBackEnd.createOrUpdate(this.master.info, this.id))
-      .flatMap((result) => {
-
-        return Observable.throw("car creation error");
-
-      })
+      .do(() => { this.loading = true; console.log('dffffdddddddddddd') })
+      .flatMap(() => this.userBackEnd.createOrUpdate(this.master.config, this.id))
       .subscribe((result) => {
-        console.log(result)
-        this.router.navigate(['../UserCars']);
+        console.log(result);
+        this.router.navigate(['../']);
       }, (err) => {
         if (isString(err))
           this.tab.goTo(err);
       });
+    /*   this.userBackEnd.createOrUpdate(this.master.config, this.id).subscribe((result) => {
+         console.log(result);
+         this.router.navigate(['../']);
+       })*/
   }
 }

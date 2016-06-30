@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { APP_SERVICES_PROVIDERS, Identity, AppController, Storage } from './shared/services'
 import { SHARED_COMPONENTS } from './shared/components';
@@ -43,7 +43,12 @@ import { SHARED_COMPONENTS } from './shared/components';
 
 export class App {
     loading = true;
-    constructor(private identity: Identity, private storage: Storage, private appController: AppController) {
+    constructor(
+        private identity: Identity,
+        private storage: Storage,
+        private appController: AppController,
+        public viewContainerRef: ViewContainerRef
+    ) {
         this.appController.init$.subscribe(() => {
             this.loading = false;
         })

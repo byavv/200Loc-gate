@@ -1,55 +1,65 @@
-<!--<div style="flex:1">
-    <div class="row">
-        <div class="col-md-12 col-lg-9 col-sm-12">-->
 <div class="my-card flexy">
-    <div class="plugins-container">
-        <ul class="plugin-item-container">
-            <!--<div *ngFor='let plugin of appliedPlugins' draggable style="position:relative;" class='plugin-item'>
-                <p><a href="">{{plugin.pluginName}}</a></p>
-
-            </div>-->
-
-            <li *ngFor="let plugin of appliedPlugins" [class.active]='plugin.active' class='plugin-item' (click)="selectPlugin(plugin)">
-                <div class="content">
-                    {{plugin.pluginName}}
+    <div class="row" style="flex:1 0 100%">
+        <div class="col-md-4 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
+            <div class="plugins-container" style="position: relative;">
+                <div class="image-container" [hidden]="appliedPlugins.length == 0">
+                    <img src="/static/assets/images/cloud.png" alt="" style="width: 50px;">
                 </div>
-                <div class="button-group">
-                    <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
-                        <i class="fa fa-arrow-up"></i>               
-                    </span>
-                    <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
-                        <i class="fa fa-arrow-down"></i>              
-                    </span>
+                <ul class="plugin-item-container" [hidden]="appliedPlugins.length == 0">
+                    <li *ngFor="let plugin of appliedPlugins" [class.active]='plugin.active' (click)="selectPlugin(plugin)">
+                        <div class="content">
+                            {{plugin.pluginName}}
+                        </div>
+                        <div class="button-group">
+                            <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
+                            <i class="fa fa-arrow-up"></i>               
+                            </span>
+                            <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
+                                <i class="fa fa-arrow-down"></i>              
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="b-add-pipe-item" [class.addFirst]="appliedPlugins.length == 0">
+                    <a href='' (click)="lgModal.show()" title="Add">
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        <span>+</span></a>
                 </div>
-            </li>
-        </ul>
-        <span class="button-new" (click)="menuVisible = true; ">
-            <figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
-            <path d="M15,6h-5V1c0-0.55-0.45-1-1-1H7C6.45,0,6,0.45,6,1v5H1C0.45,6,0,6.45,0,7v2c0,0.55,0.45,1,1,1h5v5c0,0.55,0.45,1,1,1h2  c0.55,0,1-0.45,1-1v-5h5c0.55,0,1-0.45,1-1V7C16,6.45,15.55,6,15,6z"/></svg></figure>
-        </span>
-        <div class="plugin-menu-container" *ngIf='menuVisible'>
-            <ul class="plugin-menu">
-                <li class="plugin-menu-item" *ngFor="let plugin of plugins" (click)="addNewPlugin(plugin); menuVisible = false;">
-                    {{plugin.name}}
-                </li>
-            </ul>
+                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Plugin</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="plugin-menu-container">
+                                    <ul class="plugin-menu">
+                                        <li class="plugin-menu-item" *ngFor="let plugin of plugins" [class.active]='plugin.active' (click)="select(plugin)">
+                                            {{plugin.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-large btn-block btn-default" (click)="addNewPlugin(selectedPlugin); lgModal.hide()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-12">
+            <div class="plugin-props">
+                <dynamic-fform [plugin]="activePlugin"></dynamic-fform>
+            </div>
         </div>
     </div>
-    <div class="plugin-props">
-        <!--<dynamic-fform [options]="activePlugin?.options" (changed)='activePlugin.config=$event'></dynamic-fform>-->
-          <dynamic-fform [plugin]="activePlugin"></dynamic-fform>
-    </div>
-
-
 </div>
 
-
-<!--</div>-->
-<!--<div class="col-md-12 col-lg-3 col-sm-12">-->
 <button type="button" (click)="onSubmit()" class="btn btn-primary next-button">
            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                 Next
-        </button>
-<!--</div>
-    </div>
-</div>-->
+</button>

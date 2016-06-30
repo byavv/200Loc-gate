@@ -15,6 +15,7 @@ import { Component, Input, Output, OnInit, EventEmitter }  from '@angular/core';
 import { FormGroup, Validators, FormBuilder, REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { DynamicFormOption } from "./optionInput";
 import { Plugin } from '../../shared/models';
+
 @Component({
     selector: 'dynamic-fform',
     template: require('./templates/dynamicForm.html'),
@@ -25,8 +26,7 @@ export class DynamicForm {
     fields: Array<any> = []
     private _plugin;
     @Input()
-    set plugin(plugin) {
-
+    set plugin(plugin: Plugin) {
         let group = {};
         let _op = []
         if (plugin) {
@@ -48,11 +48,6 @@ export class DynamicForm {
     get plugin(): Plugin {
         return this._plugin;
     }
-
-
     form: FormGroup = this._builder.group({});
-
     constructor(private _builder: FormBuilder) { }
-
-
 }

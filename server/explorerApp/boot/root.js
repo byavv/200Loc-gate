@@ -31,11 +31,19 @@ module.exports = function (app) {
         })
     });
 
-    router.post('/api/create', (req, res) => {
-        ApiConfig.create(req.body, (err, config) => {
+    router.post('/api/config/:id', (req, res) => {
+        console.log("DDDDDDDDDDDD")
+        ApiConfig.findOrCreate({ where: { id: req.params.id } }, req.body, (err, config) => {
+            if (err) return res.sendStatus(500);
+            config.updateAttributes(req.body, (err, cf) => {
+                if (err) return res.sendStatus(500);
+                return res.status(200).send(cf);
+            })
+        })
+       /* ApiConfig.create(req.body, (err, config) => {
             if (err) throw err;
             return res.send(config);
-        })
+        })*/
     });
 
     router.get('/api/plugins/:name', (req, res) => {

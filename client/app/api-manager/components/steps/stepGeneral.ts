@@ -16,7 +16,7 @@ import {Observable} from 'rxjs';
     template: require("./templates/stepGeneral.html"),
     directives: [REACTIVE_FORM_DIRECTIVES, ShowError, ToggleGroup],
     providers: [],
-    styles: [/*require('./styles/stepInfo.css')*/]
+    styles: [require('./styles/stepGeneral.scss')]
 })
 export class StepGeneral implements OnInit {
     @Output()
@@ -44,11 +44,12 @@ export class StepGeneral implements OnInit {
             name: ["", Validators.required],
             entry: ["", Validators.required],
             description: [""],
-            methods:[['GET']]
+            methods: [['GET']]
         });
-        //  this.master.validation['general'] = true;
+
     }
     ngAfterViewInit() {
+     //   this.master.setValidity('general', this.form.valid);
         this.form
             .valueChanges
             .distinctUntilChanged()

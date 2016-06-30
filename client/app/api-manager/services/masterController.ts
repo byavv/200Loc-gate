@@ -10,7 +10,7 @@ export class MasterController {
 
     config: any = {};
 
-    private validation = {
+    validation = {
         general: true,
         plugins: true
     };
@@ -24,12 +24,15 @@ export class MasterController {
         this.validate$.next(this.validation);
     }
     validate(): Observable<any> {
+        console.log("validation")
         return Observable.create((observer: Observer<any>) => {
             const error = Object.keys(this.validation).find(key => !this.validation[key]);
+            console.log(error)
             if (error) {
                 observer.error(error);
                 this.error$.next(error);
             } else {
+                observer.next(null);
                 observer.complete();
             }
         })

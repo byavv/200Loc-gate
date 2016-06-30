@@ -27,4 +27,10 @@ export class BackEnd {
       .get(`/api/plugins/${name}`)
       .map(res => res.json());
   }
+
+  public createOrUpdate(data: any, id?: string) {
+    return this._http
+      .post(`/api/config/${id}`, JSON.stringify(data))
+      .map(res => res.json());
+  }
 }
