@@ -36,6 +36,6 @@ var Plugin = function (params, pipeGlobal) {
         }
     }
 }
-Plugin.pluginName = "discovery";
-Plugin.description = "bla-bla";
+Plugin._name = "discovery";
+Plugin._description = "bla-bla";
 module.exports = Plugin

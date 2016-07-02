@@ -1,15 +1,21 @@
+import { FormGroup } from "@angular/forms";
 export class Plugin {
     id: string;
-    pluginName: string;
+    name: string;
     description: string;
     order: number;
-    active: boolean = false;   
+    active: boolean = false;
     options: any = {};
     config: any = {};
+    form: FormGroup;
+    //valid: any = false;
     constructor(name?: string, description?: string, order?: number, options?: any) {
-        this.pluginName = name;
+        this.name = name;
         this.description = description;
         this.order = order;
         this.options = options;
+    }
+    get valid() {      
+        return this.form ? this.form.valid : true;
     }
 }

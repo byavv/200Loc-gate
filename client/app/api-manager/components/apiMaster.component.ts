@@ -96,7 +96,7 @@ export class ApiMasterComponent {
   onDone() {
     this.master
       .validate()
-      .do(() => { this.loading = true; console.log('dffffdddddddddddd') })
+      .do(() => { this.loading = true; })
       .flatMap(() => this.userBackEnd.createOrUpdate(this.master.config, this.id))
       .subscribe((result) => {
         console.log(result);

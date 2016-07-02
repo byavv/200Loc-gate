@@ -17,31 +17,40 @@ import { DynamicFormOption } from "./optionInput";
 import { Plugin } from '../../shared/models';
 
 @Component({
-    selector: 'dynamic-fform',
+    selector: 'dynamic-form',
     template: require('./templates/dynamicForm.html'),
-    directives: [REACTIVE_FORM_DIRECTIVES, DynamicFormOption],
-    providers: []
+    directives: [REACTIVE_FORM_DIRECTIVES, DynamicFormOption]
 })
 export class DynamicForm {
     fields: Array<any> = []
     private _plugin;
+
+    @Output()
+    valid: EventEmitter<any> = new EventEmitter();
     @Input()
     set plugin(plugin: Plugin) {
         let group = {};
-        let _op = []
         if (plugin) {
             this.fields.splice(0, this.fields.length)
             Object.keys(plugin.options).forEach((key: any) => {
                 group[key] = plugin.options[key].required
                     ? [plugin.options[key].default || '', Validators.required]
                     : [plugin.options[key].default || ''];
-                this.fields.push({ key: key, value: plugin.config[key] || plugin.options[key].default })
+                this.fields.push({
+                    key: key,
+                    value: /*plugin.config[key]*/plugin.options[key].value || plugin.options[key].default,
+                    label: plugin.options[key].label,
+                    helpString: plugin.options[key].help,
+                    type: plugin.options[key].type ? plugin.options[key].type : 'string',
+                    options: plugin.options[key].options ? plugin.options[key].options : [],
+                });
             });
 
-            this.form = this._builder.group(group);
-            this.form.valueChanges.subscribe(value => {
-                plugin.config = value;
-            })
+            this.form = plugin.form = this._builder.group(group);
+            this.form.valueChanges
+                .subscribe(value => {
+                    plugin.config = value;
+                });
         }
         this._plugin = plugin;
     }

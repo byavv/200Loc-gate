@@ -46,7 +46,7 @@ var auth = module.exports = (app, componentOptions) => {
                     pathPrefixRegexp = new RegExp('(' + config.entry + ')' + '(?:\\W|$)');
                 }
 
-                let routePlugins = app.plugins.filter(plugin => (config.plugins || []).includes(plugin.pluginName))
+                let routePlugins = app.plugins.filter(plugin => (config.plugins || []).includes(plugin.name))
                 ///^(discussion|page)\/(.+)/
                 debug(`Handle route: ${pathPrefixRegexp} \u2192`);
 

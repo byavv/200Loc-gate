@@ -53,8 +53,7 @@ export class StepGeneral implements OnInit {
         this.form
             .valueChanges
             .distinctUntilChanged()
-            .subscribe(value => {
-                console.log("CHANGED ON", value)
+            .subscribe(value => {                
                 this.master.setValidity('general', this.form.valid);
             });
 
@@ -73,30 +72,6 @@ export class StepGeneral implements OnInit {
             console.log('INIT AT FIRST')
             this.apiConfig = config;
         });
-
-
-
-        /*  this.form
-              .find("name")
-              .valueChanges
-              .filter(value => value)
-              .do(() => { this.loading = true })
-              .subscribe((models: Array<any>) => {
-                  this.loading = false;
-              });*/
-
-        /*  this.appController
-              .init$
-              .do(() => { this.loading = true })
-              .subscribe((defaults) => {
-                  this.master.init$.subscribe((config) => {
-                      console.log(config)
-                      this.loading = false;
-                    //  this.config = config;
-                  })
-              });
-  
-         */
     }
 
     onSubmit(form: FormGroup) {

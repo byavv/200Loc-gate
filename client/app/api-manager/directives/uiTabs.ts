@@ -11,9 +11,10 @@ import {Component, Input, QueryList, Query, AfterContentInit, HostBinding,
     styles: [
         `       
         .pane-content{
-            flex: 1 0 100%;
+           /* flex: 1 0 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: column;*/
+            margin-bottom:15px;
         }
     `
     ]

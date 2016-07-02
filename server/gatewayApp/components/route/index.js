@@ -65,7 +65,7 @@ module.exports = function (app, componentOptions) {
                             })
                         }
                     });
-                    var pluginBuilder = app.plugins.find((plugin) => { return plugin.pluginName === key });
+                    var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === key });
                     if (!pluginBuilder) {
                         throw new Error("Plugin is not defined");
                     } else {

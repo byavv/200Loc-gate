@@ -8,9 +8,9 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { InertLink } from "./app/shared/directives";
 
 declare var ENV: string;
-if ('production' === ENV) {
+//if ('production' === ENV) {
     enableProdMode();
-}
+//}
 
 bootstrap(App, [
     APP_ROUTER_PROVIDERS,

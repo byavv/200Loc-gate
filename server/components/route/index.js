@@ -48,7 +48,7 @@ module.exports = (app, componentOptions) => {
         var proxyRules = {};
         (apiConfigs || []).forEach(config => {
             try {
-                const routePlugins = app.plugins.filter(plugin => (config.plugins || []).includes(plugin.pluginName));
+                const routePlugins = app.plugins.filter(plugin => (config.plugins || []).includes(plugin.name));
                 var pipeGlobal = { /* defaults for all plugins */ };
                 Object.keys(config.config).forEach((key)=>{
                     if(config.config[key].match(GLOBAL_CONFIG_REGEXP)){

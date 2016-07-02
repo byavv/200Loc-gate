@@ -1,21 +1,21 @@
 <div class="my-card flexy">
     <div class="row" style="flex:1 0 100%">
-        <div class="col-md-4 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
+        <div class="col-md-5 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
             <div class="plugins-container" style="position: relative;">
                 <div class="image-container" [hidden]="appliedPlugins.length == 0">
                     <img src="/static/assets/images/cloud.png" alt="" style="width: 50px;">
                 </div>
                 <ul class="plugin-item-container" [hidden]="appliedPlugins.length == 0">
-                    <li *ngFor="let plugin of appliedPlugins" [class.active]='plugin.active' (click)="selectPlugin(plugin)">
+                    <li *ngFor="let plugin of appliedPlugins" [ngClass]="{active: plugin.active, invalid: !plugin.valid}" (click)="selectPlugin(plugin)">
                         <div class="content">
-                            {{plugin.pluginName}}
+                            {{plugin.name}}
                         </div>
                         <div class="button-group">
                             <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
-                            <i class="fa fa-arrow-up"></i>               
+                            <i class="fa fa-arrow-down"></i>               
                             </span>
                             <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
-                                <i class="fa fa-arrow-down"></i>              
+                                <i class="fa fa-arrow-up"></i>              
                             </span>
                         </div>
                     </li>
@@ -51,9 +51,21 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 col-sm-12">
-            <div class="plugin-props">
-                <dynamic-fform [plugin]="activePlugin"></dynamic-fform>
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="plugin-props" *ngFor="let plugin of appliedPlugins" [hidden]="!plugin.active">
+                        <dynamic-form [plugin]="plugin"></dynamic-form>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="col-md-1 col-sm-12">
+                        <button type="button" (click)="onDelete()" class="btn btn-danger delete-button">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        Delete
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

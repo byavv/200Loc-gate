@@ -1,6 +1,32 @@
 {
+    "etcd_host": {
+        "default": "localhost",
+        "required": true,
+        "label": "Host",
+        "help": "Your etcd server host"
+    },
+    "etcd_port": {
+        "default": "4001",
+        "required": true,
+        "label": "Port",
+        "help": "Your etcd server port"
+    },
     "mapTo": {
         "default": "",
-        "required": true
-    }   
+        "required": true,
+        "label": "Target",
+        "help": "Your etcd server key to discover ip address"
+    },
+    "storage": {
+        "default": "etcd",
+        "required": true,
+        "label": "Storage",
+        "help": "Storage to find key",
+        "type": "array",
+        "options": [
+            "etcd",
+            "consul(n/a)",
+            "redis(n/a)"
+        ]
+    }
 }

@@ -38,6 +38,6 @@ var Plugin = function (params, pipeGlobal) {
     }
 }
 
-Plugin.pluginName = "authentication";
-Plugin.description = "bla-bla";
+Plugin._name = "authentication";
+Plugin._description = "bla-bla";
 module.exports = Plugin;

@@ -25,28 +25,28 @@ module.exports = function () {
                             reject(err);
                         } else {
                             resolve(plugins);
-                        }
-                    })
+                        };
+                    });
                 });
-            })
+            });
         },
-        loadPluginConfig: function (pluginName) {
+        loadPluginConfig: function (name) {
             var config = {};
             return new Promise((resolve, reject) => {
                 try {
-                    fs.exists(path.join(pluginsPath, pluginName, 'config.json'), (exists) => {
+                    fs.exists(path.join(pluginsPath, name, 'config.json'), (exists) => {
                         if (exists) {
-                            config = require(path.join(pluginsPath, pluginName, 'config.json'));
+                            config = require(path.join(pluginsPath, name, 'config.json'));
                             resolve(config)
                         } else {
                             reject(new Error("No config file defined"));
                         }
-                    })
+                    });
                 } catch (error) {
                     reject(error);
                 }
-            })
+            });
         }
-    }
+    };
 }
 

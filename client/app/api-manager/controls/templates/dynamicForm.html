@@ -1,6 +1,6 @@
 <form [formGroup]="form" class="form-horizontal" role="form">
     <div class="form-group">
-        <legend>{{plugin?.pluginName}}</legend>
+        <legend>{{plugin?.name | uppercase}}</legend>
     </div>
     <div *ngFor="let option of fields">
         <option-input [option]="option" [form]="form"></option-input>

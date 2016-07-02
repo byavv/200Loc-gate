@@ -22,7 +22,7 @@ var Plugin = function (params, pipeGlobal) {
         }
     }
 };
-Plugin.pluginName = 'proxy';
-Plugin.description = 'proxy';
+Plugin._name = 'proxy';
+Plugin._description = 'proxy';
 
 module.exports = Plugin;
