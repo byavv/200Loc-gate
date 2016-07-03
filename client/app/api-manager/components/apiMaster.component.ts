@@ -19,13 +19,13 @@ import {Observable} from "rxjs";
             <loader [async]='master.validate$' [active]='loading' [delay]='100' (completed)='loading=false'></loader>      
            -->
             <ui-tabs #tab rest-height>
-                <ui-pane id='general' title='Genetral info' [active]='true' [valid]="(master.isValid('general') | async)">
+                <ui-pane id='general' title='config' [active]='true' [valid]="(master.isValid('general') | async)">
                     <step-general step (next)="tab.goTo($event)"></step-general>
                 </ui-pane>
-                <ui-pane id='plugins' title='Api flow' [valid]="(master.isValid('plugins') | async)">
+                <ui-pane id='plugins' title='pipe' [valid]="(master.isValid('plugins') | async)">
                     <step-plugins step (next)="tab.goTo($event)"></step-plugins>
                 </ui-pane>
-                <ui-pane id='preview' title='Preview' [valid]='true'>
+                <ui-pane id='preview' title='test' [valid]='true'>
                     <step-preview step (next)="onDone()"></step-preview>
                 </ui-pane>     
             </ui-tabs>

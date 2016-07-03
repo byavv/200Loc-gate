@@ -1,68 +1,77 @@
 .my-steps {
-  padding: 0.2em 0.9em;
-  display: flex;
+  padding: 0;
+  float: right;
+  width: auto;
+  @media (max-width: 47.9em) {
+    float: none;
+  }
   li {
     list-style: none;
-    flex: 0 1 auto;
-    margin: 0.5em 0;
-    &::after {
+    background: #fff;
+    box-shadow: 0 0 0 1px #F8F8F8 inset, 0 0 0 1px #CCCCCC;
+    color: #444;
+    height: 80px;
+    margin: 0;
+    margin-bottom: 7px;
+    padding-top: 17px;
+    text-align: center;
+    @media (max-width: 47.9em) {
       display: inline-block;
-      content: '\00bb';
-      margin: 0 .8em;
-      color: #959fa5;
+      margin: 0;
+      margin-right: 7px;
     }
+    text-decoration: none;
+    width: 80px;
+    position: relative;
     &:last-of-type::after {
       display: none;
     }
-    &:li.current > * {
-      /* selected step */
-      color: #96c03d;
+    &.current::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      content: "";
+      background-color: #d26911;
     }
     &:invalid > * {
-      /* invalid step */
       color: #BF3D27!important;
     }
   }
-  li > * {
-    display: inline-block;
-    font-size: 1rem;
-    color: inherit;
+  > li > span {
+    display: block;
   }
-  &.custom-icons li > *::before {
-    display: inline-block;
-    height: 20px;
-    width: 20px;
-    margin-right: .4em;
-    margin-top: -2px;
-    vertical-align: text-bottom;
-    font-family: FontAwesome;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: inherit;
+  > li > i {
+    font-size: 1.5rem;
+    &::before {
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+    }
   }
- 
-  &.custom-icons li.general > *::before {
+  > li.general > i::before {
     content: '\f044'
   }
-  &.custom-icons li.plugins > *::before {
+  > li.plugins > i::before {
     content: '\f160'
   }
-  &.custom-icons li.preview > *::before {
+  > li.preview > i::before {
     content: '\f06e'
   }
-  &.custom-icons li:not(.visited) {
+  > li:not(.visited) {
     color: #959fa5
   }
-  &.custom-icons li.visited {
+  > li.visited {
     color: black;
   }
-  &.custom-icons li.invalid {
+  > li.invalid {
     color: #BF3D27;
   }
-  &.custom-icons li:not(.invalid).visited {
-    color: #96c03d
+  > li:not(.invalid).visited {
+    color: #4b780a
   }
- 
   span {
     text-decoration: none;
     color: inherit;
@@ -75,7 +84,6 @@
   flex-direction: column;
   & > * {
     flex: 1;
-    flex-direction: column;
   }
   .flex-header {
     flex: 0 1 100%;

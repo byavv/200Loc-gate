@@ -1,5 +1,5 @@
-<div class="my-card flexy">
-    <div class="row" style="flex:1 0 100%">
+<div class="my-card">
+    <div class="row">
         <div class="col-md-5 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
             <div class="plugins-container" style="position: relative;">
                 <div class="image-container" [hidden]="appliedPlugins.length == 0">
@@ -23,7 +23,8 @@
                 <div class="b-add-pipe-item" [class.addFirst]="appliedPlugins.length == 0">
                     <a href='' (click)="lgModal.show()" title="Add">
                         <i class="fa fa-share-alt" aria-hidden="true"></i>
-                        <span>+</span></a>
+                        <span>+</span>
+                    </a>
                 </div>
                 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-sm">
@@ -51,22 +52,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="plugin-props" *ngFor="let plugin of appliedPlugins" [hidden]="!plugin.active">
-                        <dynamic-form [plugin]="plugin"></dynamic-form>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="col-md-1 col-sm-12">
-                        <button type="button" (click)="onDelete()" class="btn btn-danger delete-button">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                        Delete
+        <div class="col-md-7 col-sm-12">
+
+            <div class="plugin-props" *ngFor="let plugin of appliedPlugins" [hidden]="!plugin.active">
+                <dynamic-form [plugin]="plugin"></dynamic-form>
+                <button type="button" (click)="onDelete()" class="btn btn-danger delete-button">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>                            
+                            <span>Delete</span>
                         </button>
-                    </div>
-                </div>
             </div>
+
         </div>
     </div>
 </div>

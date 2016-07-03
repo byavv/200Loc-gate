@@ -11,6 +11,12 @@ html {
     overflow-y: scroll;
 }
 
+@media screen and (min-width: 1400px) {
+    html {
+        font-size: 1.25em;
+    }
+}
+
 h1 {
     font-size: 2.074em;
 }
@@ -47,43 +53,6 @@ a[href], input[type='submit'], input[type='image'], label[for], select, button, 
     cursor: pointer;
 }
 
-p {
-    position: relative;
-    z-index: 1;
-    padding: 10px;
-    margin: 10px;
-    font-size: 21px;
-    line-height: 1.3em;
-    color: #fff;
-    background: #ff0030;
-    -webkit-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10, 10, 0, .5);
-    -moz-box-shadow: 0 0 0 4px #ff0030, 2px 1px 4px 4px rgba(10, 10, 0, .5);
-    box-shadow: 0 0 0 4px #ff0030, 2px 1px 6px 4px rgba(10, 10, 0, .5);
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-}
-
-p:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 3px;
-    bottom: 3px;
-    left: 3px;
-    right: 3px;
-    border: 2px dashed #fff;
-}
-
-p a {
-    color: #fff;
-    text-decoration: none;
-}
-
-p a:hover, p a:focus, p a:active {
-    text-decoration: underline;
-}
-
 small {
     font-size: 0.833em;
 }
@@ -98,9 +67,8 @@ small {
     margin-bottom: -65px;
 }
 
-.flexy{
+.flexy {
     display: flex;
-    
 }
 
 .page-wrap:after {
@@ -119,7 +87,7 @@ small {
 }
 
 .content-area {
-    max-width: 75em;
+    max-width: 60em;
     margin: 0 auto;
     padding-top: 15px;
 }
@@ -216,4 +184,21 @@ button.next-button {
     padding: 5px 15px;
     background-color: green;
     height: 60px;
+}
+
+.padding-shrink-right {
+    padding-right: 4px;
+}
+
+.padding-shrink-left {
+    padding-left: 4px;
+}
+
+@media (max-width: 47.9em) {
+    .padding-shrink-right {
+        padding-right: 15px;
+    }
+    .padding-shrink-left {
+        padding-left: 15px;
+    }
 }

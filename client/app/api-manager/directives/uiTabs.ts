@@ -41,21 +41,40 @@ export class UiPane {
 @Component({
     selector: 'ui-tabs',
     template: `
-     <div class="row">
-         <div class="col-md-12 col-sm-12 col-lg-12" class='flex-header'>
-              <ol class="my-card my-steps custom-icons">
+    <!-- <div class="row">
+         <div class="col-sm-12 col-md-12 col-lg-12" class='flex-header'>
+         
+              <ul class="my-card my-steps custom-icons">
                   <li *ngFor="let pane of panes" class='{{pane.id}}' 
                       (click)="goTo(pane.id)"
                       role="presentation" 
                       [ngClass] = '{invalid: !pane.valid && pane.visited, current: pane.active, visited: pane.visited}'>
                       <span>{{pane.title}}</span>
                   </li>
-             </ol>
+             </ul>
          </div>
-         <div class="col-md-12 col-sm-12 col-lg-12" class='flex-content'> 
+         <div class="col-sm-12 col-md-12 col-lg-12" class='flex-content'> 
              <ng-content></ng-content>
          </div>
+     </div> -->
+
+       <div class="row">
+          <div class="col-sm-12 col-md-2 padding-shrink-right">           
+             <ul class="my-steps">
+                 <li *ngFor="let pane of panes" class='{{ pane.id }}' 
+                     (click)="goTo(pane.id)"
+                     role="presentation" 
+                     [ngClass] = "{ invalid: !pane.valid && pane.visited, current: pane.active, visited: pane.visited }">
+                     <i class='fa'></i>
+                     <span>{{ pane.title }}</span> 
+                 </li>
+             </ul>            
+          </div>
+          <div class="col-sm-12 col-md-10 padding-shrink-left"> 
+             <ng-content></ng-content>
+          </div>
      </div>
+
     `,
     styles: [
         require('./styles/tabs.scss'),

@@ -11,28 +11,9 @@ import { SHARED_COMPONENTS } from './shared/components';
        <loader [active]='loading' [async]='appController.init$'></loader>      
        <app-header></app-header>
        <div [hidden]='loading' class='container-fluid'>
-            <div class='content-area'>
-                <div class='row'>
-                     <div id="sidebar-wrapper" class="col-md-2">           
-                         <ul class="nav list-group">
-                             <li>
-                                 <a class="list-group-item" [routerLink]="['/']"><i class="icon-home icon-1x"></i>Api management</a>
-                             </li>
-                             <li>
-                                 <a class="list-group-item" [routerLink]="['/master']"><i class="icon-home icon-1x"></i>Sidebar Item 2</a>
-                             </li>
-                             <li>
-                                 <a class="list-group-item" [routerLink]="['/plugins']"><i class="icon-home icon-1x"></i>Sidebar Item 3</a>
-                             </li>
-                         </ul>          
-                     </div>     
-                     <div id="main-wrapper" class="col-md-10">
-                         <div id="main">                            
-                             <router-outlet>
-                             </router-outlet>
-                         </div>           
-                     </div>      
-                </div>  
+            <div class='content-area'> 
+                <router-outlet>
+                </router-outlet>
             </div>
         </div>        
    </div> 

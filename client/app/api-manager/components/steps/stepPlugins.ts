@@ -42,26 +42,16 @@ export class StepPlugins implements OnInit {
     ngOnInit() {
         this.appController.init$.subscribe(defaults => {
             this.plugins = defaults.plugins;
-
             this.master.init$.subscribe((config) => {
                 this.loading = false;
                 console.log('INIT AT SECOND', config);
                 (config.plugins || []).forEach((plugin) => {
                     let name = Object.keys(plugin)[0];
                     let pluginToAdd = this.plugins.find((plugin: any) => plugin.name === name);
-
-                    // this.addNewPlugin(new Plugin(
-                    //     pluginToAdd.name, 
-                    //     pluginToAdd.description, 
-                    //     0, 
-                    //     plugin[name]));
                     var fpluginToAdd = new Plugin(pluginToAdd.name,
                         pluginToAdd.description,
                         0,
                         plugin[name]);
-                    // console.log(tt)
-                    //  this.addNewPlugin(fpluginToAdd, "");
-
                     this.mapPlugin(fpluginToAdd);
                 })
             });
@@ -84,17 +74,12 @@ export class StepPlugins implements OnInit {
     mapPlugin(pl) {
         var plugin;
         var lastOrder = 0;
-
         this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
-            console.log(`CURRENT CONFIGURATION FOR ! ${pl.name.toUpperCase()} !`, pl.options)
-            console.log(`BASIC CONFIG FOR ! ${pl.name.toUpperCase()} !`, config);
-
             Object.keys(pl.options).forEach(key => {
-                config[key].value = pl.options[key];
-            })
-
-            console.log(`AFTER TR FOR ! ${pl.name.toUpperCase()} !`, config);
-
+                if (pl.options[key]) {
+                    config[key].value = pl.options[key];
+                }
+            });
             if (this.appliedPlugins.length > 0) {
                 lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
                     return prev.order < current.order ? current : prev;
@@ -102,7 +87,6 @@ export class StepPlugins implements OnInit {
             }
             plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
             this.selectPlugin(plugin);
-            console.log("ADD", plugin)
             this.appliedPlugins.push(plugin);
         }, (err) => {
             console.error(err);
@@ -113,7 +97,6 @@ export class StepPlugins implements OnInit {
         var plugin;
         var lastOrder = 0;
         this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
-            console.log("BASIC CONFIG", config)
             if (this.appliedPlugins.length > 0) {
                 lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
                     return prev.order < current.order ? current : prev;
@@ -121,7 +104,6 @@ export class StepPlugins implements OnInit {
             }
             plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
             this.selectPlugin(plugin);
-            console.log("ADD", plugin)
             this.appliedPlugins.push(plugin);
         }, (err) => {
             console.error(err);
@@ -203,17 +185,13 @@ export class StepPlugins implements OnInit {
                 return plugin;
             })
             this.master.config.plugins = plugins;
-            console.log(this.master.config);
             this.next.next('preview');
         }
     }
     onDelete() {
         var index = this.appliedPlugins.indexOf(this.activePlugin);
-        // var currentIndex = this.selectedPlugin.order;
         this.appliedPlugins.splice(index, 1);
         if (this.appliedPlugins[0])
-            this.setActive(this.appliedPlugins[0])
-        //  this.selectedPlugin = this.appliedPlugins
+            this.setActive(this.appliedPlugins[0]);
     }
-
 }

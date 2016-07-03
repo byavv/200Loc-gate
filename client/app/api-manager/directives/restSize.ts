@@ -16,9 +16,7 @@ export class RestSize implements OnInit {
 
     ngOnInit() {
         this.renderer.listenGlobal('window', 'resize', (evt: any) => {
-
-            this._setMinHeight()
-
+            this._setMinHeight();
         });
         this._setMinHeight();
     }
@@ -27,7 +25,7 @@ export class RestSize implements OnInit {
         var scrollTop = this._doc.documentElement.scrollTop || this._doc.body.scrollTop;
         var docHeight = this._doc.documentElement.clientHeight;
         var rect = this._domAdapter.getBoundingClientRect(this.element.nativeElement);
-        this._domAdapter.setStyle(this.element.nativeElement, 'min-height', `${docHeight - rect.top - 65 - 30}px`);
+        this._domAdapter.setStyle(this.element.nativeElement, 'min-height', `${docHeight - rect.top - 50 - 15 - 30 - 15}px`);
     }
 
     _reset() {
