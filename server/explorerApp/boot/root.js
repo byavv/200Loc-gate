@@ -36,7 +36,7 @@ module.exports = function (app) {
         console.log("PLUGINS", req.body.plugins)
         ApiConfig.findOrCreate({ where: { id: req.params.id } }, req.body, (err, config) => {
             if (err) return res.sendStatus(500);
-            console.log(config.plugins)
+          //  console.log(config.plugins)
             config.updateAttributes(req.body, (err, cf) => {
                 if (err) return res.sendStatus(500);
                 return res.status(200).send(cf);

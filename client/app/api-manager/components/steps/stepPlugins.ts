@@ -84,6 +84,17 @@ export class StepPlugins implements OnInit {
             : this.master.setValidity('plugins', false);
     }
 
+    applyPlugins() {
+
+        var plugins = this.appliedPlugins.map((ap) => {
+            var plugin = {};
+            plugin[ap.name] = ap.config;
+            return plugin;
+        });
+        console.log("APPLY PLUGINS", plugins)
+        this.master.config.plugins = plugins;
+    }
+
     addNewPlugin(pl) {
         var plugin: Plugin;
         var lastOrder = 0;
@@ -101,8 +112,9 @@ export class StepPlugins implements OnInit {
             }
             plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
             this.selectPipeItem(plugin);
-            this.appliedPlugins.push(plugin);
+            this.appliedPlugins.push(plugin);            
             this.applyValidation();
+            this.applyPlugins();
 
         }, (err) => {
             console.error(err);
@@ -182,16 +194,12 @@ export class StepPlugins implements OnInit {
         return plugin.valid;
     }
 
+
     onSubmit() {
         this.submitted = true;
         this.master.setValidity('plugins', this.appliedPlugins.length > 0);
         if (this._validateAll) {
-            var plugins = this.appliedPlugins.map((ap) => {
-                var plugin = {};
-                plugin[ap.name] = ap.config;
-                return plugin;
-            })
-            this.master.config.plugins = plugins;
+            this.applyPlugins();
             this.next.next('preview');
         }
     }

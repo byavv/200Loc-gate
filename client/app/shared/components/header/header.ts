@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {Identity, AuthApi, Storage} from '../../services';
+import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
+import { Identity, AuthApi, Storage } from '../../services';
+import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
     selector: 'app-header',
     template: require('./header.html'),
-    directives: [ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES],
+    styles: [require('./header.scss')]
 })
 export class HeaderComponent implements OnInit {
     isAuthenticated: boolean = false;
@@ -14,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
     constructor(private identity: Identity, private auth: AuthApi, private router: Router, private storage: Storage) { }
 
-    ngOnInit() {
+    ngOnInit() {   
         this.username = this.identity.user.name || "Guest";
         this.isAuthenticated = this.identity.user.isAuthenticated();
         this.identity.identity$

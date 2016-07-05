@@ -1,11 +1,12 @@
 {
   "ids": {
-    "ApiConfig": 5
+    "ApiConfig": 6
   },
   "models": {
     "ApiConfig": {
-      "3": "{\"name\":\"cars\",\"public\":true,\"entry\":\"/cars\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"authentication\":{\"grant\":\"*\"}},{\"discovery\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"${target}\",\"storage\":\"etcd\"}}],\"config\":{},\"id\":3}",
-      "4": "{\"name\":\"profile api\",\"public\":true,\"entry\":\"/profile\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"authentication\":{\"grant\":\"*\"}},{\"discovery\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"profile\",\"storage\":\"etcd\"}},{\"proxy\":{\"target\":\"${target}\",\"withPath\":\"/\"}}],\"config\":{},\"id\":4}"
+      "3": "{\"name\":\"cars\",\"public\":true,\"entry\":\"/cars\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"authentication\":{\"grant\":\"*\"}},{\"discovery\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"${target}\",\"storage\":\"etcd\"}},{\"proxy\":{\"target\":\"localhost\",\"withPath\":\"/\"}}],\"config\":{},\"id\":3}",
+      "4": "{\"name\":\"profile api\",\"public\":true,\"entry\":\"/profile\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"authentication\":{\"grant\":\"*\"}},{\"discovery\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"profile\",\"storage\":\"etcd\"}},{\"proxy\":{}}],\"config\":{},\"id\":4}",
+      "5": "{\"name\":\"tracker\",\"public\":true,\"description\":\"sdsf\",\"entry\":\"/tracker\",\"methods\":[\"GET\",\"POST\",\"PUT\",\"DELETE\"],\"plugins\":[{\"authentication\":{\"grant\":\"*\"}},{\"discovery\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"ddd\",\"storage\":\"etcd\"}},{\"proxy\":{\"target\":\"localhost\",\"withPath\":\"/\"}}],\"config\":{},\"id\":5}"
     }
   }
 }

@@ -1,7 +1,12 @@
 <div class="col-md-12">
     <section class="widget">
-        <div class="primary">
+        <div class="widget-header">
             <span class="title">Api table</span>
+            <div class="pull-xs-right" style="position: relative;">
+                <a [routerLink]="['/master']" class="nav-link" role="button" aria-expanded="false">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>               
+            </div>
         </div>
         <!--<header>
             <h4>Api <span class="fw-semi-bold">table</span></h4>
@@ -10,16 +15,14 @@
         <div class="widget-body">
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th class="hidden-xs">#</th>
+                    <tr>                        
                         <th>Name</th>
                         <th>Entry</th>
                         <th>Methods</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor='let config of configs; let i = index' @flyInOut>
-                        <td scope="row" class="width-150">{{i + 1}}</td>
+                    <tr *ngFor='let config of configs'>                        
                         <td><a [routerLink]="['/master']" [queryParams]='{ id: config.id }'>{{ config.name }}</a></td>
                         <td>{{ config.entry }}</td>
                         <td class="width-150">
