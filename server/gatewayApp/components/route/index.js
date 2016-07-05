@@ -51,9 +51,10 @@ module.exports = function (app, componentOptions) {
                 var apiConfigPlugins = apiConfig.plugins || [];
                 var pluginsArray = [];
 
-                Object.keys(apiConfigPlugins).forEach((key) => {
+                 apiConfigPlugins.forEach((plugin) => {
                     // here we have plugin config
-                    var pluginConfig = apiConfigPlugins[key];
+                    var pluginName = Object.keys(plugin)[0];
+                    var pluginConfig = plugin[pluginName];
                     // find all dynamic parameters and provide getting values from global object
                     Object.keys(pluginConfig).forEach((paramKey) => {
                         var match = pluginConfig[paramKey].match(DYNAMIC_CONFIG_PARAM);
@@ -65,7 +66,7 @@ module.exports = function (app, componentOptions) {
                             })
                         }
                     });
-                    var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === key });
+                    var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === pluginName });
                     if (!pluginBuilder) {
                         throw new Error("Plugin is not defined");
                     } else {
@@ -73,6 +74,31 @@ module.exports = function (app, componentOptions) {
                         pluginsArray.push(handler);
                     }
                 })
+
+
+
+                // Object.keys(apiConfigPlugins).forEach((key) => {
+                //     // here we have plugin config
+                //     var pluginConfig = apiConfigPlugins[key];
+                //     // find all dynamic parameters and provide getting values from global object
+                //     Object.keys(pluginConfig).forEach((paramKey) => {
+                //         var match = pluginConfig[paramKey].match(DYNAMIC_CONFIG_PARAM);
+                //         if (match) {
+                //             Object.defineProperty(pluginConfig, paramKey, {
+                //                 get: function () {
+                //                     return pipeGlobal[match[1]]; /*apply function*/
+                //                 },
+                //             })
+                //         }
+                //     });
+                //     var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === key });
+                //     if (!pluginBuilder) {
+                //         throw new Error("Plugin is not defined");
+                //     } else {
+                //         let handler = pluginBuilder(pluginConfig || {}, pipeGlobal);
+                //         pluginsArray.push(handler);
+                //     }
+                // })
 
                 proxyRules[apiConfig.entry] = {
                     plugins: pluginsArray,

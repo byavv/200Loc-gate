@@ -1,5 +1,5 @@
 module.exports = (app, done) => {
-    var ApiConfig = app.models.ApiConfig;
+   /* var ApiConfig = app.models.ApiConfig;
     ApiConfig.find((err, configs) => {
         if (err) return done(err)
         if (configs.length == 0) {
@@ -162,5 +162,14 @@ module.exports = (app, done) => {
             done()
         }
     })
+*/
 
+
+
+
+
+
+
+
+ done()
 };

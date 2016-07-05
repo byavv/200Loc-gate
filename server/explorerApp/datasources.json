@@ -6,11 +6,16 @@
     "name": "db",
     "connector": "mongodb"
   },
-  "db1": {
+  "db2": {
     "host": "${mongo_host}",
     "port": 27017,
     "database": "blach",
     "name": "db1",
     "connector": "mongodb"
+  },
+   "db1": {
+    "name": "db1",
+    "connector": "memory",
+    "file": "gateway.json"
   }
 }

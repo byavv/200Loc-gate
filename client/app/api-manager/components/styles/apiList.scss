@@ -33,13 +33,20 @@ ul.plugins {
     > header+.widget-body {
         margin-top: 15px;
     }
+    .widget-body {
+        padding: 0 5px;
+    }
 }
 
 .api-item-controls {
     text-align: right;
-   > button{
-       padding: 0.15rem 0.6rem;
-   }
+    > button {
+        padding: 0.15rem 0.6rem;
+    }
+}
+
+.table {
+    margin-bottom: 0;
 }
 
 .table>thead>tr>th {
@@ -51,5 +58,5 @@ ul.plugins {
 .table>tbody>tr>td {
     padding: 8px;
     line-height: 1.428571429;
-    vertical-align: top;   
+    vertical-align: top;
 }
