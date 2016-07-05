@@ -6,7 +6,7 @@ import { ShowError } from '../directives';
   selector: 'option-input',
   template: require('./templates/optionInput.html'),
   directives: [REACTIVE_FORM_DIRECTIVES, ShowError],
-  pipes: [FirstUpPipe]  
+  pipes: [FirstUpPipe]
 })
 export class DynamicFormOption {
   @Input() option: any;
@@ -14,8 +14,5 @@ export class DynamicFormOption {
 
   get isValid() {
     return this.form.controls[this.option.key].valid;
-  }
-  print(f){
-    console.log(f)
   }
 }

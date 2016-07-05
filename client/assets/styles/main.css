@@ -1,4 +1,5 @@
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 * {
     margin: 0;
 }
@@ -7,7 +8,7 @@ html {
     color: #333;
     font-size: 1em;
     line-height: 1.42857143;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif";
     overflow-y: scroll;
 }
 
@@ -81,7 +82,7 @@ small {
 }
 
 @media screen and (min-width: 1400px) {
-    html {
+    body, html {
         font-size: 1.25em;
     }
 }
@@ -93,8 +94,10 @@ small {
 }
 
 body, html {
-    font-size: 1rem;
+    font-family: "Open Sans", sans-serif;
+    font-size: 1em;   
     height: 100%;
+    color: #555;
     background-color: #eceff1;
 }
 

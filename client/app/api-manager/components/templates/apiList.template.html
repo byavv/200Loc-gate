@@ -1,9 +1,52 @@
-<div class='row'>
+<!--<div class='row'>
     <div class="col-md-6 col-md-offset-3">
         <ul class='plugins'>
             <li *ngFor='let config of configs'>
-                <p><a [routerLink]="['/details', config.id]">{{config.name}}</a></p>                
+                <p><a [routerLink]="['/master']" [queryParams]='{ id:config.id }'>{{ config.name }}</a></p>
             </li>
         </ul>
     </div>
+</div>-->
+<div class="col-md-12">
+    <section class="widget">
+        <div class="primary">
+            <span class="title">Api table</span>
+        </div>
+        <!--<header>
+            <h4>Api <span class="fw-semi-bold">table</span></h4>
+            <div class="widget-controls"><a href="#"><i class="glyphicon glyphicon-cog"></i></a> <a data-widgster="close" href="#"><i class="glyphicon glyphicon-remove"></i></a></div>
+        </header>-->
+        <div class="widget-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="hidden-xs">#</th>
+                        <th>Name</th>
+                        <th>Entry</th>
+                        <th>Methods</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let config of configs; let i = index' @flyInOut>
+                        <td scope="row" class="width-150">{{i + 1}}</td>
+                        <td><a [routerLink]="['/master']" [queryParams]='{ id: config.id }'>{{ config.name }}</a></td>
+                        <td>{{ config.entry }}</td>
+                        <td class="width-150">
+                            <div *ngFor='let method of config?.methods'>
+                                <span class="label label-default">{{ method }}</span>                             
+                            </div>
+                        </td>
+                        <td class="width-150" style="position: relative;">
+                            <div class="api-item-controls">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="deleteApi(config)">
+                                        <i class="fa fa-times"></i> Delete
+                                    </button>                           
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>     
+    </section>
 </div>

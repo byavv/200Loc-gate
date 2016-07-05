@@ -5,7 +5,6 @@ import {MasterController} from "../services/masterController";
 import {BackEnd} from "../../shared/services";
 import {Config} from "../../shared/models"
 import {UiTabs, UiPane, RestSize} from '../directives';
-//import {LoaderComponent} from "../../../shared/components/loader/loader";
 import {isString} from "@angular/compiler/src/facade/lang";
 import {Observable} from "rxjs";
 
@@ -13,20 +12,16 @@ import {Observable} from "rxjs";
   selector: "api-master",
   template: `
     <div class="row">
-        <div class="col-md-12 col-sm-12" style="position: relative;">           
-           <!--
-            <loader [async]='master.init$' [active]='loading' [delay]='100' (completed)='loading=false'></loader>      
-            <loader [async]='master.validate$' [active]='loading' [delay]='100' (completed)='loading=false'></loader>      
-           -->
-            <ui-tabs #tab rest-height>
-                <ui-pane id='general' title='config' [active]='true' [valid]="(master.isValid('general') | async)">
-                    <step-general step (next)="tab.goTo($event)"></step-general>
+        <div class="col-md-12 col-sm-12" style="position: relative;"> 
+            <ui-tabs #tab rest-height default='general'>
+                <ui-pane id='general' title='config' [valid]="(master.isValid('general') | async)">
+                    <step-general (next)="tab.goTo($event)"></step-general>
                 </ui-pane>
                 <ui-pane id='plugins' title='pipe' [valid]="(master.isValid('plugins') | async)">
-                    <step-plugins step (next)="tab.goTo($event)"></step-plugins>
+                    <step-plugins (next)="tab.goTo($event)"></step-plugins>
                 </ui-pane>
                 <ui-pane id='preview' title='test' [valid]='true'>
-                    <step-preview step (next)="onDone()"></step-preview>
+                    <step-preview (next)="onDone()"></step-preview>
                 </ui-pane>     
             </ui-tabs>
         </div>
@@ -36,38 +31,11 @@ import {Observable} from "rxjs";
     ROUTER_DIRECTIVES,
     ...MASTER_STEPS_COMPONENTS,
     UiTabs,
-    UiPane,
-    RestSize
-    // LoaderComponent
+    UiPane
   ],
-  styles: [/*require('./steps/styles/master.css'),*/
-    `
-   
-    `],
   viewProviders: [MasterController]
 })
-/*
- :host >>> .loader-container {
-        position: absolute;      
-        left: 15px;
-        right: 15px;
-        top: 0;
-        width: auto;
-        height:auto;
-        bottom: 15px;      
-        background: rgba(255, 255, 255, .5);
-        z-index: 999;
-    }
-    :host >>> .my-card {
-        flex:1;
-    }
-    
-    [step] {
-      flex: 1 0 100%;
-	    display:flex;
-      flex-direction: column;
-	  }
- */
+
 export class ApiMasterComponent {
   @ViewChild(UiTabs) tab: UiTabs;
   id: string;
@@ -100,14 +68,10 @@ export class ApiMasterComponent {
       .flatMap(() => this.userBackEnd.createOrUpdate(this.master.config, this.id))
       .subscribe((result) => {
         console.log(result);
-        this.router.navigate(['../']);
+        this.router.navigate(['/']);
       }, (err) => {
         if (isString(err))
           this.tab.goTo(err);
       });
-    /*   this.userBackEnd.createOrUpdate(this.master.config, this.id).subscribe((result) => {
-         console.log(result);
-         this.router.navigate(['../']);
-       })*/
   }
 }

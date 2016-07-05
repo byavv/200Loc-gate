@@ -15,7 +15,14 @@ import {Observable} from 'rxjs';
     selector: 'step-preview',
     template: require("./templates/stepPreview.html"),
     directives: [REACTIVE_FORM_DIRECTIVES, ShowError],
-    styles: [/*require('./styles/stepInfo.css')*/]
+    styles: [require('./styles/stepPreview.scss'),
+     `
+     :host {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+    }
+    `]
 })
 export class StepPreview implements OnInit {
     @Output()

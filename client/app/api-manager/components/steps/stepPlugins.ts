@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, ViewChildren, QueryList, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
-import { } from '@angular/common'
 import { ShowError, Draggable } from '../../directives';
 import { DynamicForm } from '../../controls';
 import { FormGroup, REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators } from '@angular/forms';
@@ -11,14 +10,21 @@ import { BackEnd, AppController } from '../../../shared/services';
 import { MasterController } from '../../services/masterController';
 import { Observable } from 'rxjs';
 import { MODAL_DIRECTVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
-import { Subject } from 'rxjs'
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'step-plugins',
     template: require("./templates/stepPlugins.html"),
     directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    styles: [require('./styles/stepPlugins.scss')]
+    styles: [require('./styles/stepPlugins.scss'),
+        `
+     :host {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+    }
+    `]
 })
 export class StepPlugins implements OnInit {
     @Output()
@@ -40,11 +46,11 @@ export class StepPlugins implements OnInit {
     }
 
     ngOnInit() {
+        this.applyValidation();
         this.appController.init$.subscribe(defaults => {
             this.plugins = defaults.plugins;
             this.master.init$.subscribe((config) => {
                 this.loading = false;
-                console.log('INIT AT SECOND', config);
                 (config.plugins || []).forEach((plugin) => {
                     let name = Object.keys(plugin)[0];
                     let pluginToAdd = this.plugins.find((plugin: any) => plugin.name === name);
@@ -52,65 +58,58 @@ export class StepPlugins implements OnInit {
                         pluginToAdd.description,
                         0,
                         plugin[name]);
-                    this.mapPlugin(fpluginToAdd);
+                    this.addNewPlugin(fpluginToAdd);
                 })
             });
         });
     }
 
     get _validateAll(): boolean {
-        var validationOb = {};
         let valid = true;
-        this.appliedPlugins.forEach((plugin) => {
-            validationOb[plugin.name] = plugin.valid;
-            if (!plugin.valid) {
-                valid = false;
-            }
-        });
-        console.log(validationOb);
-        return valid;
-    }
-
-    mapPlugin(pl) {
-        var plugin;
-        var lastOrder = 0;
-        this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
-            Object.keys(pl.options).forEach(key => {
-                if (pl.options[key]) {
-                    config[key].value = pl.options[key];
+        if (this.appliedPlugins && this.appliedPlugins.length > 0) {
+            this.appliedPlugins.forEach((plugin) => {
+                if (!plugin.valid) {
+                    valid = false;
                 }
             });
-            if (this.appliedPlugins.length > 0) {
-                lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
-                    return prev.order < current.order ? current : prev;
-                }).order;
-            }
-            plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
-            this.selectPlugin(plugin);
-            this.appliedPlugins.push(plugin);
-        }, (err) => {
-            console.error(err);
-        });
+            return valid;
+        } else {
+            return false;
+        }
     }
 
-    addNewPlugin(pl, conf?) {
-        var plugin;
+    applyValidation() {
+        this._validateAll
+            ? this.master.setValidity('plugins', true)
+            : this.master.setValidity('plugins', false);
+    }
+
+    addNewPlugin(pl) {
+        var plugin: Plugin;
         var lastOrder = 0;
         this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
+            if (pl.options)
+                Object.keys(pl.options).forEach(key => {
+                    if (pl.options[key]) {
+                        config[key].value = pl.options[key];
+                    }
+                });
             if (this.appliedPlugins.length > 0) {
                 lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
                     return prev.order < current.order ? current : prev;
                 }).order;
             }
             plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
-            this.selectPlugin(plugin);
+            this.selectPipeItem(plugin);
             this.appliedPlugins.push(plugin);
+            this.applyValidation();
+
         }, (err) => {
             console.error(err);
         });
     }
 
-    selectPlugin(plugin: Plugin) {
+    selectPipeItem(plugin: Plugin) {
         this.appliedPlugins.map((p) => {
             p.active = false;
         })
@@ -119,7 +118,7 @@ export class StepPlugins implements OnInit {
     }
 
     pluginUp(plugin: Plugin) {
-        this.selectPlugin(plugin);
+        this.selectPipeItem(plugin);
         if (!this.isLast(plugin)) {
             var next = this.appliedPlugins[this.appliedPlugins.indexOf(plugin) + 1];
             plugin.order++;
@@ -129,13 +128,21 @@ export class StepPlugins implements OnInit {
     }
 
     pluginDown(plugin: Plugin) {
-        this.selectPlugin(plugin);
+        this.selectPipeItem(plugin);
         if (!this.isFirst(plugin)) {
             var prev = this.appliedPlugins[this.appliedPlugins.indexOf(plugin) - 1];
             plugin.order--;
             prev.order++;
             this._sort();
         }
+    }
+
+    pluginDelete(plugin) {
+        var index = this.appliedPlugins.indexOf(plugin);
+        this.appliedPlugins.splice(index, 1);
+        this.applyValidation();
+        if (this.appliedPlugins[0])
+            this.setActive(this.appliedPlugins[0]);
     }
 
     _sort() {
@@ -151,13 +158,13 @@ export class StepPlugins implements OnInit {
         plugin.active = true;
     }
 
-    private isLast(plugin): boolean {
+    isLast(plugin): boolean {
         return (plugin === this.appliedPlugins
             .reduce((prev: Plugin, current: Plugin) => {
                 return prev.order < current.order ? current : prev;
             }));
     }
-    private isFirst(plugin) {
+    isFirst(plugin) {
         return (plugin === this.appliedPlugins
             .reduce((prev: Plugin, current: Plugin) => {
                 return prev.order > current.order ? current : prev;
@@ -188,10 +195,5 @@ export class StepPlugins implements OnInit {
             this.next.next('preview');
         }
     }
-    onDelete() {
-        var index = this.appliedPlugins.indexOf(this.activePlugin);
-        this.appliedPlugins.splice(index, 1);
-        if (this.appliedPlugins[0])
-            this.setActive(this.appliedPlugins[0]);
-    }
+
 }

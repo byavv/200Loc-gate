@@ -1,23 +1,28 @@
 import {Component, Input, QueryList, Query, AfterContentInit, HostBinding,
     ViewContainerRef, TemplateRef, ContentChildren, ViewRef} from '@angular/core';
-
+import { RestSize } from './restSize';
 @Component({
     selector: 'ui-pane',
     template: `
-        <div class='pane-content'>           
+        <div class='pane-content' >           
             <ng-content></ng-content>                    
         </div>
     `,
     styles: [
         `       
-        .pane-content{
-           /* flex: 1 0 100%;
+        .pane-content{  
+            flex: 1;        
             display: flex;
-            flex-direction: column;*/
-            margin-bottom:15px;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        :host {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
         }
     `
-    ]
+    ],
 })
 export class UiPane {
     @HostBinding('class.hidden') get current() { return !this.active; }
@@ -32,7 +37,6 @@ export class UiPane {
     @Input() set active(active: boolean) {
         if (active == this._active) return;
         this._active = active;
-        this.visited = true;
     }
     get active(): boolean {
         return this._active;
@@ -40,41 +44,23 @@ export class UiPane {
 }
 @Component({
     selector: 'ui-tabs',
-    template: `
-    <!-- <div class="row">
-         <div class="col-sm-12 col-md-12 col-lg-12" class='flex-header'>
-         
-              <ul class="my-card my-steps custom-icons">
-                  <li *ngFor="let pane of panes" class='{{pane.id}}' 
-                      (click)="goTo(pane.id)"
-                      role="presentation" 
-                      [ngClass] = '{invalid: !pane.valid && pane.visited, current: pane.active, visited: pane.visited}'>
-                      <span>{{pane.title}}</span>
-                  </li>
-             </ul>
-         </div>
-         <div class="col-sm-12 col-md-12 col-lg-12" class='flex-content'> 
-             <ng-content></ng-content>
-         </div>
-     </div> -->
-
+    template: ` 
        <div class="row">
           <div class="col-sm-12 col-md-2 padding-shrink-right">           
              <ul class="my-steps">
                  <li *ngFor="let pane of panes" class='{{ pane.id }}' 
                      (click)="goTo(pane.id)"
                      role="presentation" 
-                     [ngClass] = "{ invalid: !pane.valid && pane.visited, current: pane.active, visited: pane.visited }">
+                     [ngClass] = "{ invalid: !pane.valid, active: pane.active, visited: pane.visited }">
                      <i class='fa'></i>
                      <span>{{ pane.title }}</span> 
                  </li>
              </ul>            
           </div>
-          <div class="col-sm-12 col-md-10 padding-shrink-left"> 
-             <ng-content></ng-content>
+          <div class="col-sm-12 col-md-10 padding-shrink-left flexy" rest-height>                
+               <ng-content></ng-content>                        
           </div>
      </div>
-
     `,
     styles: [
         require('./styles/tabs.scss'),
@@ -83,19 +69,31 @@ export class UiPane {
             display: none;
         }
         `
-    ]
+    ],
+    directives: [RestSize]
+
 })
 export class UiTabs {
     @ContentChildren(UiPane) panes: QueryList<UiPane>;
-    goTo(id) {
+    currentPane: UiPane;
+    @Input()
+    default: string;
+    ngAfterContentInit() {
         if (this.panes) {
-            this.panes.toArray().forEach((p: UiPane) => p.active = (p.id == id));
+            this.default
+                ? this.currentPane = this.panes.toArray().find((p: UiPane) => p.id == this.default)
+                : this.currentPane = this.panes.first;
+            this.currentPane.active = true;
         }
     }
-    ngAfterContentInit() {
-        console.log("TABS CONTENT INIT")
-    }
-    ngAfterViewInit() {
-        console.log("TABS VIEW INIT")
+    goTo(id) {
+        if (this.panes) {
+            if (this.currentPane) {
+                this.currentPane.visited = true;
+            }
+            this.panes.toArray().forEach((p: UiPane) => p.active = false);
+            this.currentPane = this.panes.toArray().find((p: UiPane) => p.id == id);
+            this.currentPane.active = true;
+        }
     }
 }

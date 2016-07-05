@@ -33,20 +33,28 @@
         padding: 10px;
         color: #455A64 !important;
         background: #ffffff;
-        // border: 1px solid #373a3c;
-        //border-width: 2px;
         background: #f9f9f9;
-        border-radius: 10px;
         font-size: 14px;
         font-weight: 700;
         cursor: pointer;
         display: flex;
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         > .button-group {
-            flex: 0 1 auto;
+            position: absolute;
+            right: 3px;
+            top: 0px;
+            height: 100%;
+            font-size: 1em;
+            > span {
+                margin-left: 1px;
+                color: #455A64;
+            }
+            > span.delete {
+                color: #900000;
+            }
         }
         > .content {
-            flex: 1 0 auto;
+            margin-left: 20px;
         }
         &:not(:last-child)::after {
             content: '';
@@ -72,7 +80,6 @@
             background: #eeeeee;
         }
         &.invalid {
-            // box-shadow: 0 1px 2px rgba(255, 0, 0, .1);
             &::before {
                 display: inline-block;
                 content: '\f071';
@@ -139,7 +146,7 @@
         height: 38px;
         display: block;
         margin-left: calc(50% + 30px);
-        color: #619bb7;
+        color: #455A64;
         cursor: pointer;
         text-decoration: none;
         border: 2px solid rgba(208, 208, 208, 0.85);
@@ -169,4 +176,8 @@
         right: 0px;
         top: 0px;
     }
+}
+
+.my-card {
+    flex: 1;
 }

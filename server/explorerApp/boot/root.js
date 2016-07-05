@@ -33,7 +33,7 @@ module.exports = function (app) {
     });
 
     router.post('/api/config/:id', (req, res) => {
-        console.log("PLUGINS",  req.body.plugins)
+        console.log("PLUGINS", req.body.plugins)
         ApiConfig.findOrCreate({ where: { id: req.params.id } }, req.body, (err, config) => {
             if (err) return res.sendStatus(500);
             console.log(config.plugins)
@@ -52,6 +52,13 @@ module.exports = function (app) {
             return res.status(400).send(err);
         });
     });
+
+    router.delete('/api/config/:id', (req, res) => {
+        ApiConfig.destroyById(req.params.id, (err, result) => {
+            if (err) return res.sendStatus(500);
+            return res.send(result);
+        });
+    })
 
     router.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, '../../../build/index.html'));

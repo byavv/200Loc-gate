@@ -33,4 +33,9 @@ export class BackEnd {
       .post(`/api/config/${id}`, JSON.stringify(data))
       .map(res => res.json());
   }
+  public deleteApiConfig(id){
+     return this._http
+      .delete(`/api/config/${id}`)
+      .map(res => res.json());
+  }
 }

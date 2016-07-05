@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppController } from '../../shared/services';
+import { Component, OnInit, OnDestroy, trigger, state, transition, style, animate } from '@angular/core';
+import { AppController, BackEnd } from '../../shared/services';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Subscription } from 'rxjs'
 
@@ -8,23 +8,40 @@ import { Subscription } from 'rxjs'
   directives: [ROUTER_DIRECTIVES],
   template: require('./templates/apiList.template.html'),
   styles: [require('./styles/apiList.scss')],
-  providers: []
+  providers: [],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition('void => *', [
+        style({ transform: 'translateX(-100%)' }),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
 
 export class ApiListComponent implements OnInit, OnDestroy {
   configs: Array<any> = [];
   sub: Subscription;
-  constructor(private appController: AppController) {
-
-  }
+  constructor(private appController: AppController, private backEnd: BackEnd) { }
   ngOnInit() {
-    this.sub = this.appController.init$.subscribe((config) => {
-      this.configs = config.configs;
-    }, (err) => {
-      console.error(err);
+    this.sub = this.backEnd.getApiConfigs().subscribe(configs => {
+      this.configs = configs;
     })
   }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  deleteApi(config) {
+    this.backEnd.deleteApiConfig(config.id).subscribe(res => {
+      console.log(res);
+      let ind = this.configs.indexOf(config);
+      this.configs.splice(ind, 1);
+    });
   }
 }

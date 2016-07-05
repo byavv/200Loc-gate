@@ -13,11 +13,8 @@ export const ApiManagerRoutes: RouterConfig = [
       {
         path: '',
         component: ApiListComponent,
-      },
-      {
-        path: 'details/:id',
-        component: ApiDetailsComponent,
-      }
+        terminal: true
+      }      
     ]
   }
 ];

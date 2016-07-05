@@ -26,7 +26,7 @@ export class DynamicForm {
     private _plugin;
 
     @Output()
-    valid: EventEmitter<any> = new EventEmitter();
+    changed: EventEmitter<any> = new EventEmitter();
     @Input()
     set plugin(plugin: Plugin) {
         let group = {};
@@ -38,7 +38,7 @@ export class DynamicForm {
                     : [plugin.options[key].default || ''];
                 this.fields.push({
                     key: key,
-                    value: /*plugin.config[key]*/plugin.options[key].value || plugin.options[key].default,
+                    value: plugin.options[key].value || plugin.options[key].default,
                     label: plugin.options[key].label,
                     helpString: plugin.options[key].help,
                     type: plugin.options[key].type ? plugin.options[key].type : 'string',
@@ -50,6 +50,7 @@ export class DynamicForm {
             this.form.valueChanges
                 .subscribe(value => {
                     plugin.config = value;
+                    this.changed.emit(null);
                 });
         }
         this._plugin = plugin;

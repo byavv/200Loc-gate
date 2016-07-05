@@ -19,12 +19,12 @@ export class MasterController {
         return this.validation[key];
     }
 
-    setValidity(key, value) {        
+    setValidity(key, value) {
         this.validation[key] = value;
         this.validate$.next(this.validation);
     }
+
     validate(): Observable<any> {
-        console.log("validation")
         return Observable.create((observer: Observer<any>) => {
             const error = Object.keys(this.validation).find(key => !this.validation[key]);
             console.log(error)

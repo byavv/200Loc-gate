@@ -16,7 +16,15 @@ import {Observable} from 'rxjs';
     template: require("./templates/stepGeneral.html"),
     directives: [REACTIVE_FORM_DIRECTIVES, ShowError, ToggleGroup],
     providers: [],
-    styles: [require('./styles/stepGeneral.scss')]
+    styles: [require('./styles/stepGeneral.scss'),
+        `
+     :host {
+        flex:1;
+        display: flex;
+        flex-direction: column;
+    }
+    `
+    ]
 })
 export class StepGeneral implements OnInit {
     @Output()
@@ -48,18 +56,16 @@ export class StepGeneral implements OnInit {
         });
 
     }
-    ngAfterViewInit() {
-     //   this.master.setValidity('general', this.form.valid);
+
+    ngOnInit() {
+        this.master.setValidity('general', this.form.valid);
         this.form
             .valueChanges
             .distinctUntilChanged()
-            .subscribe(value => {                
+            .subscribe(value => {
                 this.master.setValidity('general', this.form.valid);
             });
-
-    }
-    ngOnInit() {
-
+            
         this.master.error$.subscribe(value => {
             console.log("ERROR", value)
             this.submitted = true;

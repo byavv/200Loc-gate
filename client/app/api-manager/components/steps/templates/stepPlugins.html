@@ -6,17 +6,20 @@
                     <img src="/static/assets/images/cloud.png" alt="" style="width: 50px;">
                 </div>
                 <ul class="plugin-item-container" [hidden]="appliedPlugins.length == 0">
-                    <li *ngFor="let plugin of appliedPlugins" [ngClass]="{active: plugin.active, invalid: !plugin.valid}" (click)="selectPlugin(plugin)">
+                    <li *ngFor="let plugin of appliedPlugins" [ngClass]="{active: plugin.active, invalid: !plugin.valid}" (click)="selectPipeItem(plugin)">
                         <div class="content">
                             {{plugin.name}}
                         </div>
                         <div class="button-group">
-                            <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
-                            <i class="fa fa-arrow-down"></i>               
-                            </span>
                             <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
-                                <i class="fa fa-arrow-up"></i>              
+                                <i class="fa fa fa-arrow-circle-up"></i>              
                             </span>
+                            <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
+                                <i class="fa fa fa-arrow-circle-down"></i>               
+                            </span>
+                            <span class='delete' (click)='pluginDelete(plugin)'>
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                             </span>
                         </div>
                     </li>
                 </ul>
@@ -53,15 +56,9 @@
             </div>
         </div>
         <div class="col-md-7 col-sm-12">
-
             <div class="plugin-props" *ngFor="let plugin of appliedPlugins" [hidden]="!plugin.active">
-                <dynamic-form [plugin]="plugin"></dynamic-form>
-                <button type="button" (click)="onDelete()" class="btn btn-danger delete-button">
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>                            
-                            <span>Delete</span>
-                        </button>
+                <dynamic-form [plugin]="plugin" (changed)='applyValidation()'></dynamic-form>
             </div>
-
         </div>
     </div>
 </div>
