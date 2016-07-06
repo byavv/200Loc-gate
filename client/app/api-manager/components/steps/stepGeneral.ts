@@ -1,21 +1,20 @@
-import {Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, Optional} from '@angular/core';
-import {Router, ActivatedRoute} from "@angular/router";
-import {ShowError} from '../../directives/showError';
+import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, Optional } from '@angular/core';
+import { Router, ActivatedRoute } from "@angular/router";
+import { ShowError } from '../../directives/showError';
 import { ToggleGroup } from '../../controls';
 import { FormGroup, REACTIVE_FORM_DIRECTIVES, FORM_DIRECTIVES, FormBuilder, Validators } from '@angular/forms';
-import {RegExpWrapper, print, isPresent, isFunction} from '@angular/compiler/src/facade/lang';
+import { RegExpWrapper, print, isPresent, isFunction } from '@angular/compiler/src/facade/lang';
 
 import { Config } from '../../../shared/models';
-import {BackEnd, AppController} from '../../../shared/services';
-
-import {MasterController} from '../../services/masterController';
-import {Observable} from 'rxjs';
+import { BackEnd, AppController } from '../../../shared/services';
+import { LoaderComponent } from '../../../shared/components';
+import { MasterController } from '../../services/masterController';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'step-general',
     template: require("./templates/stepGeneral.html"),
-    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, ToggleGroup],
-    providers: [],
+    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, ToggleGroup, LoaderComponent],   
     styles: [require('./styles/stepGeneral.scss'),
         `
      :host {
@@ -58,6 +57,7 @@ export class StepGeneral implements OnInit {
     }
 
     ngOnInit() {
+        this.loading = true;
         this.master.setValidity('general', this.form.valid);
         this.form
             .valueChanges

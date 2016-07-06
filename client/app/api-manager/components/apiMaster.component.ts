@@ -1,18 +1,19 @@
-import {Component, OnInit, ViewChild, QueryList} from "@angular/core";
-import {ActivatedRoute, Router, ROUTER_DIRECTIVES} from "@angular/router";
-import {MASTER_STEPS_COMPONENTS} from "./steps";
-import {MasterController} from "../services/masterController";
-import {BackEnd} from "../../shared/services";
-import {Config} from "../../shared/models"
-import {UiTabs, UiPane, RestSize} from '../directives';
-import {isString} from "@angular/compiler/src/facade/lang";
-import {Observable, Subscription} from "rxjs";
+import { Component, OnInit, ViewChild, QueryList } from "@angular/core";
+import { ActivatedRoute, Router, ROUTER_DIRECTIVES } from "@angular/router";
+import { MASTER_STEPS_COMPONENTS } from "./steps";
+import { MasterController } from "../services/masterController";
+import { BackEnd } from "../../shared/services";
+import { Config } from "../../shared/models"
+import { UiTabs, UiPane, RestSize } from '../directives';
+import { isString } from "@angular/compiler/src/facade/lang";
+import { Observable, Subscription } from "rxjs";
+
 
 @Component({
   selector: "api-master",
   template: `
     <div class="row">
-        <div class="col-md-12 col-sm-12" style="position: relative;"> 
+        <div class="col-md-12 col-sm-12" style="position: relative;">             
             <ui-tabs #tab rest-height default='general'>
                 <ui-pane id='general' title='config' [valid]="(master.isValid('general') | async)">
                     <step-general (next)="tab.goTo($event)"></step-general>
@@ -31,7 +32,7 @@ import {Observable, Subscription} from "rxjs";
     ROUTER_DIRECTIVES,
     ...MASTER_STEPS_COMPONENTS,
     UiTabs,
-    UiPane
+    UiPane   
   ],
   viewProviders: [MasterController]
 })

@@ -6,19 +6,15 @@ import { FormGroup, REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators } from '@a
 import { RegExpWrapper, print, isPresent, isFunction } from '@angular/compiler/src/facade/lang';
 import { Config, Plugin } from '../../../shared/models';
 import { BackEnd, AppController } from '../../../shared/services';
-
 import { MasterController } from '../../services/masterController';
 import { Observable } from 'rxjs';
 import { MODAL_DIRECTVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subject } from 'rxjs';
 
-import { LoaderComponent } from '../../../shared/components';
-
-
 @Component({
     selector: 'step-plugins',
     template: require("./templates/stepPlugins.html"),
-    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES, LoaderComponent],
+    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     styles: [require('./styles/stepPlugins.scss'),
         `
@@ -59,18 +55,22 @@ export class StepPlugins implements OnInit {
                 (apiConfig.plugins || []).forEach((cp) => {
                     const plugin = this.plugins.find(plugin => plugin.name === cp.name);
                     if (plugin)
-                        this.addNewPlugin(plugin, cp.settings);
-                })                
+                        this.addNewPlugin(plugin, cp.settings, false);
+                });
+                this.applyPlugins(apiConfig.plugins);  
+                this.applyValidation();              
             });
     }
 
-    addNewPlugin(plugin: Plugin, value: any = {}) {
+    addNewPlugin(plugin: Plugin, value: any = {}, apply: boolean = true) {
         var pl = Object.assign({}, plugin);
         let pluginInst = new Plugin(pl.name, pl.description, this._lastOrder + 1, pl.settings, value);
         this.appliedPlugins.push(pluginInst);
         this.selectPipeItem(pluginInst);
-        this.applyValidation();
-        this.applyPlugins();
+        if (apply) {
+            this.applyValidation();
+            this.applyPlugins();
+        }
     }
 
 //# private mathods
@@ -118,14 +118,18 @@ export class StepPlugins implements OnInit {
             : this.master.setValidity('plugins', false);
     }
 
-    applyPlugins() {
-        const plugins = [];
-        this.appliedPlugins.forEach(p => {
-            const temp = Object.assign({}, p);
-            delete temp.form;
-            plugins.push(temp)
-        })
-        this.master.config.plugins = plugins;
+    applyPlugins(value?: Array<Plugin>) {
+        if (!value) {
+            const plugins = [];
+            this.appliedPlugins.forEach(p => {
+                const temp = Object.assign({}, p);
+                delete temp.form;
+                plugins.push(temp)
+            })
+            this.master.config.plugins = plugins;
+        } else {
+            this.master.config.plugins = value;
+        }
     }
 
     selectPipeItem(plugin: Plugin) {

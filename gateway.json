@@ -1,11 +1,12 @@
 {
   "ids": {
-    "ApiConfig": 14
+    "ApiConfig": 16
   },
   "models": {
     "ApiConfig": {
       "10": "{\"name\":\"ewrw\",\"public\":true,\"description\":\"ewrwe\",\"entry\":\"rwer\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"active\":false,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"qwerty\",\"storage\":\"etcd\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":1},{\"active\":true,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"asdfgh\",\"storage\":\"consul(n/a)\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":2}],\"config\":{},\"id\":10}",
-      "13": "{\"name\":\"cars api\",\"public\":true,\"description\":\"super-puper\",\"entry\":\"/\",\"methods\":[\"GET\",\"POST\",\"PUT\",\"DELETE\"],\"plugins\":[{\"active\":false,\"settings\":{\"grant\":\"*\"},\"name\":\"authentication\",\"description\":\"bla-bla\",\"order\":1,\"value\":{\"grant\":\"*\"}},{\"active\":false,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"cars\",\"storage\":\"etcd\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":2,\"value\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"cars\",\"storage\":\"etcd\"}},{\"active\":false,\"settings\":{\"target\":\"localhost\",\"withPath\":\"/\"},\"name\":\"proxy\",\"description\":\"proxy\",\"order\":3,\"value\":{\"target\":\"localhost\",\"withPath\":\"/\"}},{\"active\":true,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"cvfd\",\"storage\":\"etcd\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":4,\"value\":{}}],\"id\":13}"
+      "14": "{\"name\":\"web\",\"public\":true,\"description\":\"web api\",\"entry\":\"/\",\"methods\":[\"GET\"],\"plugins\":[{\"active\":false,\"settings\":{\"grant\":\"*\"},\"name\":\"authentication\",\"description\":\"bla-bla\",\"order\":1,\"value\":{}},{\"active\":true,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"web\",\"storage\":\"etcd\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":2,\"value\":{}}],\"id\":14}",
+      "15": "{\"name\":\"asas\",\"public\":true,\"description\":\"sa\",\"entry\":\"asa\",\"methods\":[\"GET\",\"POST\"],\"plugins\":[{\"active\":false,\"settings\":{\"grant\":\"*\"},\"name\":\"authentication\",\"description\":\"bla-bla\",\"order\":1,\"value\":{\"grant\":\"*\"}},{\"active\":true,\"settings\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"carsddd\",\"storage\":\"etcd\"},\"name\":\"discovery\",\"description\":\"bla-bla\",\"order\":2,\"value\":{\"etcd_host\":\"localhost\",\"etcd_port\":\"4001\",\"mapTo\":\"cars\",\"storage\":\"etcd\"}},{\"active\":false,\"settings\":{\"target\":\"superhost\",\"withPath\":\"/\"},\"name\":\"proxy\",\"description\":\"proxy\",\"order\":3,\"value\":{\"target\":\"superhost\",\"withPath\":\"/\"}}],\"id\":15}"
     }
   }
 }

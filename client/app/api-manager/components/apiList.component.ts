@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, trigger, state, transition, style, animate } from '@angular/core';
 import { AppController, BackEnd } from '../../shared/services';
-import { ROUTER_DIRECTIVES } from '@angular/router';
-import { Subscription } from 'rxjs'
+import { ROUTER_DIRECTIVES, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'api-list',
@@ -26,7 +26,7 @@ import { Subscription } from 'rxjs'
 export class ApiListComponent implements OnInit, OnDestroy {
   configs: Array<any> = [];
   sub: Subscription;
-  constructor(private appController: AppController, private backEnd: BackEnd) { }
+  constructor(private appController: AppController, private backEnd: BackEnd, private router: Router) { }
   ngOnInit() {
     this.sub = this.backEnd.getApiConfigs().subscribe(configs => {
       this.configs = configs;
@@ -43,5 +43,8 @@ export class ApiListComponent implements OnInit, OnDestroy {
       let ind = this.configs.indexOf(config);
       this.configs.splice(ind, 1);
     });
+  }
+  editApi(config) {
+    this.router.navigate(['/master'], { queryParams: { id: config.id } })
   }
 }

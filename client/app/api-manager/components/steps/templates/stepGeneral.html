@@ -1,4 +1,5 @@
-<div class="my-card">
+<div class="my-card" style="position: relative;">
+    <loader [active]='loading' [async]='master.init$' [delay]='500'></loader>
     <div class="row">
         <div class="col-md-10 col-lg-8 col-sm-12">
             <form [formGroup]="form" #configForm="ngForm" class="form-horizontal">
