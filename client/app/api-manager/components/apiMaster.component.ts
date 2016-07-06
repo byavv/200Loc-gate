@@ -6,7 +6,7 @@ import {BackEnd} from "../../shared/services";
 import {Config} from "../../shared/models"
 import {UiTabs, UiPane, RestSize} from '../directives';
 import {isString} from "@angular/compiler/src/facade/lang";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: "api-master",
@@ -40,25 +40,28 @@ export class ApiMasterComponent {
   @ViewChild(UiTabs) tab: UiTabs;
   id: string;
   loading: boolean = true;
+  queryRouteSub: Subscription;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private master: MasterController,
-    private userBackEnd: BackEnd
-  ) {
-    this.router
+    private userBackEnd: BackEnd) {
+    this.queryRouteSub = this.router
       .routerState
       .queryParams
-      .subscribe(params => {
+      .flatMap((params) => {
         this.id = params["id"];
-        if (this.id) {
-          this.userBackEnd.getConfig(this.id).subscribe((config: Config) => {
-            this.master.init(config);
-          });
-        } else {
-          this.master.init(new Config());
-        }
+        return this.id
+          ? this.userBackEnd.getConfig(this.id)
+          : Observable.of(new Config());
       })
+      .subscribe((config) => {
+        this.master.init(config);
+      });
+  }
+  ngOnDestroy() {
+    this.queryRouteSub.unsubscribe();
   }
 
   onDone() {
@@ -67,7 +70,6 @@ export class ApiMasterComponent {
       .do(() => { this.loading = true; })
       .flatMap(() => this.userBackEnd.createOrUpdate(this.master.config, this.id))
       .subscribe((result) => {
-        console.log(result);
         this.router.navigate(['/']);
       }, (err) => {
         if (isString(err))

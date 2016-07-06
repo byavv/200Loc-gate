@@ -12,10 +12,13 @@ import { Observable } from 'rxjs';
 import { MODAL_DIRECTVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subject } from 'rxjs';
 
+import { LoaderComponent } from '../../../shared/components';
+
+
 @Component({
     selector: 'step-plugins',
     template: require("./templates/stepPlugins.html"),
-    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES],
+    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES, LoaderComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styles: [require('./styles/stepPlugins.scss'),
         `
@@ -27,14 +30,14 @@ import { Subject } from 'rxjs';
     `]
 })
 export class StepPlugins implements OnInit {
+    _apiConfig;
     @Output()
     next: EventEmitter<any> = new EventEmitter();
     activePlugin: Plugin;
     appliedPlugins: Array<Plugin> = [];
-    plugins: Array<any> = [];
-    loading: boolean = false;
+    plugins: Array<Plugin> = [];
+    loading: boolean;
     submitted: boolean = false;
-    valid$: Subject<any> = new Subject()
     selectedPlugin: Plugin;
     plugins_valid = false;
 
@@ -46,25 +49,32 @@ export class StepPlugins implements OnInit {
     }
 
     ngOnInit() {
-        this.applyValidation();
-        this.appController.init$.subscribe(defaults => {
-            this.plugins = defaults.plugins;
-            this.master.init$.subscribe((config) => {
+        this.loading = true;
+        this.appController
+            .init$
+            .do((defaults) => { this.plugins = defaults.plugins || []; })
+            .flatMap(() => this.master.init$)
+            .subscribe((apiConfig) => {
                 this.loading = false;
-                (config.plugins || []).forEach((plugin) => {
-                    let name = Object.keys(plugin)[0];
-                    let pluginToAdd = this.plugins.find((plugin: any) => plugin.name === name);
-                    var fpluginToAdd = new Plugin(pluginToAdd.name,
-                        pluginToAdd.description,
-                        0,
-                        plugin[name]);
-                    this.addNewPlugin(fpluginToAdd);
-                })
+                (apiConfig.plugins || []).forEach((cp) => {
+                    const plugin = this.plugins.find(plugin => plugin.name === cp.name);
+                    if (plugin)
+                        this.addNewPlugin(plugin, cp.settings);
+                })                
             });
-        });
     }
 
-    get _validateAll(): boolean {
+    addNewPlugin(plugin: Plugin, value: any = {}) {
+        var pl = Object.assign({}, plugin);
+        let pluginInst = new Plugin(pl.name, pl.description, this._lastOrder + 1, pl.settings, value);
+        this.appliedPlugins.push(pluginInst);
+        this.selectPipeItem(pluginInst);
+        this.applyValidation();
+        this.applyPlugins();
+    }
+
+//# private mathods
+    private get _valid(): boolean {
         let valid = true;
         if (this.appliedPlugins && this.appliedPlugins.length > 0) {
             this.appliedPlugins.forEach((plugin) => {
@@ -77,58 +87,57 @@ export class StepPlugins implements OnInit {
             return false;
         }
     }
+    private get _lastOrder(): number {
+        var lastOrder = 0;
+        if (this.appliedPlugins.length > 0) {
+            lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
+                return prev.order < current.order ? current : prev;
+            }).order;
+        }
+        return lastOrder;
+    }
 
+    private _sort() {
+        this.appliedPlugins.sort((a, b) => {
+            return a.order - b.order;
+        })
+    }
+
+    private _setActive(plugin: Plugin) {
+        this.appliedPlugins.map((p) => {
+            p.active = false;
+        })
+        plugin.active = true;
+    }
+//#
+
+//# plugin management methods
     applyValidation() {
-        this._validateAll
+        this._valid
             ? this.master.setValidity('plugins', true)
             : this.master.setValidity('plugins', false);
     }
 
     applyPlugins() {
-
-        var plugins = this.appliedPlugins.map((ap) => {
-            var plugin = {};
-            plugin[ap.name] = ap.config;
-            return plugin;
-        });
-        console.log("APPLY PLUGINS", plugins)
+        const plugins = [];
+        this.appliedPlugins.forEach(p => {
+            const temp = Object.assign({}, p);
+            delete temp.form;
+            plugins.push(temp)
+        })
         this.master.config.plugins = plugins;
     }
 
-    addNewPlugin(pl) {
-        var plugin: Plugin;
-        var lastOrder = 0;
-        this.backEnd.getPluginConfig(pl.name).subscribe((config) => {
-            if (pl.options)
-                Object.keys(pl.options).forEach(key => {
-                    if (pl.options[key]) {
-                        config[key].value = pl.options[key];
-                    }
-                });
-            if (this.appliedPlugins.length > 0) {
-                lastOrder = this.appliedPlugins.reduce((prev: Plugin, current: Plugin) => {
-                    return prev.order < current.order ? current : prev;
-                }).order;
-            }
-            plugin = new Plugin(pl.name, pl.description, lastOrder + 1, config);
-            this.selectPipeItem(plugin);
-            this.appliedPlugins.push(plugin);            
-            this.applyValidation();
-            this.applyPlugins();
-
-        }, (err) => {
-            console.error(err);
-        });
-    }
-
     selectPipeItem(plugin: Plugin) {
-        this.appliedPlugins.map((p) => {
+        this.appliedPlugins.forEach((p) => {
             p.active = false;
         })
         plugin.active = true;
         this.activePlugin = plugin;
     }
+//#
 
+//# manage plugin pipe item
     pluginUp(plugin: Plugin) {
         this.selectPipeItem(plugin);
         if (!this.isLast(plugin)) {
@@ -154,21 +163,9 @@ export class StepPlugins implements OnInit {
         this.appliedPlugins.splice(index, 1);
         this.applyValidation();
         if (this.appliedPlugins[0])
-            this.setActive(this.appliedPlugins[0]);
+            this._setActive(this.appliedPlugins[0]);
     }
-
-    _sort() {
-        this.appliedPlugins.sort((a, b) => {
-            return a.order - b.order;
-        })
-    }
-
-    private setActive(plugin: Plugin) {
-        this.appliedPlugins.map((p) => {
-            p.active = false;
-        })
-        plugin.active = true;
-    }
+//#
 
     isLast(plugin): boolean {
         return (plugin === this.appliedPlugins
@@ -176,7 +173,8 @@ export class StepPlugins implements OnInit {
                 return prev.order < current.order ? current : prev;
             }));
     }
-    isFirst(plugin) {
+
+    isFirst(plugin): boolean {
         return (plugin === this.appliedPlugins
             .reduce((prev: Plugin, current: Plugin) => {
                 return prev.order > current.order ? current : prev;
@@ -190,18 +188,17 @@ export class StepPlugins implements OnInit {
         this.selectedPlugin = plugin;
         this.selectedPlugin.active = true;
     }
+
     isValid(plugin: Plugin) {
         return plugin.valid;
     }
 
-
     onSubmit() {
         this.submitted = true;
         this.master.setValidity('plugins', this.appliedPlugins.length > 0);
-        if (this._validateAll) {
+        if (this._valid) {
             this.applyPlugins();
             this.next.next('preview');
         }
     }
-
 }

@@ -5,17 +5,16 @@ const webpackMerge = require('webpack-merge'),
   ;
 
 module.exports = webpackMerge(commonConfig, {
+  // devtool: 'source-map',
+  devtool: 'inline-source-map',
   debug: true,
-  devtool: 'source-map',
   entry: {
     polyfills: [
       'zone.js/dist/long-stack-trace-zone'
     ]
   },
   output: {
-    filename: '[name].bundle.js',
-    sourceMapFilename: '[name].map',
-    chunkFilename: '[id].chunk.js'   
+    filename: '[name].js'
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

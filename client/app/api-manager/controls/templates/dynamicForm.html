@@ -2,7 +2,7 @@
     <div class="form-group">
         <legend>{{plugin?.name | uppercase}}</legend>
     </div>
-    <div *ngFor="let option of fields">
-        <option-input [option]="option" [form]="form"></option-input>
+    <div *ngFor="let field of fields">
+        <option-input [field]="field" [form]="form"></option-input>
     </div>
 </form>

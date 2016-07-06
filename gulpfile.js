@@ -9,7 +9,7 @@ const gulp = require('gulp'),
     config = require('./gulpConfig'),
     $ = require('gulp-load-plugins')(),
     del = require('del'),
-    webpack = require('webpack')    
+    webpack = require('webpack')
     ;
 
 var defaults = {

@@ -1,5 +1,5 @@
 import { RouterConfig } from '@angular/router';
-import { ApiManagementComponent, ApiListComponent, ApiMasterComponent, ApiDetailsComponent } from './';
+import { ApiManagementComponent, ApiListComponent, ApiMasterComponent } from './';
 
 export const ApiManagerRoutes: RouterConfig = [
   {

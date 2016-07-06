@@ -30,6 +30,7 @@
       "required": true,
       "default": "[\"GET\"]"
     },
+    "order": "number",
     "plugins": {
       "type": [
         "object"

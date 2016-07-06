@@ -22,13 +22,14 @@ export class BackEnd {
       .get(`/api/config/${id}`)
       .map(res => res.json());
   }
-  public getPluginConfig(name): Observable<any> {
+  /*public getPluginConfig(name): Observable<any> {
     return this._http
       .get(`/api/plugins/${name}`)
       .map(res => res.json());
-  }
+  }*/
 
   public createOrUpdate(data: any, id?: string) {
+    console.log("CREATE OR UPDATE", data, id)
     return this._http
       .post(`/api/config/${id}`, JSON.stringify(data))
       .map(res => res.json());

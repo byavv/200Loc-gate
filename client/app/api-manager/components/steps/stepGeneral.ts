@@ -71,17 +71,13 @@ export class StepGeneral implements OnInit {
             this.submitted = true;
             this.form.markAsTouched();
         });
-
-        this.master.init$.subscribe((config) => {
-            console.log(config)
-            this.loading = false;
-            console.log('INIT AT FIRST')
+        this.master.init$.subscribe((config) => {           
+            this.loading = false;          
             this.apiConfig = config;
         });
     }
 
-    onSubmit(form: FormGroup) {
-        console.log(form)
+    onSubmit(form: FormGroup) {       
         this.submitted = true;
         if (form.valid) {
             this.next.next('plugins');

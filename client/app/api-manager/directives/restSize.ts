@@ -14,8 +14,7 @@ export class RestSize {
         this._doc = this._domAdapter.defaultDoc();
     }
 
-    ngAfterViewInit() {
-        console.log("VIEW Init")
+    ngAfterViewInit() {       
         this.renderer.listenGlobal('window', 'resize', (evt: any) => {
             this._setMinHeight();
         });
@@ -25,8 +24,7 @@ export class RestSize {
     _setMinHeight() {
         var scrollTop = this._doc.documentElement.scrollTop || this._doc.body.scrollTop;
         var docHeight = this._doc.documentElement.clientHeight;
-        var rect = this._domAdapter.getBoundingClientRect(this.element.nativeElement);
-        console.log(rect)
+        var rect = this._domAdapter.getBoundingClientRect(this.element.nativeElement);       
         this._domAdapter.setStyle(this.element.nativeElement, 'min-height', `${docHeight - rect.top - 65}px`);
     }
 

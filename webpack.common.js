@@ -8,14 +8,13 @@ const webpack = require('webpack'),
   precss = require('precss'),
   fs = require('fs')
   ;
-console.log(__root('client', 'app'))
-console.log(path.join(__dirname, 'client', 'app'))
-console.log(path.resolve(__dirname, "client/app"))
-console.log(fs.realpathSync(__dirname + '/client/app'))
+
 module.exports = {
+  target: 'web',
   entry: {
+    main: ['./client/bootstrap.ts'],
     polyfills: [
-      //'core-js/shim',
+      'core-js/shim',
       'core-js/es6',
       'core-js/es7/reflect',
       'zone.js/dist/zone'
@@ -27,16 +26,18 @@ module.exports = {
       '@angular/platform-browser-dynamic',
       '@angular/router',
       'rxjs/Rx'
-    ],
-    main: './client/bootstrap.ts'
+    ]
   },
   output: {
     path: __root('build'),
     publicPath: '/static',
+    pathinfo: false,
   },
+  externals: [__root('node_modules')],
   resolve: {
-    root: __root(),
-    extensions: ['', '.ts', '.js', '.scss']
+    root: [__root("node_modules")],
+    extensions: ['', '.ts', '.js', '.scss'],
+    cache: true
   },
   module: {
     loaders: [
@@ -74,6 +75,13 @@ module.exports = {
       precss
     ];
   },
+  /* node: {
+     global: 'window',
+     crypto: 'empty',
+     module: false,
+     clearImmediate: false,
+     setImmediate: false
+   }*/
 };
 
 function __root() {

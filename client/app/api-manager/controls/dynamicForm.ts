@@ -29,27 +29,29 @@ export class DynamicForm {
     changed: EventEmitter<any> = new EventEmitter();
     @Input()
     set plugin(plugin: Plugin) {
+        console.log("PLUGIN TO SET", plugin)
         let group = {};
         if (plugin) {
-            this.fields.splice(0, this.fields.length)
-            Object.keys(plugin.options).forEach((key: any) => {
-                group[key] = plugin.options[key].required
-                    ? [plugin.options[key].default || '', Validators.required]
-                    : [plugin.options[key].default || ''];
+            this.fields.splice(0, this.fields.length);
+            let settings = plugin.settings || {};
+            Object.keys(settings).forEach((key: any) => {
+                group[key] = settings[key].required
+                    ? [settings[key].default || '', Validators.required]
+                    : [settings[key].default || ''];
                 this.fields.push({
                     key: key,
-                    value: plugin.options[key].value || plugin.options[key].default,
-                    label: plugin.options[key].label,
-                    helpString: plugin.options[key].help,
-                    type: plugin.options[key].type ? plugin.options[key].type : 'string',
-                    options: plugin.options[key].options ? plugin.options[key].options : [],
+                    value: /*settings[key].value*/ plugin.value[key] || settings[key].default,
+                    label: settings[key].label,
+                    helpString: settings[key].help,
+                    type: settings[key].type ? settings[key].type : 'string',
+                    options: settings[key].options ? settings[key].options : [], // if property is array
                 });
             });
 
             this.form = plugin.form = this._builder.group(group);
             this.form.valueChanges
                 .subscribe(value => {
-                    plugin.config = value;
+                    plugin.settings = value;
                     this.changed.emit(null);
                 });
         }

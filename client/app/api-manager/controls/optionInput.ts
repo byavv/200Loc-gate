@@ -9,10 +9,10 @@ import { ShowError } from '../directives';
   pipes: [FirstUpPipe]
 })
 export class DynamicFormOption {
-  @Input() option: any;
+  @Input() field: any;
   @Input() form: FormGroup;
 
   get isValid() {
-    return this.form.controls[this.option.key].valid;
+    return this.form.controls[this.field.key].valid;
   }
 }

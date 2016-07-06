@@ -4,8 +4,7 @@ export class Config {
     id: string;
     name: string;
     description: string;
-    entry: string;
-    config: any = {};
+    entry: string;    
     methods: Array<string> = ["GET", "POST"];
     plugins: Array<Plugin> = [];
 }

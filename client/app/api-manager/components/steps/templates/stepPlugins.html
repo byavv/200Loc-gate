@@ -1,4 +1,5 @@
-<div class="my-card">
+<div class="my-card" style="position: relative;">
+    <loader [active]='loading'></loader>
     <div class="row">
         <div class="col-md-5 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
             <div class="plugins-container" style="position: relative;">
@@ -8,7 +9,7 @@
                 <ul class="plugin-item-container" [hidden]="appliedPlugins.length == 0">
                     <li *ngFor="let plugin of appliedPlugins" [ngClass]="{active: plugin.active, invalid: !plugin.valid}" (click)="selectPipeItem(plugin)">
                         <div class="content">
-                            {{plugin.name}}
+                            {{plugin.order}}: {{plugin.name}}
                         </div>
                         <div class="button-group">
                             <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
@@ -41,7 +42,8 @@
                             <div class="modal-body">
                                 <div class="plugin-menu-container">
                                     <ul class="plugin-menu">
-                                        <li class="plugin-menu-item" *ngFor="let plugin of plugins" [class.active]='plugin.active' (click)="select(plugin)">
+                                        <li class="plugin-menu-item" *ngFor="let plugin of plugins" (dbclick)="addNewPlugin(selectedPlugin); lgModal.hide()" [class.active]='plugin.active'
+                                            (click)="select(plugin)">
                                             {{plugin.name}}
                                         </li>
                                     </ul>

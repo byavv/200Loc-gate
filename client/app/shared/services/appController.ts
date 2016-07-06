@@ -24,13 +24,11 @@ export class AppController {
 
     _loadAppDefaults(doneCallback: (defaults: any) => void) {
         Observable.zip(
-            this._backEnd.getPlugins(),
-            this._backEnd.getApiConfigs(),
+            this._backEnd.getPlugins(),        
             (plugins, configs) => [plugins, configs])
             .subscribe(value => {
                 doneCallback({
-                    plugins: value[0],
-                    configs: value[1]
+                    plugins: value[0]                
                 });
             }, err => {
                 console.log(err);

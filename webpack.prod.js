@@ -10,8 +10,8 @@ const DefinePlugin = require('webpack/lib/DefinePlugin'),
 
 module.exports = webpackMerge(commonConfig, {
   output: {
-    filename: '[name].[chunkhash:7].bundle.js',
-    chunkFilename: '[id].[chunkhash:7].chunk.js'
+    filename: '[name].[chunkhash:7].js',
+    chunkFilename: '[id].[chunkhash:7].js'
   },
   plugins: [
     new DedupePlugin(),

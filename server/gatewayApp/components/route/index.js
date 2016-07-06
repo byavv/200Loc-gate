@@ -41,7 +41,7 @@ module.exports = function (app, componentOptions) {
     var ApiConfig = app.models.ApiConfig;
     var DYNAMIC_CONFIG_PARAM = /\$\{(\w+)\}$/;
     var plugins = app.plugins;
-    var Plugin;
+
     ApiConfig.find((err, apiConfigs) => {
         if (err) throw err;
         var proxyRules = {};
@@ -51,26 +51,25 @@ module.exports = function (app, componentOptions) {
                 var apiConfigPlugins = apiConfig.plugins || [];
                 var pluginsArray = [];
 
-                 apiConfigPlugins.forEach((plugin) => {
-                    // here we have plugin config
-                    var pluginName = Object.keys(plugin)[0];
-                    var pluginConfig = plugin[pluginName];
+                apiConfigPlugins.forEach((plugin) => {
+                    var pluginName = plugin.name;
+                    var settings = plugin.settings;
                     // find all dynamic parameters and provide getting values from global object
-                    Object.keys(pluginConfig).forEach((paramKey) => {
-                        var match = pluginConfig[paramKey].match(DYNAMIC_CONFIG_PARAM);
+                    Object.keys(settings).forEach((paramKey) => {
+                        var match = settings[paramKey].match(DYNAMIC_CONFIG_PARAM);
                         if (match) {
-                            Object.defineProperty(pluginConfig, paramKey, {
+                            Object.defineProperty(settings, paramKey, {
                                 get: function () {
                                     return pipeGlobal[match[1]]; /*apply function*/
                                 },
                             })
                         }
-                    });
-                    var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === pluginName });
+                    });                   
+                    var pluginBuilder = app.plugins.find((plugin) => plugin._name === pluginName);
                     if (!pluginBuilder) {
-                        throw new Error("Plugin is not defined");
+                        throw new Error(`Plugin ${pluginName} is not defined`);
                     } else {
-                        let handler = pluginBuilder(pluginConfig || {}, pipeGlobal);
+                        let handler = pluginBuilder(settings || {}, pipeGlobal);
                         pluginsArray.push(handler);
                     }
                 })
@@ -79,12 +78,12 @@ module.exports = function (app, componentOptions) {
 
                 // Object.keys(apiConfigPlugins).forEach((key) => {
                 //     // here we have plugin config
-                //     var pluginConfig = apiConfigPlugins[key];
+                //     var settings = apiConfigPlugins[key];
                 //     // find all dynamic parameters and provide getting values from global object
-                //     Object.keys(pluginConfig).forEach((paramKey) => {
-                //         var match = pluginConfig[paramKey].match(DYNAMIC_CONFIG_PARAM);
+                //     Object.keys(settings).forEach((paramKey) => {
+                //         var match = settings[paramKey].match(DYNAMIC_CONFIG_PARAM);
                 //         if (match) {
-                //             Object.defineProperty(pluginConfig, paramKey, {
+                //             Object.defineProperty(settings, paramKey, {
                 //                 get: function () {
                 //                     return pipeGlobal[match[1]]; /*apply function*/
                 //                 },
@@ -95,7 +94,7 @@ module.exports = function (app, componentOptions) {
                 //     if (!pluginBuilder) {
                 //         throw new Error("Plugin is not defined");
                 //     } else {
-                //         let handler = pluginBuilder(pluginConfig || {}, pipeGlobal);
+                //         let handler = pluginBuilder(settings || {}, pipeGlobal);
                 //         pluginsArray.push(handler);
                 //     }
                 // })

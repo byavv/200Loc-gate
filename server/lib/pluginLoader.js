@@ -15,8 +15,16 @@ module.exports = function () {
                     async.each(files, (file, callback) => {
                         try {
                             let plugin = require(path.join(pluginsPath, file));
-                            plugins.push(plugin);
-                            callback();
+                            fs.exists(path.join(pluginsPath, plugin._name, 'config.json'), (exists) => {
+                                if (exists) {
+                                    plugin.config = require(path.join(pluginsPath, plugin._name, 'config.json'));
+                                } else {
+                                    plugin.config = {}
+                                }
+                                plugins.push(plugin);
+                                callback();
+                            });
+
                         } catch (error) {
                             callback(error);
                         }
@@ -29,24 +37,24 @@ module.exports = function () {
                     });
                 });
             });
-        },
-        loadPluginConfig: function (name) {
-            var config = {};
-            return new Promise((resolve, reject) => {
-                try {
-                    fs.exists(path.join(pluginsPath, name, 'config.json'), (exists) => {
-                        if (exists) {
-                            config = require(path.join(pluginsPath, name, 'config.json'));
-                            resolve(config)
-                        } else {
-                            reject(new Error("No config file defined"));
-                        }
-                    });
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
+        }//,
+        /* loadPluginConfig: function (name) {
+             var config = {};
+             return new Promise((resolve, reject) => {
+                 try {
+                     fs.exists(path.join(pluginsPath, name, 'config.json'), (exists) => {
+                         if (exists) {
+                             config = require(path.join(pluginsPath, name, 'config.json'));
+                             resolve(config)
+                         } else {
+                             reject(new Error("No config file defined"));
+                         }
+                     });
+                 } catch (error) {
+                     reject(error);
+                 }
+             });
+         }*/
     };
 }
 

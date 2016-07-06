@@ -9,17 +9,6 @@ module.exports = function (app) {
     var router = app.loopback.Router();
     var ApiConfig = app.models.ApiConfig;
 
-    router.get('/api/plugins', (req, res) => {
-        loader.loadPlugins().then((plugins) => {
-            return res.send(plugins.map(plugin => {
-                return {
-                    name: plugin._name,
-                    description: plugin._description
-                };
-            }));
-        });
-    });
-
     router.get('/api/configs', (req, res) => {
         ApiConfig.find((err, configs) => {
             res.send(configs);
@@ -44,12 +33,15 @@ module.exports = function (app) {
         });
     });
 
-    router.get('/api/plugins/:name', (req, res) => {
-        loader.loadPluginConfig(req.params.name).then((config) => {
-            return res.send(config);
-        }, (err) => {
-            //todo
-            return res.status(400).send(err);
+     router.get('/api/plugins', (req, res) => {
+        loader.loadPlugins().then((plugins) => {
+            return res.send(plugins.map(plugin => {
+                return {
+                    name: plugin._name,
+                    description: plugin._description,
+                    settings: plugin.config
+                };
+            }));
         });
     });
 
