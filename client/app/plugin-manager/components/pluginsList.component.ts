@@ -5,7 +5,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
   directives: [ROUTER_DIRECTIVES],
   template: `
     <div>
-      Plugins list
+      // todo
       <router-outlet></router-outlet>
     </div> 
   `,

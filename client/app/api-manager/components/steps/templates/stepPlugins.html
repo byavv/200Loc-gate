@@ -1,6 +1,10 @@
-<div class="my-card">    
+<div class="my-card">
     <div class="row">
         <div class="col-md-5 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
+            <div style="width: 100%;" class="alert alert-warning alert-sm pull-right no-margin ng-scope" *ngIf="showError && appliedPlugins.length == 0" id="app-alert">
+                <button type="button" class="ml-lg close" (click)="showError = false;" data-dismiss="alert" aria-hidden="true">×</button>
+                 Entry should have at least <span class="fw-semi-bold">one</span> pipe middleware plugin 
+            </div>
             <div class="plugins-container" style="position: relative;">
                 <div class="image-container" [hidden]="appliedPlugins.length == 0">
                     <img src="/static/assets/images/cloud.png" alt="" style="width: 50px;">

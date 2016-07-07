@@ -26,8 +26,7 @@ var superMiddlewareFactory = (options) => {
                 next();
             }
         }
-        let target = rules.match(req);
-        console.log("TARGET", target)
+        let target = rules.match(req);        
         if (target && target.methods.includes(req.method)) {
             plugins = target.plugins || [];
             walk(0);
@@ -40,6 +39,7 @@ var superMiddlewareFactory = (options) => {
 module.exports = function (app, componentOptions) {
     var ApiConfig = app.models.ApiConfig;
     var DYNAMIC_CONFIG_PARAM = /\$\{(\w+)\}$/;
+    var ENV_CONFIG_PARAM = /\env\{(\w+)\}$/;
     var plugins = app.plugins;
 
     ApiConfig.find((err, apiConfigs) => {
@@ -56,15 +56,23 @@ module.exports = function (app, componentOptions) {
                     var settings = plugin.settings;
                     // find all dynamic parameters and provide getting values from global object
                     Object.keys(settings).forEach((paramKey) => {
-                        var match = settings[paramKey].match(DYNAMIC_CONFIG_PARAM);
-                        if (match) {
+                        var matchDyn = settings[paramKey].match(DYNAMIC_CONFIG_PARAM);
+                        var matchEnv = settings[paramKey].match(ENV_CONFIG_PARAM);
+                        if (matchDyn) {
                             Object.defineProperty(settings, paramKey, {
-                                get: function () {
-                                    return pipeGlobal[match[1]]; /*apply function*/
+                                get: function () {                                    
+                                    return pipeGlobal[matchDyn[1]]; /*apply function*/
                                 },
                             })
                         }
-                    });                   
+                        if (matchEnv) {
+                            Object.defineProperty(settings, paramKey, {
+                                get: function () {                                   
+                                    return process.env[matchEnv[1]];
+                                },
+                            })
+                        }
+                    });
                     var pluginBuilder = app.plugins.find((plugin) => plugin._name === pluginName);
                     if (!pluginBuilder) {
                         throw new Error(`Plugin ${pluginName} is not defined`);
@@ -74,30 +82,6 @@ module.exports = function (app, componentOptions) {
                     }
                 })
 
-
-
-                // Object.keys(apiConfigPlugins).forEach((key) => {
-                //     // here we have plugin config
-                //     var settings = apiConfigPlugins[key];
-                //     // find all dynamic parameters and provide getting values from global object
-                //     Object.keys(settings).forEach((paramKey) => {
-                //         var match = settings[paramKey].match(DYNAMIC_CONFIG_PARAM);
-                //         if (match) {
-                //             Object.defineProperty(settings, paramKey, {
-                //                 get: function () {
-                //                     return pipeGlobal[match[1]]; /*apply function*/
-                //                 },
-                //             })
-                //         }
-                //     });
-                //     var pluginBuilder = app.plugins.find((plugin) => { return plugin._name === key });
-                //     if (!pluginBuilder) {
-                //         throw new Error("Plugin is not defined");
-                //     } else {
-                //         let handler = pluginBuilder(settings || {}, pipeGlobal);
-                //         pluginsArray.push(handler);
-                //     }
-                // })
 
                 proxyRules[apiConfig.entry] = {
                     plugins: pluginsArray,

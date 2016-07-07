@@ -19,7 +19,4 @@ bootstrap(App, [
     provideForms(),
     provide(PLATFORM_DIRECTIVES, { useValue: InertLink, multi: true })
 ])
-    .then(() => {
-        console.log("APP STARTED");
-    })
     .catch(console.error)

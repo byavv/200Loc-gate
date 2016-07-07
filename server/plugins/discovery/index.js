@@ -8,8 +8,8 @@ const registry = require('etcd-registry'),
 
 
 var Plugin = function (params, pipeGlobal) {
-    let services = registry(`http://${process.env.ETCD_HOST || "192.168.99.100"}:4001`);
-
+ //   let services = registry(`http://${process.env.ETCD_HOST || "192.168.99.100"}:4001`);
+  let services = registry(`http://${params.etcd_host || "192.168.99.100"}:4001`);
     return function (req, res, next) {
         if (params.mapTo) {
             new Promise((resolve, reject) => {

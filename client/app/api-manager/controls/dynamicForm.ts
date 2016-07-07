@@ -28,8 +28,7 @@ export class DynamicForm {
     @Output()
     changed: EventEmitter<any> = new EventEmitter();
     @Input()
-    set plugin(plugin: Plugin) {
-        console.log("PLUGIN TO SET", plugin)
+    set plugin(plugin: Plugin) {        
         let group = {};
         if (plugin) {
             this.fields.splice(0, this.fields.length);

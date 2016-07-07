@@ -51,7 +51,7 @@ export class StepGeneral implements OnInit {
             name: ["", Validators.required],
             entry: ["", Validators.required],
             description: [""],
-            methods: [['GET']]
+            methods: ['GET']
         });
 
     }

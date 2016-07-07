@@ -21,15 +21,9 @@ export class BackEnd {
     return this._http
       .get(`/api/config/${id}`)
       .map(res => res.json());
-  }
-  /*public getPluginConfig(name): Observable<any> {
-    return this._http
-      .get(`/api/plugins/${name}`)
-      .map(res => res.json());
-  }*/
+  }  
 
-  public createOrUpdate(data: any, id?: string) {
-    console.log("CREATE OR UPDATE", data, id)
+  public createOrUpdate(data: any, id?: string) {    
     return this._http
       .post(`/api/config/${id}`, JSON.stringify(data))
       .map(res => res.json());

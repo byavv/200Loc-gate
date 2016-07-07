@@ -4,8 +4,7 @@ const webpackMerge = require('webpack-merge'),
   ExtractTextPlugin = require('extract-text-webpack-plugin')
   ;
 
-module.exports = webpackMerge(commonConfig, {
-  // devtool: 'source-map',
+module.exports = webpackMerge(commonConfig, { 
   devtool: 'inline-source-map',
   debug: true,
   entry: {

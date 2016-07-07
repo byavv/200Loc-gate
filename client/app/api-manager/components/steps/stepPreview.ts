@@ -27,8 +27,6 @@ import {Observable} from 'rxjs';
 export class StepPreview implements OnInit {
     @Output()
     next: EventEmitter<any> = new EventEmitter();
-
-
     loading: boolean = false;
     submitted: boolean = false;
     constructor(
@@ -36,11 +34,9 @@ export class StepPreview implements OnInit {
         fb: FormBuilder,
         private backEnd: BackEnd,
         private appController: AppController) {
-
     }
 
     ngOnInit() {
-
     }
 
     onSubmit() {

@@ -205,3 +205,12 @@ button.next-button {
         padding-left: 15px;
     }
 }
+
+.btn{
+    transition: background-color .15s ease-in-out,border-color .15s ease-in-out;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #5d8fc2;
+    border-color: #4a82bb;
+}

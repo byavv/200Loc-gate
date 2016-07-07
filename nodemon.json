@@ -1,7 +1,8 @@
 {
     "env": {
         "NODE_ENV": "development",
-        "DEBUG": "proxy, discovery"
+        "DEBUG": "proxy, discovery",
+        "ETCD_HOST": "192.168.1.99"
     },
     "ext": "js",
     "restartable": "rs",

@@ -47,7 +47,7 @@ ul.plugins {
 .api-item-controls {
     text-align: right;
     > button {
-        padding: 0.15rem 0.6rem;
+        padding: 0.1rem 0.6rem;
     }
 }
 
@@ -65,4 +65,23 @@ ul.plugins {
     padding: 8px;
     line-height: 1.428571429;
     vertical-align: top;
+}
+
+.btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dd5826;
+    border-color: #ca4e20;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #64bd63;
+    border-color: #52b551;
 }

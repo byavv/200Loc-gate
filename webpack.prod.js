@@ -9,6 +9,7 @@ const DefinePlugin = require('webpack/lib/DefinePlugin'),
   ;
 
 module.exports = webpackMerge(commonConfig, {
+  debug: false,
   output: {
     filename: '[name].[chunkhash:7].js',
     chunkFilename: '[id].[chunkhash:7].js'
@@ -17,20 +18,25 @@ module.exports = webpackMerge(commonConfig, {
     new DedupePlugin(),
     new UglifyJsPlugin({
       beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: {
-        screw_ie8: true,
-        warnings: false
-      },
+      mangle: { screw_ie8: true },
+      compress: { screw_ie8: true, warnings: false },
       comments: false
     }),
     new CompressionPlugin({
-      regExp: /\.css$|\.html$|\.js$|\.map$/,
+      regExp: /\.css$|\.html$|\.js$/,
       threshold: 2 * 1024
     }),
     new ExtractTextPlugin('assets/styles/[name].[chunkhash:7].css'),
-  ]
+  ],
+  htmlLoader: {
+    minimize: true,
+    removeAttributeQuotes: false,
+    caseSensitive: true,
+    customAttrSurround: [
+      [/#/, /(?:)/],
+      [/\*/, /(?:)/],
+      [/\[?\(?/, /(?:)/]
+    ],
+    customAttrAssign: [/\)?\]?=/]
+  },
 });

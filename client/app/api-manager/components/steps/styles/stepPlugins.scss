@@ -181,3 +181,15 @@
 .my-card {
     flex: 1;
 }
+
+.alert-sm {
+    padding: 10px 12px;
+    font-size: 13px;
+    .ml-lg {
+        margin-left: 20px;
+        font-size: 18px;
+    }
+    .fw-semi-bold {
+        font-weight: 600;
+    }
+}

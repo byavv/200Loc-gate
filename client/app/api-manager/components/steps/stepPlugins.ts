@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter, OnDestroy, Host, ViewChildren, QueryList, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
-import { ShowError, Draggable } from '../../directives';
+import { ShowError } from '../../directives';
 import { DynamicForm } from '../../controls';
 import { FormGroup, REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators } from '@angular/forms';
 import { RegExpWrapper, print, isPresent, isFunction } from '@angular/compiler/src/facade/lang';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'step-plugins',
     template: require("./templates/stepPlugins.html"),
-    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, Draggable, DynamicForm, MODAL_DIRECTVES],
+    directives: [REACTIVE_FORM_DIRECTIVES, ShowError, DynamicForm, MODAL_DIRECTVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     styles: [require('./styles/stepPlugins.scss'),
         `
@@ -36,6 +36,7 @@ export class StepPlugins implements OnInit {
     submitted: boolean = false;
     selectedPlugin: Plugin;
     plugins_valid = false;
+    showError: boolean = false;
 
     constructor(
         private master: MasterController,
@@ -46,6 +47,9 @@ export class StepPlugins implements OnInit {
 
     ngOnInit() {
         this.loading = true;
+        this.master.error$.subscribe(() => {
+            this.showError = true;
+        });
         this.appController
             .init$
             .do((defaults) => { this.plugins = defaults.plugins || []; })
@@ -57,8 +61,8 @@ export class StepPlugins implements OnInit {
                     if (plugin)
                         this.addNewPlugin(plugin, cp.settings, false);
                 });
-                this.applyPlugins(apiConfig.plugins);  
-                this.applyValidation();              
+                this.applyPlugins(apiConfig.plugins);
+                this.applyValidation();
             });
     }
 
@@ -73,7 +77,7 @@ export class StepPlugins implements OnInit {
         }
     }
 
-//# private mathods
+    //# private mathods
     private get _valid(): boolean {
         let valid = true;
         if (this.appliedPlugins && this.appliedPlugins.length > 0) {
@@ -109,9 +113,9 @@ export class StepPlugins implements OnInit {
         })
         plugin.active = true;
     }
-//#
+    //#
 
-//# plugin management methods
+    //# plugin management methods
     applyValidation() {
         this._valid
             ? this.master.setValidity('plugins', true)
@@ -139,9 +143,9 @@ export class StepPlugins implements OnInit {
         plugin.active = true;
         this.activePlugin = plugin;
     }
-//#
+    //#
 
-//# manage plugin pipe item
+    //# manage plugin pipe item
     pluginUp(plugin: Plugin) {
         this.selectPipeItem(plugin);
         if (!this.isLast(plugin)) {
@@ -169,7 +173,7 @@ export class StepPlugins implements OnInit {
         if (this.appliedPlugins[0])
             this._setActive(this.appliedPlugins[0]);
     }
-//#
+    //#
 
     isLast(plugin): boolean {
         return (plugin === this.appliedPlugins
@@ -199,6 +203,7 @@ export class StepPlugins implements OnInit {
 
     onSubmit() {
         this.submitted = true;
+        this.showError = true;
         this.master.setValidity('plugins', this.appliedPlugins.length > 0);
         if (this._valid) {
             this.applyPlugins();

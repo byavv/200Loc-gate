@@ -8,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 export class FooterComponent implements OnInit {
     constructor() { }
     seo = {
-        title: 'SEO'
+        title: 'Loc200-Gate'
     };
     ngOnInit() { }
 }

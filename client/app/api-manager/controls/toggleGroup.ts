@@ -8,21 +8,15 @@ import { NgControl, NgModel, ControlValueAccessor } from '@angular/forms';
 })
 
 export class ToggleGroup implements ControlValueAccessor {
-    private _selectedOptions = [];
-    //  private options = [];
+    private _selectedOptions = [];   
 
-    private _ooptions: Array<any> = [];
+    private _options: Array<any> = [];
     @Input()
     set options(op) {
-        this._ooptions = op;
-        /*  this.options = this._ooptions.map((option) => {
-             return this.selectedOptions.indexOf(option.name) > -1
-                 ? Object.assign(option, { active: true })
-                 : Object.assign(option, { active: false })
-         })*/
+        this._options = op;       
     }
     get options(): any {
-        return this._ooptions;
+        return this._options;
     }
 
     set selectedOptions(arrayOfSelected) {
@@ -36,16 +30,6 @@ export class ToggleGroup implements ControlValueAccessor {
     get selectedOptions(): any {
         return this._selectedOptions;
     }
-
-
-    ngOnInit() {
-        /*this.options = this.options.map((option) => {
-            return this.selectedOptions.indexOf(option.name) > -1
-                ? Object.assign(option, { active: true })
-                : Object.assign(option, { active: false })
-        })*/
-    }
-
 
     constructor( @Optional() @Self() private ngControl: NgControl) {
         if (ngControl) ngControl.valueAccessor = this;
