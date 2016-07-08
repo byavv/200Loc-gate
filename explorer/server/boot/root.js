@@ -20,10 +20,11 @@ module.exports = function (app) {
         });
     });
 
-    router.post('/api/config/:id', (req, res) => {
+    router.post('/api/config/:id', (req, res) => {      
         ApiConfig.findOrCreate({ where: { id: req.params.id } }, req.body, (err, config) => {
-            if (err) return res.sendStatus(500);
-            //  console.log(config.plugins)
+            if (err) {               
+                return res.status(err.statusCode).send(err.message);
+            }          
             config.updateAttributes(req.body, (err, cf) => {
                 if (err) return res.sendStatus(500);
                 return res.status(200).send(cf);

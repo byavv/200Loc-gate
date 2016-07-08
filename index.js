@@ -8,8 +8,8 @@ var http = require('http')
     ;
 
 
-const http_port_gate = process.env.HTTP_PORT || 3001
-    , http_port_exp = process.env.HTTP_PORT || 5601
+const http_port_gate = process.env.GATE_HTTP_PORT || 3001
+    , http_port_exp = process.env.EXPLORER_HTTP_PORT || 5601
     ;
 
 

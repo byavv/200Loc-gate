@@ -58,6 +58,7 @@ gulp.task('test:server', ['set:test'], () => {
         .pipe($.mocha(config.options.mocha))
         .on('end', () => {
             $.util.log($.util.colors.bgYellow('INFO:'), 'Mocha completed');
+            process.exit();
         })
         .on('error', (err) => {
             $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err.message));
@@ -71,12 +72,12 @@ gulp.task('test:server', ['set:test'], () => {
  */
 gulp.task('test:coverage', ["set:test"], () => {
     var mochaError;
-    gulp.src(['./server/**/*.js'])
+    gulp.src(['./gateway/server/**/*.js'])
         .pipe($.istanbul({ includeUntested: false }))
         .pipe($.istanbul.hookRequire())
         .on('finish', () => {
             gulp.src(config.src.server.tests)
-                .pipe($.mocha())
+                .pipe($.mocha({timeout: 5000}))
                 .on('error', (err) => {
                     $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err.message));
                     $.util.log('Stack:', $.util.colors.red(err.stack));

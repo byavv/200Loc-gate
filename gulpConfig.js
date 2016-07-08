@@ -16,7 +16,9 @@ var conf = {
                 '!server/**/*.spec.js'
             ],
             tests: [
-                'test/**/*.spec.js'
+                'gateway/test/**/*.spec.js',
+                'plugins/**/*.spec.js',
+                'explorer/test/**/*.spec.js',
             ]
         }
     },

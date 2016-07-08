@@ -1,0 +1,14 @@
+{
+    "throwError": {
+        "default": false,
+        "required": true,
+        "label": "***",
+        "help": "****"
+    },
+    "errorCode": {
+        "default": 404,
+        "required": 404,
+        "label": "***",
+        "help": "****"
+    }
+}
