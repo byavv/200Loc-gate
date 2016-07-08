@@ -27,7 +27,7 @@ process.env.NODE_ENV = options.env;
  */
 gulp.task('dev', ['clean:build'], () => {
     var nodemonRef;
-    var config = require("./webpack");
+    var config = require("./explorer/config/webpack");
     webpack(config).watch(500, onWebpackCompleted(() => {
         nodemonRef
             ? nodemonRef.restart()
@@ -41,7 +41,7 @@ gulp.task("set:test", () => {
 });
 
 gulp.task("build:client", (done) => {
-    var config = require("./webpack");
+    var config = require("./explorer/config/webpack");
     webpack(config).run(onWebpackCompleted(done));
 });
 

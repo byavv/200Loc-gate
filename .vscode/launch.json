@@ -5,7 +5,7 @@
             "name": "Запустить",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/server/server.js",
+            "program": "${workspaceRoot}/server.js",
             "stopOnEntry": false,
             "args": [],
             "cwd": "${workspaceRoot}",

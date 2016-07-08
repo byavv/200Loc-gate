@@ -1,5 +1,5 @@
-var app = require('../server/server');
-var fakeData = require('./fakeUsers');
+var app = require('../server/gatewayApp/server');
+var fakeData = require('./fakeEntries');
 module.exports = function (done) {
   if (app.loaded) {
     app.once('started', () => {

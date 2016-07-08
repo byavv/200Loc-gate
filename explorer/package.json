@@ -1,0 +1,50 @@
+{
+  "name": "explorer",
+  "version": "0.0.1",
+  "main": "server/server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node .",
+    "test": "gulp test:coverage"
+  },
+  "engines": {
+    "node": ">= 6"
+  },
+  "jshintConfig": {
+    "esversion": 6
+  },
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/forms": "0.2.0",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "@angular/router": "3.0.0-beta.1",
+    
+    "async": "^2.0.0-rc.6",  
+    "body-parser": "^1.15.0",
+    "compression": "^1.0.3",
+    "core-js": "^2.4.0",
+    "cors": "^2.5.2",
+    "debug": "^2.2.0",    
+    "helmet": "^0.14.0",   
+    "loopback": "^2.28.0",
+    "loopback-boot": "^2.18.1",
+    "loopback-component-explorer": "^2.5.0",
+    "loopback-connector-mongodb": "^1.15.2",
+    "loopback-datasource-juggler": "^2.46.0",
+    "ng2-bootstrap": "^1.0.17",   
+    "rxjs": "5.0.0-beta.6",
+    "serve-favicon": "^2.0.1",  
+    "zone.js": "^0.6.12"
+  },
+  "devDependencies": {    
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/byavv/200Loc-gate.git"
+  },
+  "description": "api gateway server"
+}
