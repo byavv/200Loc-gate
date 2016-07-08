@@ -1,0 +1,195 @@
+.plugin-menu-container {}
+
+.plugins-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.plugin-menu {
+    list-style: none;
+    padding: 0;
+    > li {
+        margin: 2px 2px;
+        padding: 8px;
+        color: #455A64!important;
+        background: #f2f2f2;
+        border: 1px solid #cfd8dc;
+        font-size: 14px;
+        font-weight: 300;
+        cursor: pointer;
+        width: 100%;
+        &.active {
+            background: #E5E5E5;
+        }
+    }
+}
+
+.plugin-item-container {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    > li {
+        position: relative;
+        padding: 10px;
+        color: #455A64 !important;
+        background: #ffffff;
+        background: #f9f9f9;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        > .button-group {
+            position: absolute;
+            right: 3px;
+            top: 0px;
+            height: 100%;
+            font-size: 1em;
+            > span {
+                margin-left: 1px;
+                color: #455A64;
+            }
+            > span.delete {
+                color: #900000;
+            }
+        }
+        > .content {
+            margin-left: 20px;
+        }
+        &:not(:last-child)::after {
+            content: '';
+            background: url(/static/assets/images/lines.png) no-repeat 0 0;
+            background-position: -107px 0px;
+            width: 2px;
+            display: inline-block;
+            height: 30px;
+            position: absolute;
+            left: 50%;
+            bottom: -30px;
+        }
+        &:not(:last-child):not(:first-child) {
+            margin: 10px 0;
+        }
+        &:first-child {
+            margin: 0 0 10px 0;
+        }
+        &:last-child {
+            margin: 10px 0 0 0;
+        }
+        &.active {
+            background: #eeeeee;
+        }
+        &.invalid {
+            &::before {
+                display: inline-block;
+                content: '\f071';
+                font-family: FontAwesome;
+                color: #b36e19;
+                position: absolute;
+                width: 20px;
+                right: -25px;
+            }
+        }
+    }
+}
+
+.image-container {
+    > img {
+        margin-left: calc(50% - 75px);
+    }
+    &::after {
+        content: '';
+        background: url(/static/assets/images/lines.png) no-repeat 0 0;
+        background-position: -35px -30px;
+        width: 30px;
+        display: inline-block;
+        height: 30px;
+        position: absolute;
+        left: calc(50% - 28px);
+        top: 25px;
+    }
+    &.empty::after {
+        background-position: -107px 0px;
+        width: 2px;
+        height: 30px;
+        position: absolute;
+        left: 50%;
+        bottom: -30px;
+    }
+}
+
+.b-add-pipe-item {
+    margin-top: 10px;
+    &.addFirst {
+        margin: 100px auto;
+        padding: 20px 0;
+        width: 85px;
+        background: #e8e8e8;
+        border-radius: 50%;
+        >a {
+            display: block;
+            margin: 0 auto;
+            font-size: 30px;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            border: none;
+            &::before {
+                background: none;
+            }
+        }
+    }
+    > a {
+        padding: 5px 2px;
+        width: 38px;
+        height: 38px;
+        display: block;
+        margin-left: calc(50% + 30px);
+        color: #455A64;
+        cursor: pointer;
+        text-decoration: none;
+        border: 2px solid rgba(208, 208, 208, 0.85);
+        border-radius: 50%;
+        > span {
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        &::before {
+            content: '';
+            background: url(/static/assets/images/lines.png) no-repeat 0 0;
+            background-position: -9px -28px;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            margin-left: 1px;
+        }
+    }
+}
+
+.plugin-props {
+    position: relative;
+    .delete-button {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+    }
+}
+
+.my-card {
+    flex: 1;
+}
+
+.alert-sm {
+    padding: 10px 12px;
+    font-size: 13px;
+    .ml-lg {
+        margin-left: 20px;
+        font-size: 18px;
+    }
+    .fw-semi-bold {
+        font-weight: 600;
+    }
+}

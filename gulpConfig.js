@@ -4,10 +4,9 @@
 var path = require('path');
 var rootPath = path.normalize(__dirname);
 var conf = {
-    dirs: {
-        server: 'server',
+    dirs: {        
         client: 'client',
-        build: 'build',
+        build: 'explorer/build',
         coverage: process.env.CIRCLE_ARTIFACTS || 'coverage'
     },
     src: {
@@ -17,7 +16,9 @@ var conf = {
                 '!server/**/*.spec.js'
             ],
             tests: [
-                'test/**/*.spec.js'
+                'gateway/test/**/*.spec.js',
+                'plugins/**/*.spec.js',
+                'explorer/test/**/*.spec.js',
             ]
         }
     },

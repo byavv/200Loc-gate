@@ -1,0 +1,31 @@
+<div class="my-card" style="position: relative;">
+    <loader [active]='loading' [async]='master.init$' [delay]='500'></loader>
+    <div class="row">
+        <div class="col-md-10 col-lg-8 col-sm-12">
+            <form [formGroup]="form" #configForm="ngForm" class="form-horizontal">
+                <div class="form-group">
+                    <label for="name">Name*</label>
+                    <input id="name" class="form-control" [(ngModel)]='apiConfig.name' placeholder="Name..." formControlName="name">
+                    <show-error *ngIf="submitted" control="name" [errors]="{'required': 'Name field is required'}"></show-error>
+                </div>
+                <div class="form-group">
+                    <label for="entry">Entry*</label>
+                    <input id="entry" class="form-control" [(ngModel)]="apiConfig.entry" formControlName="entry" placeholder="/...">
+                    <show-error *ngIf="submitted" control="entry" [errors]="{'required': 'Entry field is required'}"></show-error>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="form-control" [(ngModel)]='apiConfig.description' placeholder="Description..." formControlName="description">
+                        </textarea>
+                </div>
+                <div class="form-group">
+                    <toggleGroup formControlName="methods" [options]="options" [(ngModel)]="apiConfig.methods">
+                    </toggleGroup>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<button type="button" (click)="onSubmit(configForm)" class="btn btn-primary next-button">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>  Next define request pipe
+            </button>

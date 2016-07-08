@@ -1,0 +1,19 @@
+<div [formGroup]="form" #f="ngForm" class="form-group">
+    <div [ngSwitch]="field.type">
+        <label [attr.for]="field.key">{{ field.label | firstUp }}</label>
+        <input class="form-control" *ngSwitchCase="'string'" 
+            [formControlName]="field.key" 
+            [(ngModel)]='field.value' 
+            [id]="field.key">
+        <select class="form-control" [id]="field.key" 
+            *ngSwitchCase="'array'" 
+            [(ngModel)]='field.value' 
+            [formControlName]="field.key">
+             <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+        </select>
+        <show-error *ngIf="f.control.controls[field.key].dirty" 
+            [control]="field.key" 
+            [errors]="{'required': 'Entry field is required'}">
+        </show-error>
+    </div>
+</div>

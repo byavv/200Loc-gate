@@ -1,0 +1,45 @@
+<div class="col-md-12">
+    <section class="widget" style="position: relative; min-height: 500px;">
+        <loader [active]='loading'></loader>
+        <div class="widget-header">
+            <span class="title">Api table</span>
+            <div class="pull-xs-right" style="position: relative;">
+                <a [routerLink]="['/master']" class="nav-link" role="button" aria-expanded="false">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Entry</th>
+                        <th>Description</th>
+                        <th>Methods</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor='let config of configs'>
+                        <td><a [routerLink]="['/master']" [queryParams]='{ id: config.id }'>~{{ config.entry }}</a></td>
+                        <td>{{ config.description }}</td>
+                        <td class="width-150">
+                            <div *ngFor='let method of config?.methods'>
+                                <span class="label label-default">{{ method }}</span>
+                            </div>
+                        </td>
+                        <td class="width-150" style="position: relative;">
+                            <div class="api-item-controls">
+                                <button type="button" class="btn btn-success btn-sm" (click)="editApi(config)">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" (click)="deleteApi(config)">
+                                        <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

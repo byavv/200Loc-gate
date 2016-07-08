@@ -1,0 +1,74 @@
+<div class="my-card">
+    <div class="row">
+        <div class="col-md-5 col-sm-12" [ngClass]="appliedPlugins.length == 0 ? 'col-md-12': 'col-md-4 col-sm-12'">
+            <div style="width: 100%;" class="alert alert-warning alert-sm pull-right no-margin ng-scope" *ngIf="showError && appliedPlugins.length == 0" id="app-alert">
+                <button type="button" class="ml-lg close" (click)="showError = false;" data-dismiss="alert" aria-hidden="true">×</button>
+                 Entry should have at least <span class="fw-semi-bold">one</span> pipe middleware plugin 
+            </div>
+            <div class="plugins-container" style="position: relative;">
+                <div class="image-container" [hidden]="appliedPlugins.length == 0">
+                    <img src="/static/assets/images/cloud.png" alt="" style="width: 50px;">
+                </div>
+                <ul class="plugin-item-container" [hidden]="appliedPlugins.length == 0">
+                    <li *ngFor="let plugin of appliedPlugins" [ngClass]="{active: plugin.active, invalid: !plugin.valid}" (click)="selectPipeItem(plugin)">
+                        <div class="content">
+                            {{plugin.order}}: {{plugin.name}}
+                        </div>
+                        <div class="button-group">
+                            <span class='down' [hidden]='isFirst(plugin)' (click)='pluginDown(plugin)'>             
+                                <i class="fa fa fa-arrow-circle-up"></i>              
+                            </span>
+                            <span class='up' [hidden]='isLast(plugin)' (click)='pluginUp(plugin)'>            
+                                <i class="fa fa fa-arrow-circle-down"></i>               
+                            </span>
+                            <span class='delete' (click)='pluginDelete(plugin)'>
+                                <i class="fa fa-times-circle" aria-hidden="true"></i>
+                             </span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="b-add-pipe-item" [class.addFirst]="appliedPlugins.length == 0">
+                    <a href='' (click)="lgModal.show()" title="Add">
+                        <i class="fa fa-share-alt" aria-hidden="true"></i>
+                        <span>+</span>
+                    </a>
+                </div>
+                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title">Select</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="plugin-menu-container">
+                                    <ul class="plugin-menu">
+                                        <li class="plugin-menu-item" *ngFor="let plugin of plugins" (dbclick)="addNewPlugin(selectedPlugin); lgModal.hide()" [class.active]='plugin.active'
+                                            (click)="select(plugin)">
+                                            {{plugin.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-large btn-block btn-default" (click)="addNewPlugin(selectedPlugin); lgModal.hide()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 col-sm-12">
+            <div class="plugin-props" *ngFor="let plugin of appliedPlugins" [hidden]="!plugin.active">
+                <dynamic-form [plugin]="plugin" (changed)='applyValidation()'></dynamic-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" (click)="onSubmit()" class="btn btn-primary next-button">
+           <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                Next
+</button>

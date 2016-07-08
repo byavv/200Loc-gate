@@ -1,0 +1,8 @@
+{
+    "grant": {
+        "default": "*",
+        "required": true,
+        "label": "Grant",
+        "help": "Grant access for roles, which has this permissions"
+    }   
+}

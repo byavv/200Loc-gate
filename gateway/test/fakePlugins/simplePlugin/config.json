@@ -1,0 +1,14 @@
+{
+    "dynamic": {
+        "default": "test",
+        "required": true,
+        "label": "***",
+        "help": "****"
+    },
+    "env": {
+        "default": "test",
+        "required": true,
+        "label": "***",
+        "help": "****"
+    }
+}

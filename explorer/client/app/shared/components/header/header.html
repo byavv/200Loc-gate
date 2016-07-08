@@ -1,0 +1,17 @@
+<header>
+    <nav class="navbar navbar-light app-header">
+        <a [routerLink]="['/']" class="navbar-brand">200Loc-Gate</a>
+
+        <ul class="nav navbar-nav pull-xs-right">
+            <li class="nav-item" dropdown style="position: relative;">
+                <a href="" dropdownToggle class="nav-link" role="button" aria-expanded="false">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="simple-dropdown">
+                    <a class="dropdown-item" [routerLink]="['/']"><i class="icon-home icon-1x"></i>Gateway entries</a>
+                    <a class="dropdown-item" [routerLink]="['/plugins']"><i class="icon-home icon-1x"></i>Plugins manager</a>
+                </div>
+            </li>            
+        </ul>
+    </nav>
+</header>

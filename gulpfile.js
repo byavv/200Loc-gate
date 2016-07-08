@@ -9,7 +9,7 @@ const gulp = require('gulp'),
     config = require('./gulpConfig'),
     $ = require('gulp-load-plugins')(),
     del = require('del'),
-    webpack = require('webpack')    
+    webpack = require('webpack')
     ;
 
 var defaults = {
@@ -27,7 +27,7 @@ process.env.NODE_ENV = options.env;
  */
 gulp.task('dev', ['clean:build'], () => {
     var nodemonRef;
-    var config = require("./webpack");
+    var config = require("./explorer/config/webpack");
     webpack(config).watch(500, onWebpackCompleted(() => {
         nodemonRef
             ? nodemonRef.restart()
@@ -41,7 +41,7 @@ gulp.task("set:test", () => {
 });
 
 gulp.task("build:client", (done) => {
-    var config = require("./webpack");
+    var config = require("./explorer/config/webpack");
     webpack(config).run(onWebpackCompleted(done));
 });
 
@@ -58,6 +58,7 @@ gulp.task('test:server', ['set:test'], () => {
         .pipe($.mocha(config.options.mocha))
         .on('end', () => {
             $.util.log($.util.colors.bgYellow('INFO:'), 'Mocha completed');
+            process.exit();
         })
         .on('error', (err) => {
             $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err.message));
@@ -71,12 +72,12 @@ gulp.task('test:server', ['set:test'], () => {
  */
 gulp.task('test:coverage', ["set:test"], () => {
     var mochaError;
-    gulp.src(['./server/**/*.js'])
+    gulp.src(['./gateway/server/**/*.js'])
         .pipe($.istanbul({ includeUntested: false }))
         .pipe($.istanbul.hookRequire())
         .on('finish', () => {
             gulp.src(config.src.server.tests)
-                .pipe($.mocha())
+                .pipe($.mocha({timeout: 5000}))
                 .on('error', (err) => {
                     $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err.message));
                     $.util.log('Stack:', $.util.colors.red(err.stack));

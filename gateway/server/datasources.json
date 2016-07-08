@@ -1,0 +1,14 @@
+{
+  "dbAuth": {
+    "host": "${mongo_host}",
+    "port": 27017,
+    "database": "profile-db",
+    "name": "dbAuth",
+    "connector": "mongodb"
+  },
+  "db": {
+    "name": "db",
+    "connector": "memory",
+    "file": "gateway.json"
+  }
+}

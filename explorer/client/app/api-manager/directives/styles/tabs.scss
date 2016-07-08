@@ -1,0 +1,103 @@
+.my-steps {
+  padding: 0;
+  float: right;
+  width: auto;
+  @media (max-width: 47.9em) {
+    float: none;
+  }
+  li {
+    list-style: none;
+    background: #fff;
+    box-shadow: 0 0 0 1px #F8F8F8 inset, 0 0 0 1px #CCCCCC;
+    color: rgba(69, 90, 100, 0.7);
+    height: 80px;
+    margin: 0;
+    margin-bottom: 7px;
+    padding-top: 17px;
+    text-align: center;
+    @media (max-width: 47.9em) {
+      display: inline-block;
+      margin: 0;
+      width: 33.333333%;
+    }
+    text-decoration: none;
+    width: 80px;
+    position: relative;
+    &:last-of-type::after {
+      display: none;
+    }
+  }
+  > li > span {
+    display: block;
+  }
+  > li > i {
+    font-size: 1.5rem;
+    &::before {
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+    }
+  }
+  /*tab's images*/
+  > li.general > i::before {
+    content: '\f013'
+  }
+  > li.plugins > i::before {
+    content: '\f1e0'
+  }
+  > li.preview > i::before {
+    content: '\f00c'
+  }
+  > li.active {
+    color: #455A64;
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 2px;
+      content: "";
+      background-color: #d26911;
+      @media (max-width: 47.9em) {
+        width: 100%;
+        height: 2px;
+        top: auto;
+      }
+    }
+  }
+  > li.invalid.visited {
+    color: #900000!important;
+  }
+  /*> li:not(.invalid).visited {
+    color: #455A64
+  }*/
+  span {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+}
+
+
+/*
+:host {
+  display: flex;
+  flex-direction: column;
+  & > * {
+    flex: 1;
+  }
+  .flex-header {
+    flex: 0 1 100%;
+  }
+  .flex-content {
+    flex: 1 0 100%;
+    display: flex;
+    flex-direction: column;
+    & > * {
+      flex: 1 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}*/
