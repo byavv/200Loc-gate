@@ -1,29 +1,14 @@
 import { provideRouter, RouterConfig } from '@angular/router';
-
-import { ApiManagementComponent, ApiListComponent, ApiMasterComponent } from './api-manager';
-
-
-export const AppRoutes = [
-  {
-    path: '/',
-    component: ApiManagementComponent,
-    index: true,
-    children: [
-      { path: '/list', component: ApiListComponent, index: true },
-      { path: '/master/:id', component: ApiMasterComponent }
-    ]
-  },
- // { path: '/login', component: LoginComponent },
- // { path: '/master', component: ApiMasterComponent }
-];
+import {ApiManagerRoutes} from './api-manager';
+import {AuthenticationRoutes} from './authentication';
+import {PluginsRoutes} from './plugin-manager';
 
 const routes: RouterConfig = [
-  // ...HeroesRoutes,
-  // ...CrisisCenterRoutes
-  ...AppRoutes
+  ...PluginsRoutes,
+  ...ApiManagerRoutes,
+  ...AuthenticationRoutes  
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes),
-  // CrisisDetailGuard
+  provideRouter(routes)
 ];

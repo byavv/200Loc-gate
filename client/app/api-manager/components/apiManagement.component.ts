@@ -6,7 +6,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
     selector: 'api-manager',
     directives: [ROUTER_DIRECTIVES],
     template: `
-    <h2>API MANAGER</h2>
+    <h3>API MANAGER</h3>
     <router-outlet></router-outlet>
   `,
     providers: []
