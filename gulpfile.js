@@ -94,11 +94,8 @@ gulp.task('test:pre', function () {
 gulp.task('test:coverage', ["set:test", "test:pre"], () => {
     return gulp.src(config.src.server.tests)
         .pipe($.mocha({
-            reporter: 'mocha-junit-reporter',
-            timeout: 5000,
-            reporterOptions: {
-                mochaFile: process.env.CIRCLE_TEST_REPORTS + '/junit/results.xml'
-            }
+            reporter: 'spec',
+            timeout: 5000           
         }))
         .on('error', (err) => {
             $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err));
