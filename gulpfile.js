@@ -47,11 +47,7 @@ gulp.task("build:client", (done) => {
 
 gulp.task('build', ['build:client']);
 
-gulp.task('test', ['test:client', 'test:server']);
-
-gulp.task('test:client', () => {
-
-});
+gulp.task('test', ['test:server']);
 
 gulp.task('test:server', ['set:test'], () => {
     gulp.src(config.src.server.tests, { read: false })

@@ -20,7 +20,7 @@ app.start = (port) => {
                 app.removeAllListeners('loaded');
                 httpServer.close(cb);
             };
-            console.log(`Gateway server started on port ${port}`);
+            console.log(`Gateway started on port ${port}`);
         });
     return httpServer;
 };
