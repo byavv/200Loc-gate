@@ -21,7 +21,7 @@ app.start = (port) => {
                 app.removeAllListeners('loaded');
                 httpServer.close(cb);
             };
-            console.log(`Proxy server started on port ${port}`);
+            console.log(`Api explorer started on port ${port}`);
         });
     return httpServer;
 };

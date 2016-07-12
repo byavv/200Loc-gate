@@ -1,16 +1,10 @@
 /*jslint node: true, mocha:true*/
 "use strict";
-const express = require('express'),
-    chai = require('chai'),
+const chai = require('chai'),
     sinon = require('sinon'),
-    assert = chai.assert,
     expect = chai.expect,
-    NotAuthorizedError = require("../../lib/errors").err401,
-    GatewayError = require("../../lib/errors").err502,
     request = require('supertest')
     ;
-
-chai.should();
 
 describe('GATEWAY TESTS', function () {
     var app;
@@ -18,16 +12,17 @@ describe('GATEWAY TESTS', function () {
     before((done) => {
         require('./init-server')((a) => {
             app = a;
-            done()
+            done();
         })
-    });
+    });  
+
     after((done) => {
         app.close(done);
     })
 
     it('should load plugins', () => {
         expect(app.plugins.length).to.be.equal(3);
-    });   
+    });
 
     it("should return 'not found' when wrong url", (done) => {
         request(app)
@@ -42,6 +37,7 @@ describe('GATEWAY TESTS', function () {
             .expect(404)
             .end(done);
     });
+
     it('should pipe plugin req', (done) => {
         request(app)
             .get('/test2')
@@ -55,6 +51,7 @@ describe('GATEWAY TESTS', function () {
             .expect(404)
             .end(done);
     });
+
     it('should use dynamic parameters', (done) => {
         request(app)
             .get('/test4')

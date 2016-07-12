@@ -1,34 +1,60 @@
-[![CircleCI](https://circleci.com/gh/byavv/200Loc-gate.svg?style=svg)](https://circleci.com/gh/byavv/200Loc-gate)
-# Simple api gateway as part of this [solution](https://github.com/byavv/funny-market)
+[![CircleCI][circle-image]][circle-url]
 
-Finds service url in etcd using [etcd-registry](https://www.npmjs.com/package/etcd-registry) lib and uses 
-[node-http-proxy](https://github.com/nodejitsu/node-http-proxy) for request routing. 
-To configure your gateway server modify **gateway.config.yml** 
+# 200LOC-GATE
 
-### Configuration sample: 
+200Loc-gate is a scalable, plugin based, open source API Middleware manager (API Gateway). 
+Being deployed in front of your API servers uses defined plugins to process incoming calls.
 
-```yml
- # Access to route '/sampleapi' will be granted only for users in role1 OR role2:
- access:
-    - url: /sampleapi
-      grant:      
-         - role1
-         - role2
-            
- # Define paths, client requests will be forwarded to.
- proxy:
-    - rule: '.*/api'
-      mapTo: '{etcd_key}/api'
-      withPath: '/api'
-      
- # Define rate limiting for any url.
- # Uses https://github.com/jhurliman/node-rate-limiter limiter, so
- # interval and limit options are equal to the node-rate-limiter's (see link below)
+Made to be small, simple and open. Use custom or build-in plugins to implement your logic for route processing and 
+the client to manage them.
 
- rate: 
- # max 5 requests per minute    
-    - paths: ['/login']
-      methods: ['post']
-      interval: 60000
-      limit: 5
+> Based on Loopback framework, that makes it simple to use with various datasources.
+> See [loopback docs](https://docs.strongloop.com/display/public/LB/Database+connectors) for more info.
+
+### NOTE! Solution is under development and is not ready. 
+- [ ] implement monitoring system
+- [ ] add more standard plugins
+- [ ] add [docker](https://www.docker.com/) support
+- [ ] users and authentication
+- [ ] documentation
+
+### NOTE! Requires MongoDb installed for sample plugins
+
+## Quick start
+```bash
+# clone the repo
+$ git clone https://github.com/byavv/200Loc-gate.git
+
+# change into the repo directory
+$ cd 200Loc-gate
+
+# install 
+$ npm install
+
+# build
+$ npm run build     
+
+# run
+$ npm start              
 ```
+## Api management process: 
+![screen](https://cloud.githubusercontent.com/assets/15154388/16776036/1d4f82c4-486c-11e6-878a-006a121b9205.png)
+    
+
+## Development
+### Build
+Development build (by default):
+```bash
+$ gulp build
+```
+### Serve/watch
+Start *Gateway server* on 3001 and *Api explorer* on 5601 in development mode:
+```bash
+$ gulp
+```
+### Testing
+```bash
+$ gulp test 
+```
+[circle-image]: https://circleci.com/gh/byavv/200Loc-gate.svg?style=shield
+[circle-url]: https://circleci.com/gh/byavv/200Loc-gate
