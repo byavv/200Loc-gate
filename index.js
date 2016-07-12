@@ -1,21 +1,18 @@
 /*jslint node: true */
 'use strict';
-var http = require('http')
-    , path = require('path')
-    , debug = require('debug')('proxy')
-    , path = require("path")
-    , loader = require('./lib/pluginLoader')()
+var http = require('http'),
+    path = require('path'),
+    debug = require('debug')('proxy'),
+    path = require("path"),
+    loader = require('./lib/pluginLoader')()
     ;
 
-
-const http_port_gate = process.env.GATE_HTTP_PORT || 3001
-    , http_port_exp = process.env.EXPLORER_HTTP_PORT || 5601
-    ;
-
+const http_port_gate = process.env.GATE_HTTP_PORT || 3001,
+    http_port_exp = process.env.EXPLORER_HTTP_PORT || 5601;
 
 loader
     .loadPlugins(path.resolve(__dirname, './plugins'))
-    .then((plugins) => {        
+    .then((plugins) => {
         const gateway = require('./gateway');
         const explorer = require('./explorer');
         explorer.init(plugins).then(app => {

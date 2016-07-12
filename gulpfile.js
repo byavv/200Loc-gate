@@ -21,9 +21,8 @@ var defaults = {
 var options = minimist(process.argv.slice(2), defaults);
 process.env.NODE_ENV = options.env;
 
-
 /**
- * Grouped task definitions
+ * Compile explorer app and run nodemon
  */
 gulp.task('dev', ['clean:build'], () => {
     var nodemonRef;
@@ -35,21 +34,22 @@ gulp.task('dev', ['clean:build'], () => {
     }));
 });
 
-
 gulp.task("set:test", () => {
     process.env.NODE_ENV = 'test';
 });
 
-gulp.task("build:client", (done) => {
+gulp.task("build:explorer", (done) => {
     var config = require("./explorer/config/webpack");
     webpack(config).run(onWebpackCompleted(done));
 });
 
-gulp.task('build', ['build:client']);
+gulp.task('build', ['build:explorer']);
 
-gulp.task('test', ['test:server']);
-
-gulp.task('test:server', ['set:test'], () => {
+gulp.task('test', ['test:gateway'/*, 'test:explorer'*/]);
+/**
+ * Run mocha with standard reporter 
+ */
+gulp.task('test:gateway', ['set:test'], () => {
     gulp.src(config.src.server.tests, { read: false })
         .pipe($.mocha(config.options.mocha))
         .on('end', () => {
@@ -61,45 +61,9 @@ gulp.task('test:server', ['set:test'], () => {
             $.util.log('Stack:', $.util.colors.red(err.stack));
         });
 });
-
 /**
- * coverage task
- * Run code coverage on server files
- */
-gulp.task('test:coverage', ["set:test"], () => {
-    var mochaError;
-    gulp.src(['./gateway/server/**/*.js'])
-        .pipe($.istanbul({ includeUntested: false }))
-        .pipe($.istanbul.hookRequire())
-        .on('finish', () => {
-            gulp.src(config.src.server.tests)
-                .pipe($.mocha({timeout: 5000}))
-                .on('error', (err) => {
-                    $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err.message));
-                    $.util.log('Stack:', $.util.colors.red(err.stack));
-                    mochaError = err;
-                })
-                .pipe($.istanbul.writeReports({
-                    reporters: ['lcov']
-                }))
-                .on('end', () => {
-                    if (mochaError) {
-                        console.log('Mocha encountered an error, exiting with status 1');
-                        console.log('Error:', mochaError.message);
-                        process.exit(1);
-                    }
-                    process.exit();
-                });
-        });
-});
-
-gulp.task("watch-mocha", ["set:test", 'test:server'], () => {
-    console.log(config.src.server.tests.concat(config.src.server.js));
-    gulp.watch(config.src.server.tests.concat(config.src.server.js), ["test:server"]);
-});
-
-/**
- * Cleaning folders tasks 
+ * cleaning tasks
+ * Clean temp folders: ./coverage, ./build
  */
 gulp.task('clean:coverage', () => {
     return del(config.dirs.coverage);
@@ -107,9 +71,52 @@ gulp.task('clean:coverage', () => {
 gulp.task('clean:build', () => {
     return del(config.dirs.build);
 });
-gulp.task('clean', ['clean:coverage', 'clean:build']);
 
+gulp.task('clean', ['clean:coverage', 'clean:build']);
+/**
+ * default task for development
+ * Runs gateway and explorer servers in dev mode
+ */
 gulp.task('default', ['dev']);
+/**
+ * hook task
+ * Hook files before test
+ */
+gulp.task('test:pre', function () {
+    return gulp.src(['./gateway/server/**/*.js'])
+        .pipe($.istanbul())
+        .pipe($.istanbul.hookRequire())
+})
+/**
+ * coverage task
+ * Run code coverage on server files
+ */
+gulp.task('test:coverage', ["set:test", "test:pre"], () => {
+    return gulp.src(config.src.server.tests)
+        .pipe($.mocha({
+            reporter: 'mocha-junit-reporter',
+            timeout: 5000,
+            reporterOptions: {
+                mochaFile: process.env.CIRCLE_TEST_REPORTS + '/junit/results.xml'
+            }
+        }))
+        .on('error', (err) => {
+            $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err));
+            process.exit(1);
+        })
+        .pipe($.istanbul.writeReports())
+        .on('end', () => {
+            process.exit(0);
+        })
+})
+/**
+ * CI testing task
+ * Run coveralls after coverage files creation
+ */
+gulp.task('test:ci', ["test:coverage"], () => {
+    return gulp.src('./coverage/lcov.info')
+        .pipe($.coveralls())
+})
 
 function onWebpackCompleted(done) {
     return (err, stats) => {

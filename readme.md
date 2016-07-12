@@ -1,4 +1,7 @@
 [![CircleCI][circle-image]][circle-url]
+[![Coverage Status][coverage-image]][coverage-url]
+
+[![Dependency Status][david-image]][david-url]
 
 # 200LOC-GATE
 
@@ -58,3 +61,7 @@ $ gulp test
 ```
 [circle-image]: https://circleci.com/gh/byavv/200Loc-gate.svg?style=shield
 [circle-url]: https://circleci.com/gh/byavv/200Loc-gate
+[coverage-url]: https://coveralls.io/github/byavv/200loc-gate?branch=master
+[coverage-image]: https://coveralls.io/repos/byavv/200loc-gate/badge.svg?branch=master&service=github
+[david-image]: https://david-dm.org/byavv/200loc-gate.svg
+[david-url]: https://david-dm.org/byavv/200loc-gate
