@@ -95,7 +95,7 @@ gulp.task('test:coverage', ["set:test", "test:pre"], () => {
     return gulp.src(config.src.server.tests)
         .pipe($.mocha({
             reporter: 'spec',
-            timeout: 5000           
+            timeout: 5000
         }))
         .on('error', (err) => {
             $.util.log($.util.colors.bgRed('ERROR:'), $.util.colors.red(err));
@@ -112,7 +112,7 @@ gulp.task('test:coverage', ["set:test", "test:pre"], () => {
  */
 gulp.task('test:ci', ["test:coverage"], () => {
     return gulp.src('./coverage/lcov.info')
-        .pipe($.coveralls())
+        .pipe($.codecov());
 })
 
 function onWebpackCompleted(done) {

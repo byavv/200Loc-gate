@@ -1,5 +1,6 @@
 machine:
   node:
     version: 6.2.0
-  environment:
-      COVERALLS_REPO_TOKEN: "DFlzTfJjEIvgbR1kAT6TAQunGvtTKiefu"
+test:
+  post:
+    - bash <(curl -s https://codecov.io/bash)
