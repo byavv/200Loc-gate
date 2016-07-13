@@ -1,11 +1,12 @@
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.common.js');
-
+const path = require('path');
 const DefinePlugin = require('webpack/lib/DefinePlugin'),
   DedupePlugin = require('webpack/lib/optimize/DedupePlugin'),
   UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin'),
   CompressionPlugin = require('compression-webpack-plugin'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin')
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  PurifyCssPlugin = require("purifycss-webpack-plugin")
   ;
 
 module.exports = webpackMerge(commonConfig, {
@@ -27,6 +28,11 @@ module.exports = webpackMerge(commonConfig, {
       threshold: 2 * 1024
     }),
     new ExtractTextPlugin('assets/styles/[name].[chunkhash:7].css'),
+    new PurifyCssPlugin({
+      paths: [
+        __root("../client/app/**/*.html")
+      ]
+    })
   ],
   htmlLoader: {
     minimize: true,
@@ -40,3 +46,9 @@ module.exports = webpackMerge(commonConfig, {
     customAttrAssign: [/\)?\]?=/]
   },
 });
+
+function __root() {
+  var _root = path.resolve(__dirname);
+  var args = Array.prototype.slice.call(arguments);
+  return path.join.apply(path, [_root].concat(args));
+}

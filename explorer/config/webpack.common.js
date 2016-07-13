@@ -41,9 +41,19 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.html$/, loader: 'html' },
-      { test: /\.css$/, loader: "raw!postcss" },
-      { test: /\.scss$/, loader: 'raw!postcss!sass' },
+      { test: /\.html$/, loader: 'html' },     
+      {
+        test: /\.css$/,
+        include: __root("../client/assets"),
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+      },
+      { test: /\.css$/, include: __root('../client/app'), loader: 'raw!postcss' },
+      {
+        test: /\.scss$/,
+        include: __root("../client/assets"),
+        loader: ExtractTextPlugin.extract('style', 'css?sourceMap!postcss!sass')
+      },
+      { test: /\.scss$/, include: __root('../client/app'), loader: 'raw!postcss!sass' },
       {
         test: /\.ts$/, loader: 'ts', exclude: [/node_modules/], ignoreDiagnostics: [
           2403, // 2403 -> Subsequent variable declarations
@@ -66,7 +76,8 @@ module.exports = {
       ENV: JSON.stringify(process.env.NODE_ENV)
     }),
     new CopyWebpackPlugin([
-      { from: __root('../client/assets'), to: 'assets' }
+      { from: __root('../client/assets/images'), to: 'assets/images' },
+      { from: __root('../client/assets/vendors'), to: 'assets/vendors' }
     ]),
   ],
   postcss: () => {
@@ -74,14 +85,7 @@ module.exports = {
       autoprefixer({ browsers: ['last 2 versions'] }),
       precss
     ];
-  },
-  /* node: {
-     global: 'window',
-     crypto: 'empty',
-     module: false,
-     clearImmediate: false,
-     setImmediate: false
-   }*/
+  }
 };
 
 function __root() {
