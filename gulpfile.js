@@ -43,14 +43,16 @@ gulp.task("build:explorer", (done) => {
     webpack(config).run(onWebpackCompleted(done));
 });
 
-gulp.task('build', ['build:explorer']);
+gulp.task('build', ['clean:build', 'build:explorer']);
 
-gulp.task('test', ['test:gateway'/*, 'test:explorer'*/]);
 /**
  * Run mocha with standard reporter 
  */
-gulp.task('test:gateway', ['set:test'], () => {
-    gulp.src(config.src.server.tests, { read: false })
+gulp.task('test', ['set:test'], () => {
+    gulp.src([
+        ...config.src.gateway.server.tests,
+        ...config.src.plugins.tests
+    ], { read: false })
         .pipe($.mocha(config.options.mocha))
         .on('end', () => {
             $.util.log($.util.colors.bgYellow('INFO:'), 'Mocha completed');
@@ -61,6 +63,7 @@ gulp.task('test:gateway', ['set:test'], () => {
             $.util.log('Stack:', $.util.colors.red(err.stack));
         });
 });
+
 /**
  * cleaning tasks
  * Clean temp folders: ./coverage, ./build
@@ -83,7 +86,10 @@ gulp.task('default', ['dev']);
  * Hook files before test
  */
 gulp.task('test:pre', function () {
-    return gulp.src(['./gateway/server/**/*.js'])
+    return gulp.src([
+        ...config.src.gateway.server.js,
+        ...config.src.plugins.js
+    ])
         .pipe($.istanbul())
         .pipe($.istanbul.hookRequire())
 })
@@ -92,7 +98,11 @@ gulp.task('test:pre', function () {
  * Run code coverage on server files
  */
 gulp.task('test:coverage', ["set:test", "test:pre"], () => {
-    return gulp.src(config.src.server.tests)
+    return gulp.src([
+        ...config.src.gateway.server.tests,
+        ...config.src.explorer.server.tests,
+        ...config.src.plugins.tests
+    ])
         .pipe($.mocha({
             reporter: 'spec',
             timeout: 5000

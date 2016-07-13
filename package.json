@@ -64,6 +64,7 @@
     "nsp": "^2.1.0",
     "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
+    "purifycss-webpack-plugin": "^2.0.3",
     "raw-loader": "^0.5.1",
     "sass-loader": "^3.2.0",
     "sinon": "^1.17.4",
