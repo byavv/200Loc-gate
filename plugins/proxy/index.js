@@ -9,7 +9,7 @@ const debug = require('debug')('proxy'),
 
 var Plugin = function (params, pipeGlobal) {
     const proxy = httpProxy.createProxyServer({});
-    return function (req, res, next) {
+    return function (req, res, next) {        
         if (params.target) {
             proxy.web(req, res, {
                 target: params.target + (params.withPath || '/')
