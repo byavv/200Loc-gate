@@ -13,7 +13,8 @@ describe('PROXY PLUGIN TESTS', function () {
     var app = loopback();
     var fakeServer = loopback();
     var global = {}
-    var pluginHandler = plugin({ target: 'http://localhost:3234', withPath: '/' }, global);
+    var params = { target: 'http://localhost:3234', withPath: '/' }
+    var pluginHandler = plugin(params, global);
     app.use(pluginHandler)
     var httpServer;
     before((done) => {
@@ -25,7 +26,7 @@ describe('PROXY PLUGIN TESTS', function () {
         fakeServer.get('/api', function (req, res) {
             res.status(200).json({ name: 'potter' });
         });
-        fakeServer.use((req, res, next) => {            
+        fakeServer.use((req, res, next) => {
             next()
         })
         fakeServer = fakeServer.listen(3234, done);
@@ -57,5 +58,12 @@ describe('PROXY PLUGIN TESTS', function () {
                 if (err) { return done(err); }
                 done();
             });
+    });
+    it('should throw if target does not set', (done) => {
+        params.target = undefined;
+        request(app)
+            .get('/api')
+            .expect(404)
+            .end(done);
     });
 });

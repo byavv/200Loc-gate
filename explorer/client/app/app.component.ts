@@ -3,6 +3,8 @@ import { ROUTER_DIRECTIVES, Router } from '@angular/router';
 import { APP_SERVICES_PROVIDERS, Identity, AppController, Storage } from './shared/services'
 import { SHARED_COMPONENTS } from './shared/components';
 
+import '../assets/styles/main.scss';
+
 @Component({
     selector: 'app',
     directives: [ROUTER_DIRECTIVES, ...SHARED_COMPONENTS],

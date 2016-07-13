@@ -34,22 +34,6 @@ h4 {
     font-size: 1.2em;
 }
 
-a:link {
-    color: blue;
-}
-
-a:visited {
-    color: purple;
-}
-
-a:hover {
-    color: red;
-}
-
-a:active {
-    color: yellow;
-}
-
 a[href], input[type='submit'], input[type='image'], label[for], select, button, .pointer {
     cursor: pointer;
 }
@@ -129,13 +113,6 @@ body, html {
 }
 
 button.next-button {
-    width: 100%;
-}
-
-.truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 100%;
 }
 
