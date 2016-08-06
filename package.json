@@ -7,7 +7,7 @@
     "build": "./node_modules/.bin/gulp build --env production",
     "start": "node .",
     "test": "./node_modules/.bin/gulp test:ci",
-    "postinstall": "cd gateway && npm install && cd ../explorer && npm install && typings install"
+    "postinstall": "cd gateway && npm install --unsafe-perm && cd ../explorer && npm install --unsafe-perm && typings install "
   },
   "engines": {
     "node": ">= 6"
@@ -23,7 +23,7 @@
     "@angular/http": "2.0.0-rc.4",
     "@angular/platform-browser": "2.0.0-rc.4",
     "@angular/platform-browser-dynamic": "2.0.0-rc.4",
-    "@angular/router": "3.0.0-beta.1",
+    "@angular/router": "3.0.0-beta.2",
     "async": "^2.0.0-rc.6",
     "core-js": "^2.4.0",
     "debug": "^2.2.0",
@@ -32,7 +32,7 @@
     "http-proxy-rules": "^1.0.1",
     "lodash": "^4.13.1",
     "loopback": "^2.29.1",
-    "ng2-bootstrap": "^1.0.22",
+    "ng2-bootstrap": "^1.0.24",
     "rxjs": "5.0.0-beta.6",
     "zone.js": "^0.6.12"
   },
