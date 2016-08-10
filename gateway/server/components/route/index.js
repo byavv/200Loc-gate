@@ -9,34 +9,28 @@ const async = require("async"),
     _ = require('lodash')
     ;
 
-var superMiddlewareFactory = (options) => {
-    var rules = options.rules;
+var superMiddlewareFactory = (options) => {   
     return (req, res, next) => {
-        var plugins = [];
-        var walk = (index) => {
+        let plugins = options.plugins;
+        function applyPlugins(index) {
             if (index < plugins.length) {
                 plugins[index](req, res, (err) => {
                     if (err) {
                         return next(err);
                     }
                     index++;
-                    walk(index);
+                    applyPlugins(index);
                 });
             } else {
                 next();
             }
         }
-        let target = rules.match(req);
-        if (target && target.methods && target.methods.includes(req.method)) {
-            plugins = target.plugins || [];
-            walk(0);
-        } else {
-            next(new NotFoundError())
-        }
+        debug(`Got route: ${req.originalUrl}, matched entry: ${options.routeName}`);      
+        applyPlugins(0);       
     };
 };
 
-module.exports = function (app, componentOptions = {}) {
+module.exports = function (app, componentOptions = {}) {    
     var ApiConfig = app.models.ApiConfig;
     var DYNAMIC_CONFIG_PARAM = /\$\{(\w+)\}$/;
     var ENV_CONFIG_PARAM = /\env\{(\w+)\}$/;
@@ -66,14 +60,14 @@ module.exports = function (app, componentOptions = {}) {
                                 get: function () {
                                     return pipeGlobal[matchDyn[1]]; /*apply function*/
                                 },
-                            })
+                            });
                         }
                         if (matchEnv) {
                             Object.defineProperty(settings, paramKey, {
                                 get: function () {
                                     return process.env[matchEnv[1]];
                                 },
-                            })
+                            });
                         }
                     });
                     var pluginBuilder = app.plugins.find((plugin) => plugin._name === pluginName);
@@ -85,22 +79,21 @@ module.exports = function (app, componentOptions = {}) {
                     }
                 })
 
-
-                proxyRules[apiConfig.entry] = {
-                    plugins: pluginsArray,
-                    name: apiConfig.name,
-                    methods: apiConfig.methods
-                };
+                app.middlewareFromConfig(superMiddlewareFactory, {
+                    enabled: true,
+                    phase: 'routes',
+                    methods: apiConfig.methods,
+                    paths: [apiConfig.entry],
+                    params: {
+                        plugins: pluginsArray,
+                        routeName: apiConfig.name
+                    }
+                });
+                
                 debug(`Handle route: ${apiConfig.entry} \u2192`);
             } catch (error) {
                 throw error;
             }
         });
-        app.middleware('routes', superMiddlewareFactory({
-            rules: new HttpProxyRules({
-                rules: proxyRules,
-                // default: 'http://localhost:8080' // default target
-            })
-        }));
     })
 };

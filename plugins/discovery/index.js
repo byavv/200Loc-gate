@@ -9,7 +9,7 @@ const registry = require('etcd-registry'),
 
 var Plugin = function (params, pipeGlobal) {
     let services = registry(`http://${params.etcd_host}:${params.etcd_port}`);
-    return function (req, res, next) {
+    return function (req, res, next) {        
         if (params.mapTo) {
             new Promise((resolve, reject) => {
                 debug(`Try to discover service: ${params.mapTo}`);
