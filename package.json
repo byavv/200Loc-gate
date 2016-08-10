@@ -7,6 +7,7 @@
     "build": "./node_modules/.bin/gulp build --env production",
     "start": "node .",
     "test": "./node_modules/.bin/gulp test:ci",
+    "devstart": "DEBUG=proxy node .",
     "postinstall": "cd gateway && npm install --unsafe-perm && cd ../explorer && npm install --unsafe-perm && typings install "
   },
   "engines": {
