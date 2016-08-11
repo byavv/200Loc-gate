@@ -26,6 +26,12 @@ describe('PROXY PLUGIN TESTS', function () {
         fakeServer.get('/api', function (req, res) {
             res.status(200).json({ name: 'potter' });
         });
+        fakeServer.get('/fake2', function (req, res) {
+            res.status(200).json({ name: 'tobi' });
+        });
+        fakeServer.get('/error', function (req, res) {
+            res.sendStatus(500);
+        });
         fakeServer.use((req, res, next) => {
             next()
         })
@@ -41,29 +47,28 @@ describe('PROXY PLUGIN TESTS', function () {
         request(app)
             .get('/fake1')
             .expect(404)
-            .end((err, result) => {
-                if (err) { return done(err); }
-                try {
-                    done();
-                } catch (error) {
-                    done(error);
-                }
-            });
+            .end(done);
     });
+
     it('should return 200 if route found', (done) => {
         request(app)
             .get('/api')
             .expect(200)
-            .end((err, result) => {
-                if (err) { return done(err); }
-                done();
-            });
+            .end(done);
     });
+
+    it('should return 500 like target', (done) => {
+        request(app)
+            .get('/error')
+            .expect(500)
+            .end(done);
+    });
+
     it('should throw if target does not set', (done) => {
         params.target = undefined;
         request(app)
-            .get('/api')
-            .expect(404)
+            .get('/fake2')
+            .expect(502)
             .end(done);
     });
 });

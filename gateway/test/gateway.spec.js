@@ -6,7 +6,7 @@ const chai = require('chai'),
     request = require('supertest')
     ;
 
-describe('GATEWAY TESTS', function () {
+describe('GATEWAY TESTS', () => {
     var app;
 
     before((done) => {
@@ -14,14 +14,21 @@ describe('GATEWAY TESTS', function () {
             app = a;
             done();
         })
-    });  
+    });
 
     after((done) => {
         app.close(done);
-    })
+    });
 
     it('should load plugins', () => {
-        expect(app.plugins.length).to.be.equal(3);
+        expect(app.plugins.length).to.be.equal(4);
+    });
+
+    it('throw 500 if plugin is not defined', (done) => {
+        request(app)
+            .get('/pluginnotexists')
+            .expect(500)
+            .end(done);
     });
 
     it("should return 'not found' when wrong url", (done) => {
@@ -44,6 +51,17 @@ describe('GATEWAY TESTS', function () {
             .expect(500)
             .end(done);
     });
+
+    it('should pass if plugin does not call next callback', (done) => {
+        request(app)
+            .get('/testnotreturn')
+            .expect(200, {
+                respond: 'ok'
+            })
+            .end(done);
+    });
+
+
 
     it('should return default strongloop 404 when plugin passes request', (done) => {
         request(app)
@@ -70,5 +88,4 @@ describe('GATEWAY TESTS', function () {
             })
             .end(done);
     });
-
 });
