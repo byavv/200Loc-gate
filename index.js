@@ -13,8 +13,8 @@ const http_port_gate = process.env.GATE_HTTP_PORT || 3001,
 loader
     .loadPlugins(path.resolve(__dirname, './plugins'))
     .then((plugins) => {
-        const gateway = require('./gateway');
-        const explorer = require('./explorer');
+        const gateway = require('./gateway/src/server');
+        const explorer = require('./explorer/server/server');
         explorer.init(plugins).then(app => {
             app.start(http_port_exp);
         })
@@ -22,5 +22,6 @@ loader
             app.start(http_port_gate);
         })
     }).catch(err => {
+        console.log(err)
         throw err;
     });

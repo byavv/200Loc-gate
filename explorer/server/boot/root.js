@@ -1,7 +1,7 @@
 /*jslint node: true */
 'use strict';
 const path = require("path"),
-    async = require('async')    
+    async = require('async')
     ;
 
 module.exports = function (app) {
@@ -20,11 +20,11 @@ module.exports = function (app) {
         });
     });
 
-    router.post('/api/config/:id', (req, res) => {      
+    router.post('/api/config/:id', (req, res) => {
         ApiConfig.findOrCreate({ where: { id: req.params.id } }, req.body, (err, config) => {
-            if (err) {               
+            if (err) {
                 return res.status(err.statusCode).send(err.message);
-            }          
+            }
             config.updateAttributes(req.body, (err, cf) => {
                 if (err) return res.sendStatus(500);
                 return res.status(200).send(cf);
@@ -32,14 +32,14 @@ module.exports = function (app) {
         });
     });
 
-    router.get('/api/plugins', (req, res) => {        
+    router.get('/api/plugins', (req, res) => {
         return res.send((req.app.plugins || []).map(plugin => {
             return {
                 name: plugin._name,
                 description: plugin._description,
                 settings: plugin.config
             };
-        }));      
+        }));
     });
 
     router.delete('/api/config/:id', (req, res) => {
