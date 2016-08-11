@@ -26,7 +26,7 @@ var Plugin = function (params, pipeGlobal) {
                     }, (err, result) => {
                         if (err) throw err;
                         // user is not in any appropriate role, which contains required permisison
-                        return !result ? res.status(401).send("User authorized, but doesn't have required permission. Verify that sufficient grant have been granted") : next();
+                        return !result ? res.status(401).send("User authorized, but doesn't have required permission. Verify that sufficient permissions have been granted") : next();
                     });
                 });
             } else {
