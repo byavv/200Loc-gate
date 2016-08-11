@@ -11,13 +11,15 @@ Being deployed in front of your API servers uses defined plugins to process inco
 Made to be small, simple and open. Use custom or build-in plugins to implement your logic for route processing and 
 the client to manage them.
 
+
+
 > Based on Loopback framework, that makes it simple to use with various datasources.
 > See [loopback docs](https://docs.strongloop.com/display/public/LB/Database+connectors) for more info.
 
 ### NOTE! Solution is under development and is not ready. 
 - [ ] implement monitoring system
 - [ ] add more standard plugins
-- [ ] add [docker](https://www.docker.com/) support
+- [x] add [docker](https://www.docker.com/) support
 - [ ] users and authentication
 - [ ] documentation
 
