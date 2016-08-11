@@ -13,8 +13,8 @@ var conf = {
         gateway: {
             server: {
                 js: [
-                    'gateway/server/**/*.js',
-                    '!gateway/server/**/*.spec.js'
+                    'gateway/src/**/*.js',
+                    '!gateway/src/**/*.spec.js'
                 ],
                 tests: [
                     'gateway/test/**/*.spec.js'
