@@ -2,14 +2,12 @@
 "use strict";
 const debug = require('debug')('proxy'),
     httpProxy = require('http-proxy'),
-    HttpProxyRules = require('http-proxy-rules'),
-    GateWayError = require("../../lib/errors").err502,
-    NotFoundError = require("../../lib/errors").err404
+    errors = require('../../lib/errors')
     ;
 
 var Plugin = function (params, pipeGlobal) {
     const proxy = httpProxy.createProxyServer({});
-    return function (req, res, next) {        
+    return function (req, res, next) {
         if (params.target) {
             proxy.web(req, res, {
                 target: params.target + (params.withPath || '/')
@@ -18,10 +16,11 @@ var Plugin = function (params, pipeGlobal) {
             });
             debug(`${req.method}: ${req.originalUrl} \u2192 ${params.target}${params.withPath}`);
         } else {
-            return next(new NotFoundError());
+            return next(new errors.err502());
         }
     }
 };
+
 Plugin._name = 'proxy';
 Plugin._description = 'proxy';
 

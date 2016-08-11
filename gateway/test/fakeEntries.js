@@ -2,6 +2,21 @@ const debug = require('debug')('test')
 module.exports = function seedTestData(app, done) {
     let ApiConfig = app.models.ApiConfig;
     ApiConfig.create([
+
+
+        
+        {
+            name: 'route',
+            entry: '/pluginnotexists',
+            methods: ['GET', "POST"],
+            plugins: [
+                {
+                    name: "pluginnotexists",
+                    settings: {                       
+                    }
+                }
+            ]
+        },
         {
             name: 'route1',
             entry: '/test',
@@ -12,6 +27,18 @@ module.exports = function seedTestData(app, done) {
                     settings: {
                         throwError: true,
                         errorCode: 404
+                    }
+                }
+            ]
+        },
+         {
+            name: 'route11',
+            entry: '/testnotreturn',
+            methods: ['GET', "POST"],
+            plugins: [
+                {
+                    name: "notReturnAnythingPlugin",
+                    settings: {                       
                     }
                 }
             ]

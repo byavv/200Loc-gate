@@ -1,36 +1,28 @@
 /*jslint node: true */
 "use strict";
-const async = require("async"),
-    NotAuthorizedError = require("../../../../lib/errors").err401,
-    NotFoundError = require("../../../../lib/errors").err404,
+const async = require("async"),   
     debug = require("debug")("proxy"),
-    HttpProxyRules = require('http-proxy-rules'),
-    uuid = require('node-uuid'),
+    uuid = require('node-uuid'),   
     _ = require('lodash')
     ;
 
-var superMiddlewareFactory = (options) => {   
+var superMiddlewareFactory = (options = {}) => {
     return (req, res, next) => {
-        let plugins = options.plugins;
-        function applyPlugins(index) {
-            if (index < plugins.length) {
-                plugins[index](req, res, (err) => {
-                    if (err) {
-                        return next(err);
-                    }
-                    index++;
-                    applyPlugins(index);
-                });
-            } else {
-                next();
+        debug(`Got route: ${req.originalUrl}, matched entry: ${options.routeName}`);
+        const handlers = (options.plugins || []).map(plugin => {
+            return plugin.bind(null, req, res);
+        });
+        async.series(handlers, (err) => {
+            if (err) {                
+                debug(`Error processing ${req.originalUrl}, ${err}`);
+                return next(err);
             }
-        }
-        debug(`Got route: ${req.originalUrl}, matched entry: ${options.routeName}`);      
-        applyPlugins(0);       
+            next();
+        });
     };
 };
 
-module.exports = function (app, componentOptions = {}) {    
+module.exports = function (app, componentOptions = {}) {
     var ApiConfig = app.models.ApiConfig;
     var DYNAMIC_CONFIG_PARAM = /\$\{(\w+)\}$/;
     var ENV_CONFIG_PARAM = /\env\{(\w+)\}$/;
@@ -38,16 +30,13 @@ module.exports = function (app, componentOptions = {}) {
 
     ApiConfig.find((err, apiConfigs) => {
         if (err) throw err;
-        var proxyRules = {};
         (apiConfigs || []).forEach(apiConfig => {
             try {
-                var pipeGlobal = { /* defaults for all plugins */ };
-                var apiConfigPlugins = apiConfig.plugins || [];
-                var pluginsArray = [];
-                apiConfigPlugins.forEach((plugin) => {
-                    var pluginName = plugin.name;
-                    var settings = plugin.settings || {};
-                    // find all dynamic parameters and provide getting values from global object
+                const pipeGlobal = { /* defaults for all plugins */ };
+                const pluginsArray = [];
+                (apiConfig.plugins || []).forEach((plugin) => {
+                    const settings = plugin.settings || {};
+                    // find all dynamic parameters and provide getting values from global object or environment
                     Object.keys(settings).forEach((paramKey) => {
                         var matchDyn = settings[paramKey] && _.isString(settings[paramKey])
                             ? settings[paramKey].match(DYNAMIC_CONFIG_PARAM)
@@ -70,14 +59,13 @@ module.exports = function (app, componentOptions = {}) {
                             });
                         }
                     });
-                    var pluginBuilder = app.plugins.find((plugin) => plugin._name === pluginName);
-                    if (!pluginBuilder) {
-                        throw new Error(`Plugin ${pluginName} is not defined`);
+                    const pluginFactory = app.plugins.find((p) => p._name === plugin.name);
+                    if (!pluginFactory) {                       
+                        pluginsArray.push(require('./defaultPlugin')(plugin.name));
                     } else {
-                        let handler = pluginBuilder(settings || {}, pipeGlobal);
-                        pluginsArray.push(handler);
+                        pluginsArray.push(pluginFactory(settings || {}, pipeGlobal));
                     }
-                })
+                });
 
                 app.middlewareFromConfig(superMiddlewareFactory, {
                     enabled: true,
@@ -89,7 +77,7 @@ module.exports = function (app, componentOptions = {}) {
                         routeName: apiConfig.name
                     }
                 });
-                
+
                 debug(`Handle route: ${apiConfig.entry} \u2192`);
             } catch (error) {
                 throw error;
