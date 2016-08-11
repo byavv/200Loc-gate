@@ -4,11 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "./node_modules/.bin/gulp build --env production",
-    "start": "node .",
+    "build": "npm run clean:build && ./node_modules/.bin/gulp build --env production",
+    "start": "cross-env NODE_ENV=production node .",
     "test": "./node_modules/.bin/gulp test:ci",
-    "devstart": "DEBUG=proxy node .",
-    "postinstall": "cd gateway && npm install --unsafe-perm && cd ../explorer && npm install --unsafe-perm && typings install "
+    "dev": "cross-env NODE_ENV=development DEBUG=proxy node .",
+    "postinstall": "install:gateway && install:explorer",
+    "install:gateway": "cd gateway && npm install && cd ..",
+    "install:explorer": "cd explorer && npm install && typings install && npm run build && cd ..",
+    "pm2": "cross-env NODE_ENV=production pm2 start . --name=200loc -i max --no-daemon",
+    "serve": "cross-env NODE_ENV=development ./node_modules/.bin/gulp",
+    "clean": "npm run clean:coverage && npm run clean:build",
+    "clean:coverage": "rm -rf ./coverage",
+    "clean:build": "rm -rf ./explorer/build/*"
   },
   "engines": {
     "node": ">= 6"
@@ -27,6 +34,7 @@
     "@angular/router": "3.0.0-beta.2",
     "async": "^2.0.0-rc.6",
     "core-js": "^2.4.0",
+    "cross-env": "^2.0.0",
     "debug": "^2.2.0",
     "etcd-registry": "^2.1.1",
     "http-proxy": "^1.14.0",
