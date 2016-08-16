@@ -22,6 +22,7 @@ the client to manage them.
 - [x] add [docker](https://www.docker.com/) support
 - [ ] users and authentication
 - [ ] documentation
+- [ ] redis store
 
 ### NOTE! Requires MongoDb installed for sample plugins
 
